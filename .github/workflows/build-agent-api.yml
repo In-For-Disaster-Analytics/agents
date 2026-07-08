@@ -1,0 +1,165 @@
+name: build-agent-api
+
+# Build and push the CKAN Agent API image to GHCR, then
+# register or restart the dso-agent-api pod on portals.tapis.io.
+#
+# Required GitHub secrets:
+#   TAPIS_USERNAME    — Tapis portal username
+#   TAPIS_PASSWORD    — Tapis portal password
+#
+# Optional pod env-var secrets (add as needed):
+#   OPENAI_API_KEY    — OpenAI API key for LangGraph agents
+#   CKAN_PORTAL_URL   — CKAN portal base URL
+#   CKAN_AUTH_TOKEN   — CKAN API token
+#
+# The GHCR package must be set to PUBLIC so Tapis pods can pull it
+# without image-pull credentials. Set this once via:
+#   GitHub → Packages → dso-agent-api → Package settings → Change visibility
+#
+# Build context: repo root (Dockerfile copies from ckan-agent-api/ and ckan-registration/)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "ckan-agent-api/**"
+      - "ckan-registration/**"
+      - ".github/workflows/build-agent-api.yml"
+    tags:
+      - "v*"
+  pull_request:
+    paths:
+      - "ckan-agent-api/**"
+      - "ckan-registration/**"
+      - ".github/workflows/build-agent-api.yml"
+  workflow_dispatch:
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}/dso-agent-api
+  POD_ID: dso-agent-api
+  TAPIS_BASE: https://portals.tapis.io
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Derive image tags
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.IMAGE }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=sha,format=short
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ckan-agent-api/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Tapis pod
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        env:
+          TAPIS_USERNAME: ${{ secrets.TAPIS_USERNAME }}
+          TAPIS_PASSWORD: ${{ secrets.TAPIS_PASSWORD }}
+          # Add optional pod env-var secrets below and reference them in POD_BODY
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CKAN_PORTAL_URL: ${{ secrets.CKAN_PORTAL_URL }}
+          CKAN_AUTH_TOKEN: ${{ secrets.CKAN_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          # ── 1. Get Tapis token ─────────────────────────────────────────────
+          TOKEN_JSON=$(curl -sf -X POST "${TAPIS_BASE}/v3/oauth2/tokens" \
+            -H "Content-Type: application/json" \
+            -d "$(jq -n \
+              --arg u "$TAPIS_USERNAME" \
+              --arg p "$TAPIS_PASSWORD" \
+              '{grant_type:"password",username:$u,password:$p}')")
+
+          TAPIS_TOKEN=$(echo "$TOKEN_JSON" | jq -r '.result.access_token')
+          if [ -z "$TAPIS_TOKEN" ] || [ "$TAPIS_TOKEN" = "null" ]; then
+            echo "::error::Failed to obtain Tapis token"
+            exit 1
+          fi
+
+          # ── 2. Check whether pod already exists ───────────────────────────
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -H "Authorization: Bearer $TAPIS_TOKEN" \
+            "${TAPIS_BASE}/v3/pods/${POD_ID}")
+
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "Pod ${POD_ID} exists — restarting to pick up new image"
+            curl -sf -X POST \
+              -H "Authorization: Bearer $TAPIS_TOKEN" \
+              "${TAPIS_BASE}/v3/pods/${POD_ID}/restart_pod"
+            echo "Restart requested."
+          else
+            echo "Pod ${POD_ID} not found (HTTP ${HTTP_STATUS}) — creating"
+
+            POD_BODY=$(jq -n \
+              --arg pod_id      "$POD_ID" \
+              --arg image       "${{ env.IMAGE }}:latest" \
+              --arg openai_key  "$OPENAI_API_KEY" \
+              --arg ckan_url    "$CKAN_PORTAL_URL" \
+              --arg ckan_token  "$CKAN_AUTH_TOKEN" \
+              '{
+                pod_id: $pod_id,
+                image: $image,
+                description: "CKAN Agent API (FastAPI + LangGraph)",
+                environment_variables: {
+                  CKAN_AGENT_API_HOST: "0.0.0.0",
+                  CKAN_AGENT_API_PORT: "8787",
+                  OPENAI_API_KEY:      $openai_key,
+                  CKAN_PORTAL_URL:     $ckan_url,
+                  CKAN_AUTH_TOKEN:     $ckan_token
+                },
+                networking: {
+                  protocol: "http",
+                  port: 8787
+                }
+              }')
+
+            curl -sf -X POST \
+              -H "Authorization: Bearer $TAPIS_TOKEN" \
+              -H "Content-Type: application/json" \
+              "${TAPIS_BASE}/v3/pods" \
+              -d "$POD_BODY"
+
+            echo "Pod ${POD_ID} created."
+          fi
+
+      - name: Summary
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "## dso-agent-api build complete" >> "$GITHUB_STEP_SUMMARY"
+          echo "Pushed image tags:" >> "$GITHUB_STEP_SUMMARY"
+          echo '${{ steps.meta.outputs.tags }}' | sed 's/^/- /' >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Tapis pod: \`${POD_ID}\` on \`portals.tapis.io\`" >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+*.env
+
+# UV
+# uv.lock is intentionally committed for reproducible installs
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Frontend
+ui/node_modules/
+ui/dist/
+node_modules/
+
+# Large binary fixtures (MODFLOW model output files)
+ckan-registration/fixtures/sample_model/*.cbb
+ckan-registration/fixtures/sample_model/*.lst
+ckan-registration/fixtures/sample_model/*.pdf
+
+# Archives
+*.zip
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/

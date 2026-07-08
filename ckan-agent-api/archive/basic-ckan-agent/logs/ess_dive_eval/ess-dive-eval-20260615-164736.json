@@ -1,0 +1,1939 @@
+[
+  {
+    "name": "ess-dive-2319247-yakama-river-game-camera-stream-inundation",
+    "error": null,
+    "scores": {
+      "derivable_metadata": 0.887,
+      "catalog_completeness": 0.865,
+      "schema_valid": true,
+      "fidelity_errors": [],
+      "unavailable_fields": [
+        "url",
+        "license_id",
+        "version",
+        "temporal_coverage_start",
+        "temporal_coverage_end",
+        "spatial",
+        "extras"
+      ],
+      "components": {
+        "schema": 1.0,
+        "free_text": 0.8,
+        "structured": 0.75,
+        "tags": 1.0,
+        "resources": 1.0
+      },
+      "gates_applied": [],
+      "free_text_judgment": {
+        "title_score": 4,
+        "notes_score": 4,
+        "tags_score": 5,
+        "faithfulness_pass": true,
+        "comment": "Generated title and notes are concise and capture the dataset's meaning, tags are a reasonable and faithful set"
+      }
+    },
+    "fields": {
+      "name": {
+        "availability": "inferable",
+        "status": "partial",
+        "score": 0.5,
+        "note": "valid relation to title/source but not the gold slug",
+        "fidelity_errors": [],
+        "proposed": "yakama-river-game-camera-data",
+        "standard": "ess-dive-2319247-yakama-river-game-camera-stream-inundation"
+      },
+      "title": {
+        "availability": "provided",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge title_score=4",
+        "fidelity_errors": [],
+        "proposed": "Yakama River Game Camera Stream Inundation Data",
+        "standard": "Timeseries Unlabeled and Labeled Photos, Modeled Water Surface Fractions, and Metadata of Variably Inundated Streams Across the Yakima River Basin"
+      },
+      "notes": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge notes_score=4",
+        "fidelity_errors": [],
+        "proposed": "This dataset contains game camera data related to the Yakama River, including water surface fractions and labeled wildlife images collected using methods like Mask2Former and YOLO.",
+        "standard": "ESS-DIVE dataset supporting a paper on monitoring river flow status using low-cost wildlife cameras and image segmentation AI. This package is useful for testing CKAN registration from a dataset that combines unstructured image collections, labeled image training data, CSV model outputs, file-level metadata, and manuscript-associated documentation."
+      },
+      "type": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "",
+        "fidelity_errors": [],
+        "proposed": "dataset",
+        "standard": "dataset"
+      },
+      "url": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "https://data.ess-dive.lbl.gov/view/doi:10.15485/2319247"
+      },
+      "license_id": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "cc-by-4.0"
+      },
+      "version": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "1"
+      },
+      "temporal_coverage_start": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2024-01-01"
+      },
+      "temporal_coverage_end": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2024-12-31"
+      },
+      "spatial": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": "null",
+        "standard": "{\"type\":\"Polygon\",\"coordinates\":[[[-121.6,46.0],[-121.6,47.2],[-119.0,47.2],[-119.0,46.0],[-121.6,46.0]]]}"
+      },
+      "tags": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "judge tags_score=5; F1=0.0 (P=0.00 R=0.00); missing=['ess-dive', 'image-segmentation', 'machine-learning', 'streamflow', 'wildlife-camera', 'yakama-river-basin']; extra=['game camera', 'inundation', 'mask2former', 'water surface fractions', 'wildlife', 'yakama river', 'yolo']",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "Yakama River"
+          },
+          {
+            "name": "game camera"
+          },
+          {
+            "name": "inundation"
+          },
+          {
+            "name": "water surface fractions"
+          },
+          {
+            "name": "wildlife"
+          },
+          {
+            "name": "Mask2Former"
+          },
+          {
+            "name": "YOLO"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ess-dive"
+          },
+          {
+            "name": "wildlife-camera"
+          },
+          {
+            "name": "streamflow"
+          },
+          {
+            "name": "image-segmentation"
+          },
+          {
+            "name": "yakama-river-basin"
+          },
+          {
+            "name": "machine-learning"
+          }
+        ]
+      },
+      "extras": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "key": "repository",
+            "value": "ESS-DIVE"
+          },
+          {
+            "key": "dataset_doi",
+            "value": "https://doi.org/10.15485/2319247"
+          },
+          {
+            "key": "associated_paper_url",
+            "value": "https://doi.org/10.1016/j.envsoft.2025.106715"
+          },
+          {
+            "key": "associated_paper_title",
+            "value": "Monitoring river flow status using low-cost wildlife camera and image segmentation artificial intelligence"
+          },
+          {
+            "key": "paper_journal",
+            "value": "Environmental Modelling & Software"
+          },
+          {
+            "key": "source_note",
+            "value": "Representative direct file URLs are selected from the public ESS-DIVE Tier 2 directory listing; the full image tree is intentionally not enumerated."
+          }
+        ]
+      },
+      "resources": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "count 5/5, urls 1.0, names 1.0, formats 1.0",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "Water surface fractions README",
+            "description": "Plain-text readme describing the modeled water surface fraction CSV outputs.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/readme.txt"
+          },
+          {
+            "name": "S30R Mask2Former water surface fractions",
+            "description": "CSV output containing modeled water surface fractions for site S30R using the Mask2Former workflow.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_M2F_all.csv"
+          },
+          {
+            "name": "S30R YOLO water surface fractions",
+            "description": "CSV output containing modeled water surface fractions for site S30R using the YOLO workflow.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_YOLO_all.csv"
+          },
+          {
+            "name": "Label data README",
+            "description": "Plain-text readme for the labeled wildlife camera image data used for model training and evaluation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/label_data/readme.txt"
+          },
+          {
+            "name": "File-level metadata table",
+            "description": "ESS-DIVE file-level metadata table for the game camera manuscript data package.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/RMP_Bao_2025_GameCamera_flmd.csv"
+          }
+        ],
+        "standard": [
+          {
+            "name": "Water surface fractions README",
+            "description": "Plain-text readme describing the modeled water surface fraction CSV outputs.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/readme.txt"
+          },
+          {
+            "name": "S30R Mask2Former water surface fractions",
+            "description": "CSV output containing modeled water surface fractions for site S30R using the Mask2Former workflow.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_M2F_all.csv"
+          },
+          {
+            "name": "S30R YOLO water surface fractions",
+            "description": "CSV output containing modeled water surface fractions for site S30R using the YOLO workflow.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_YOLO_all.csv"
+          },
+          {
+            "name": "Label data README",
+            "description": "Plain-text readme for the labeled wildlife camera image data used for model training and evaluation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/label_data/readme.txt"
+          },
+          {
+            "name": "File-level metadata table",
+            "description": "ESS-DIVE file-level metadata table for the game camera manuscript data package.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/RMP_Bao_2025_GameCamera_flmd.csv"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "name": "Water surface fractions README",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/readme.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "S30R Mask2Former water surface fractions",
+        "format": "CSV",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_M2F_all.csv",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "maybe",
+          "driver": "OGR CSV",
+          "note": "only if it has geometry/coordinate columns"
+        }
+      },
+      {
+        "name": "S30R YOLO water surface fractions",
+        "format": "CSV",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_YOLO_all.csv",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "maybe",
+          "driver": "OGR CSV",
+          "note": "only if it has geometry/coordinate columns"
+        }
+      },
+      {
+        "name": "Label data README",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/label_data/readme.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "File-level metadata table",
+        "format": "CSV",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/RMP_Bao_2025_GameCamera_flmd.csv",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "maybe",
+          "driver": "OGR CSV",
+          "note": "only if it has geometry/coordinate columns"
+        }
+      }
+    ],
+    "generated": {
+      "name": "yakama-river-game-camera-data",
+      "title": "Yakama River Game Camera Stream Inundation Data",
+      "notes": "This dataset contains game camera data related to the Yakama River, including water surface fractions and labeled wildlife images collected using methods like Mask2Former and YOLO.",
+      "url": null,
+      "license_id": null,
+      "version": null,
+      "type": "dataset",
+      "spatial": "null",
+      "temporal_coverage_start": null,
+      "temporal_coverage_end": null,
+      "tags": [
+        {
+          "name": "Yakama River"
+        },
+        {
+          "name": "game camera"
+        },
+        {
+          "name": "inundation"
+        },
+        {
+          "name": "water surface fractions"
+        },
+        {
+          "name": "wildlife"
+        },
+        {
+          "name": "Mask2Former"
+        },
+        {
+          "name": "YOLO"
+        }
+      ],
+      "extras": [],
+      "resources": [
+        {
+          "name": "Water surface fractions README",
+          "description": "Plain-text readme describing the modeled water surface fraction CSV outputs.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/readme.txt"
+        },
+        {
+          "name": "S30R Mask2Former water surface fractions",
+          "description": "CSV output containing modeled water surface fractions for site S30R using the Mask2Former workflow.",
+          "format": "CSV",
+          "mimetype": "text/csv",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_M2F_all.csv"
+        },
+        {
+          "name": "S30R YOLO water surface fractions",
+          "description": "CSV output containing modeled water surface fractions for site S30R using the YOLO workflow.",
+          "format": "CSV",
+          "mimetype": "text/csv",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_YOLO_all.csv"
+        },
+        {
+          "name": "Label data README",
+          "description": "Plain-text readme for the labeled wildlife camera image data used for model training and evaluation.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/label_data/readme.txt"
+        },
+        {
+          "name": "File-level metadata table",
+          "description": "ESS-DIVE file-level metadata table for the game camera manuscript data package.",
+          "format": "CSV",
+          "mimetype": "text/csv",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/RMP_Bao_2025_GameCamera_flmd.csv"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ess-dive-3013287-warming-snow-loss-groundwater-colorado-headwater",
+    "error": null,
+    "scores": {
+      "derivable_metadata": 0.868,
+      "catalog_completeness": 0.835,
+      "schema_valid": true,
+      "fidelity_errors": [],
+      "unavailable_fields": [
+        "url",
+        "license_id",
+        "version",
+        "temporal_coverage_start",
+        "temporal_coverage_end",
+        "spatial",
+        "extras"
+      ],
+      "components": {
+        "schema": 1.0,
+        "free_text": 0.8,
+        "structured": 0.75,
+        "tags": 0.8,
+        "resources": 1.0
+      },
+      "gates_applied": [],
+      "free_text_judgment": {
+        "title_score": 4,
+        "notes_score": 4,
+        "tags_score": 4,
+        "faithfulness_pass": true,
+        "comment": "Generated title and notes are concise and capture the dataset's meaning, but lack specificity compared to the reference title and notes. Tags are reasonable and faithful, but miss some main subjects like 'ess-dive' and 'nature-geoscience'."
+      }
+    },
+    "fields": {
+      "name": {
+        "availability": "inferable",
+        "status": "partial",
+        "score": 0.5,
+        "note": "valid relation to title/source but not the gold slug",
+        "fidelity_errors": [],
+        "proposed": "warming-snow-loss-groundwater-colorado",
+        "standard": "ess-dive-3013287-warming-snow-loss-groundwater-colorado-headwater"
+      },
+      "title": {
+        "availability": "provided",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge title_score=4",
+        "fidelity_errors": [],
+        "proposed": "Warming and Snow Loss Impacts on Groundwater in Colorado Headwater",
+        "standard": "Data From: Warming and Snow Loss Increase Reliance on Old Groundwater in a Colorado River Headwater"
+      },
+      "notes": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge notes_score=4",
+        "fidelity_errors": [],
+        "proposed": "This dataset contains information related to the impact of warming and snow loss on groundwater in Colorado headwater areas, including watershed elevation data and analysis scripts.",
+        "standard": "ESS-DIVE data and code archive associated with a Nature Geoscience paper on warming, snow loss, and groundwater contributions in a Colorado River headwater. This package is useful for testing CKAN records with nested scientific code directories, model-input folders, notebook resources, geospatial/snow data processing scripts, observational CSVs, Excel sheets, and license/readme files."
+      },
+      "type": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "",
+        "fidelity_errors": [],
+        "proposed": "dataset",
+        "standard": "dataset"
+      },
+      "url": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "https://data.ess-dive.lbl.gov/view/doi:10.15485/3013287"
+      },
+      "license_id": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "cc-by-4.0"
+      },
+      "version": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "1"
+      },
+      "temporal_coverage_start": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2014-10-01"
+      },
+      "temporal_coverage_end": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2023-09-30"
+      },
+      "spatial": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "{\"type\":\"Polygon\",\"coordinates\":[[[-107.2,38.7],[-107.2,39.2],[-106.6,39.2],[-106.6,38.7],[-107.2,38.7]]]}"
+      },
+      "tags": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge tags_score=4; F1=0.182 (P=0.20 R=0.17); missing=['colorado-river', 'ess-dive', 'nature-geoscience', 'parflow', 'snow-hydrology']; extra=['colorado', 'headwater', 'snow loss', 'warming']",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "groundwater"
+          },
+          {
+            "name": "colorado"
+          },
+          {
+            "name": "warming"
+          },
+          {
+            "name": "snow loss"
+          },
+          {
+            "name": "headwater"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ess-dive"
+          },
+          {
+            "name": "groundwater"
+          },
+          {
+            "name": "snow-hydrology"
+          },
+          {
+            "name": "colorado-river"
+          },
+          {
+            "name": "parflow"
+          },
+          {
+            "name": "nature-geoscience"
+          }
+        ]
+      },
+      "extras": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "key": "repository",
+            "value": "ESS-DIVE"
+          },
+          {
+            "key": "dataset_doi",
+            "value": "https://doi.org/10.15485/3013287"
+          },
+          {
+            "key": "associated_paper_url",
+            "value": "https://doi.org/10.1038/s41561-026-01945-y"
+          },
+          {
+            "key": "associated_paper_title",
+            "value": "Warming and snow loss increase reliance on old groundwater in a Colorado River headwater"
+          },
+          {
+            "key": "paper_journal",
+            "value": "Nature Geoscience"
+          }
+        ]
+      },
+      "resources": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "count 6/6, urls 1.0, names 1.0, formats 1.0",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "Repository README",
+            "description": "Markdown readme describing the data and code archive, directory structure, manuscript reference, and usage notes.",
+            "format": "Markdown",
+            "mimetype": "text/markdown",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/README.md"
+          },
+          {
+            "name": "License file",
+            "description": "Creative Commons Attribution 4.0 license text for the data and code archive.",
+            "format": "Markdown",
+            "mimetype": "text/markdown",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/LICENSE.md"
+          },
+          {
+            "name": "ASO comparison worksheet",
+            "description": "Excel workbook used for Airborne Snow Observatory comparison calculations for supplementary figures.",
+            "format": "XLSX",
+            "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/wksht_ASO_comparison.xlsx"
+          },
+          {
+            "name": "ASO plot and comparison script",
+            "description": "Python script used to visualize and analyze regridded Airborne Snow Observatory data.",
+            "format": "Python",
+            "mimetype": "text/x-python",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/plot_and_compare.py"
+          },
+          {
+            "name": "Watershed elevation notebook",
+            "description": "Jupyter notebook used to determine outlet elevations for watersheds from Jasechko et al. inputs.",
+            "format": "IPYNB",
+            "mimetype": "application/x-ipynb+json",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Extract_Elevation.ipynb"
+          },
+          {
+            "name": "Watershed altitude table",
+            "description": "CSV table of watershed outlet elevation information used in the associated manuscript analysis.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Table_S1_Watersheds_alt.csv"
+          }
+        ],
+        "standard": [
+          {
+            "name": "Repository README",
+            "description": "Markdown readme describing the data and code archive, directory structure, manuscript reference, and usage notes.",
+            "format": "Markdown",
+            "mimetype": "text/markdown",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/README.md"
+          },
+          {
+            "name": "License file",
+            "description": "Creative Commons Attribution 4.0 license text for the data and code archive.",
+            "format": "Markdown",
+            "mimetype": "text/markdown",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/LICENSE.md"
+          },
+          {
+            "name": "ASO comparison worksheet",
+            "description": "Excel workbook used for Airborne Snow Observatory comparison calculations for supplementary figures.",
+            "format": "XLSX",
+            "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/wksht_ASO_comparison.xlsx"
+          },
+          {
+            "name": "ASO plot and comparison script",
+            "description": "Python script used to visualize and analyze regridded Airborne Snow Observatory data.",
+            "format": "Python",
+            "mimetype": "text/x-python",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/plot_and_compare.py"
+          },
+          {
+            "name": "Watershed elevation notebook",
+            "description": "Jupyter notebook used to determine outlet elevations for watersheds from Jasechko et al. inputs.",
+            "format": "IPYNB",
+            "mimetype": "application/x-ipynb+json",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Extract_Elevation.ipynb"
+          },
+          {
+            "name": "Watershed altitude table",
+            "description": "CSV table of watershed outlet elevation information used in the associated manuscript analysis.",
+            "format": "CSV",
+            "mimetype": "text/csv",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Table_S1_Watersheds_alt.csv"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "name": "Repository README",
+        "format": "Markdown",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/README.md",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".md is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "License file",
+        "format": "Markdown",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/LICENSE.md",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".md is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "ASO comparison worksheet",
+        "format": "XLSX",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/wksht_ASO_comparison.xlsx",
+        "downloaded": false,
+        "note": "unsupported type '.xlsx'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".xlsx is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "ASO plot and comparison script",
+        "format": "Python",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/plot_and_compare.py",
+        "downloaded": false,
+        "note": "unsupported type '.py'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".py is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Watershed elevation notebook",
+        "format": "IPYNB",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Extract_Elevation.ipynb",
+        "downloaded": false,
+        "note": "unsupported type '.ipynb'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".ipynb is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Watershed altitude table",
+        "format": "CSV",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Table_S1_Watersheds_alt.csv",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "maybe",
+          "driver": "OGR CSV",
+          "note": "only if it has geometry/coordinate columns"
+        }
+      }
+    ],
+    "generated": {
+      "name": "warming-snow-loss-groundwater-colorado",
+      "title": "Warming and Snow Loss Impacts on Groundwater in Colorado Headwater",
+      "notes": "This dataset contains information related to the impact of warming and snow loss on groundwater in Colorado headwater areas, including watershed elevation data and analysis scripts.",
+      "url": null,
+      "license_id": null,
+      "version": null,
+      "type": "dataset",
+      "spatial": null,
+      "temporal_coverage_start": null,
+      "temporal_coverage_end": null,
+      "tags": [
+        {
+          "name": "groundwater"
+        },
+        {
+          "name": "colorado"
+        },
+        {
+          "name": "warming"
+        },
+        {
+          "name": "snow loss"
+        },
+        {
+          "name": "headwater"
+        }
+      ],
+      "extras": [],
+      "resources": [
+        {
+          "name": "Repository README",
+          "description": "Markdown readme describing the data and code archive, directory structure, manuscript reference, and usage notes.",
+          "format": "Markdown",
+          "mimetype": "text/markdown",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/README.md"
+        },
+        {
+          "name": "License file",
+          "description": "Creative Commons Attribution 4.0 license text for the data and code archive.",
+          "format": "Markdown",
+          "mimetype": "text/markdown",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/LICENSE.md"
+        },
+        {
+          "name": "ASO comparison worksheet",
+          "description": "Excel workbook used for Airborne Snow Observatory comparison calculations for supplementary figures.",
+          "format": "XLSX",
+          "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/wksht_ASO_comparison.xlsx"
+        },
+        {
+          "name": "ASO plot and comparison script",
+          "description": "Python script used to visualize and analyze regridded Airborne Snow Observatory data.",
+          "format": "Python",
+          "mimetype": "text/x-python",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/plot_and_compare.py"
+        },
+        {
+          "name": "Watershed elevation notebook",
+          "description": "Jupyter notebook used to determine outlet elevations for watersheds from Jasechko et al. inputs.",
+          "format": "IPYNB",
+          "mimetype": "application/x-ipynb+json",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Extract_Elevation.ipynb"
+        },
+        {
+          "name": "Watershed altitude table",
+          "description": "CSV table of watershed outlet elevation information used in the associated manuscript analysis.",
+          "format": "CSV",
+          "mimetype": "text/csv",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Table_S1_Watersheds_alt.csv"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ess-dive-2575224-port-arthur-aerial-processed-model-data-2025",
+    "error": null,
+    "scores": {
+      "derivable_metadata": 0.3,
+      "catalog_completeness": 0.15,
+      "schema_valid": false,
+      "fidelity_errors": [],
+      "unavailable_fields": [
+        "url",
+        "license_id",
+        "version",
+        "temporal_coverage_start",
+        "temporal_coverage_end",
+        "spatial",
+        "extras"
+      ],
+      "components": {
+        "schema": 0.0,
+        "free_text": 0.0,
+        "structured": 0.0,
+        "tags": 0.0,
+        "resources": 1.0
+      },
+      "gates_applied": [
+        "invalid/incomplete JSON -> cap 0.40"
+      ],
+      "free_text_judgment": {
+        "title_score": 1,
+        "notes_score": 1,
+        "tags_score": 1,
+        "faithfulness_pass": true,
+        "comment": "No generated metadata provided"
+      }
+    },
+    "fields": {
+      "name": {
+        "availability": "inferable",
+        "status": "missing",
+        "score": 0.0,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "ess-dive-2575224-port-arthur-aerial-processed-model-data-2025"
+      },
+      "title": {
+        "availability": "provided",
+        "status": "missing",
+        "score": 0.0,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "Aerial and Processed Model Data from Port Arthur, May 2025"
+      },
+      "notes": {
+        "availability": "inferable",
+        "status": "missing",
+        "score": 0.0,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "ESS-DIVE SETx-UIFL dataset containing aerial imagery and processed model data from Port Arthur, Texas. It is useful for testing CKAN registration of high-volume unstructured drone imagery, processed model folders, video resources, geospatial field-data provenance, and links to disaster-debris and aerial photogrammetry publications."
+      },
+      "type": {
+        "availability": "inferable",
+        "status": "missing",
+        "score": 0.0,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "dataset"
+      },
+      "url": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "https://data.ess-dive.lbl.gov/view/doi:10.15485/2575224"
+      },
+      "license_id": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "cc-by-4.0"
+      },
+      "version": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "1"
+      },
+      "temporal_coverage_start": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2025-05-01"
+      },
+      "temporal_coverage_end": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2025-05-31"
+      },
+      "spatial": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "{\"type\":\"Polygon\",\"coordinates\":[[[-94.05,29.78],[-94.05,30.02],[-93.82,30.02],[-93.82,29.78],[-94.05,29.78]]]}"
+      },
+      "tags": {
+        "availability": "inferable",
+        "status": "missing",
+        "score": 0.0,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "name": "ess-dive"
+          },
+          {
+            "name": "setx-uifl"
+          },
+          {
+            "name": "drone-imagery"
+          },
+          {
+            "name": "photogrammetry"
+          },
+          {
+            "name": "port-arthur"
+          },
+          {
+            "name": "disaster-debris"
+          }
+        ]
+      },
+      "extras": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "key": "repository",
+            "value": "ESS-DIVE"
+          },
+          {
+            "key": "dataset_doi",
+            "value": "https://doi.org/10.15485/2575224"
+          },
+          {
+            "key": "associated_paper_url",
+            "value": "https://doi.org/10.1016/j.ijdrr.2024.104468"
+          },
+          {
+            "key": "associated_paper_title",
+            "value": "A framework to enhance disaster debris estimation with AI and aerial photogrammetry"
+          },
+          {
+            "key": "paper_journal",
+            "value": "International Journal of Disaster Risk Reduction"
+          },
+          {
+            "key": "source_note",
+            "value": "The dataset is listed in SETx-UIFL code and datasets; the associated paper is methodologically related to AI and aerial photogrammetry debris estimation."
+          }
+        ]
+      },
+      "resources": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "count 3/3, urls 1.0, names 1.0, formats 1.0",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "ESS-DIVE content list",
+            "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/ESS-DIVE-content-list.txt"
+          },
+          {
+            "name": "Manifest with MD5 checksums",
+            "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/manifest-md5.txt"
+          },
+          {
+            "name": "Project flyover video",
+            "description": "MP4 flyover video from the Port Arthur aerial survey and model documentation package.",
+            "format": "MP4",
+            "mimetype": "video/mp4",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/data/Project_Flyover.MP4"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ESS-DIVE content list",
+            "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/ESS-DIVE-content-list.txt"
+          },
+          {
+            "name": "Manifest with MD5 checksums",
+            "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/manifest-md5.txt"
+          },
+          {
+            "name": "Project flyover video",
+            "description": "MP4 flyover video from the Port Arthur aerial survey and model documentation package.",
+            "format": "MP4",
+            "mimetype": "video/mp4",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/data/Project_Flyover.MP4"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "name": "ESS-DIVE content list",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/ESS-DIVE-content-list.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Manifest with MD5 checksums",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/manifest-md5.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Project flyover video",
+        "format": "MP4",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/data/Project_Flyover.MP4",
+        "downloaded": false,
+        "note": "unsupported type '.mp4'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".mp4 is not a GDAL/OGR format"
+        }
+      }
+    ],
+    "generated": {
+      "name": null,
+      "title": null,
+      "notes": null,
+      "url": null,
+      "license_id": null,
+      "version": null,
+      "type": null,
+      "spatial": null,
+      "temporal_coverage_start": null,
+      "temporal_coverage_end": null,
+      "tags": [],
+      "extras": [],
+      "resources": [
+        {
+          "name": "ESS-DIVE content list",
+          "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/ESS-DIVE-content-list.txt"
+        },
+        {
+          "name": "Manifest with MD5 checksums",
+          "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/manifest-md5.txt"
+        },
+        {
+          "name": "Project flyover video",
+          "description": "MP4 flyover video from the Port Arthur aerial survey and model documentation package.",
+          "format": "MP4",
+          "mimetype": "video/mp4",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/data/Project_Flyover.MP4"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ess-dive-2447557-port-arthur-rtk-drone-data-2024",
+    "error": null,
+    "scores": {
+      "derivable_metadata": 0.861,
+      "catalog_completeness": 0.827,
+      "schema_valid": true,
+      "fidelity_errors": [],
+      "unavailable_fields": [
+        "url",
+        "license_id",
+        "version",
+        "temporal_coverage_start",
+        "temporal_coverage_end",
+        "spatial",
+        "extras"
+      ],
+      "components": {
+        "schema": 1.0,
+        "free_text": 0.9,
+        "structured": 0.625,
+        "tags": 0.8,
+        "resources": 1.0
+      },
+      "gates_applied": [],
+      "free_text_judgment": {
+        "title_score": 4,
+        "notes_score": 5,
+        "tags_score": 4,
+        "faithfulness_pass": true,
+        "comment": "Generated title and notes are concise and accurate, but title could be more specific about the dataset's content and context. Tags are reasonable but miss some main subjects like 'ess-dive' and 'photogrammetry'."
+      }
+    },
+    "fields": {
+      "name": {
+        "availability": "inferable",
+        "status": "differ",
+        "score": 0.25,
+        "note": "slug unrelated to gold/title",
+        "fidelity_errors": [],
+        "proposed": "port-arthur-neighborhood",
+        "standard": "ess-dive-2447557-port-arthur-rtk-drone-data-2024"
+      },
+      "title": {
+        "availability": "provided",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge title_score=4",
+        "fidelity_errors": [],
+        "proposed": "Port Arthur Neighborhood RTK Drone Flight Images",
+        "standard": "Real-Time Kinematic Drone-Collected Data and Processed Models of Port Arthur Coastal Neighborhood and Pleasure Island Golf Course, June 2024"
+      },
+      "notes": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "judge notes_score=5",
+        "fidelity_errors": [],
+        "proposed": "This dataset contains images and associated files from an RTK drone flight over the Port Arthur neighborhood, including visible and multispectral images, as well as GNSS/PPK observation and timestamp files.",
+        "standard": "ESS-DIVE SETx-UIFL dataset containing RTK drone-captured data and processed model assets for Port Arthur, Texas and Pleasure Island Golf Course. This package is useful for testing CKAN registration of nested drone-photo directories, multispectral TIFF imagery, raw GNSS/PPK files, image metadata, and geospatial field campaign data."
+      },
+      "type": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "",
+        "fidelity_errors": [],
+        "proposed": "Dataset",
+        "standard": "dataset"
+      },
+      "url": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "https://data.ess-dive.lbl.gov/view/doi:10.15485/2447557"
+      },
+      "license_id": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "cc-by-4.0"
+      },
+      "version": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "1"
+      },
+      "temporal_coverage_start": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2024-06-01"
+      },
+      "temporal_coverage_end": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2024-06-30"
+      },
+      "spatial": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "{\"type\":\"Polygon\",\"coordinates\":[[[-94.05,29.78],[-94.05,30.05],[-93.80,30.05],[-93.80,29.78],[-94.05,29.78]]]}"
+      },
+      "tags": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge tags_score=4; F1=0.0 (P=0.00 R=0.00); missing=['ess-dive', 'multispectral-imagery', 'photogrammetry', 'port-arthur', 'rtk-drone', 'setx-uifl']; extra=['aerial imagery', 'multispectral imaging', 'port arthur neighborhood', 'rtk drone']",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "RTK drone"
+          },
+          {
+            "name": "Port Arthur neighborhood"
+          },
+          {
+            "name": "aerial imagery"
+          },
+          {
+            "name": "multispectral imaging"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ess-dive"
+          },
+          {
+            "name": "setx-uifl"
+          },
+          {
+            "name": "rtk-drone"
+          },
+          {
+            "name": "multispectral-imagery"
+          },
+          {
+            "name": "port-arthur"
+          },
+          {
+            "name": "photogrammetry"
+          }
+        ]
+      },
+      "extras": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "key": "repository",
+            "value": "ESS-DIVE"
+          },
+          {
+            "key": "dataset_doi",
+            "value": "https://doi.org/10.15485/2447557"
+          },
+          {
+            "key": "associated_paper_url",
+            "value": "https://doi.org/10.1016/j.ijdrr.2024.104468"
+          },
+          {
+            "key": "associated_paper_title",
+            "value": "A framework to enhance disaster debris estimation with AI and aerial photogrammetry"
+          },
+          {
+            "key": "paper_journal",
+            "value": "International Journal of Disaster Risk Reduction"
+          },
+          {
+            "key": "source_note",
+            "value": "The paper URL is methodologically associated with aerial photogrammetry and AI debris-estimation workflows; this dataset provides related SETx-UIFL RTK drone source data."
+          }
+        ]
+      },
+      "resources": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "count 4/4, urls 1.0, names 1.0, formats 1.0",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "Port Arthur visible image sample",
+            "description": "JPEG image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+            "format": "JPG",
+            "mimetype": "image/jpeg",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG"
+          },
+          {
+            "name": "Port Arthur multispectral green-band TIFF sample",
+            "description": "Multispectral green-band TIFF image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+            "format": "TIFF",
+            "mimetype": "image/tiff",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF"
+          },
+          {
+            "name": "Port Arthur PPK observation file sample",
+            "description": "GNSS/PPK observation file associated with the RTK drone flight image set.",
+            "format": "OBS",
+            "mimetype": "application/octet-stream",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_PPKOBS.obs"
+          },
+          {
+            "name": "Port Arthur timestamp file sample",
+            "description": "DJI timestamp MRK file associated with the RTK drone flight image set.",
+            "format": "MRK",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_Timestamp.MRK"
+          }
+        ],
+        "standard": [
+          {
+            "name": "Port Arthur visible image sample",
+            "description": "JPEG image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+            "format": "JPG",
+            "mimetype": "image/jpeg",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG"
+          },
+          {
+            "name": "Port Arthur multispectral green-band TIFF sample",
+            "description": "Multispectral green-band TIFF image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+            "format": "TIFF",
+            "mimetype": "image/tiff",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF"
+          },
+          {
+            "name": "Port Arthur PPK observation file sample",
+            "description": "GNSS/PPK observation file associated with the RTK drone flight image set.",
+            "format": "OBS",
+            "mimetype": "application/octet-stream",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_PPKOBS.obs"
+          },
+          {
+            "name": "Port Arthur timestamp file sample",
+            "description": "DJI timestamp MRK file associated with the RTK drone flight image set.",
+            "format": "MRK",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_Timestamp.MRK"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "name": "Port Arthur visible image sample",
+        "format": "JPG",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG",
+        "downloaded": false,
+        "note": "download error: 404 Client Error: Not Found for url: https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG",
+        "gdal": {
+          "pullable": "maybe",
+          "driver": "GDAL image",
+          "note": "readable as raster, likely not georeferenced"
+        }
+      },
+      {
+        "name": "Port Arthur multispectral green-band TIFF sample",
+        "format": "TIFF",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF",
+        "downloaded": false,
+        "note": "download error: 404 Client Error: Not Found for url: https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF",
+        "gdal": {
+          "pullable": "yes",
+          "driver": "GDAL raster",
+          "note": ".tif is a GDAL raster format"
+        }
+      },
+      {
+        "name": "Port Arthur PPK observation file sample",
+        "format": "OBS",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_PPKOBS.obs",
+        "downloaded": false,
+        "note": "unsupported type '.obs'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".obs is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Port Arthur timestamp file sample",
+        "format": "MRK",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_Timestamp.MRK",
+        "downloaded": false,
+        "note": "unsupported type '.mrk'",
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".mrk is not a GDAL/OGR format"
+        }
+      }
+    ],
+    "generated": {
+      "name": "port-arthur-neighborhood",
+      "title": "Port Arthur Neighborhood RTK Drone Flight Images",
+      "notes": "This dataset contains images and associated files from an RTK drone flight over the Port Arthur neighborhood, including visible and multispectral images, as well as GNSS/PPK observation and timestamp files.",
+      "url": null,
+      "license_id": null,
+      "version": null,
+      "type": "Dataset",
+      "spatial": null,
+      "temporal_coverage_start": null,
+      "temporal_coverage_end": null,
+      "tags": [
+        {
+          "name": "RTK drone"
+        },
+        {
+          "name": "Port Arthur neighborhood"
+        },
+        {
+          "name": "aerial imagery"
+        },
+        {
+          "name": "multispectral imaging"
+        }
+      ],
+      "extras": [],
+      "resources": [
+        {
+          "name": "Port Arthur visible image sample",
+          "description": "JPEG image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+          "format": "JPG",
+          "mimetype": "image/jpeg",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG"
+        },
+        {
+          "name": "Port Arthur multispectral green-band TIFF sample",
+          "description": "Multispectral green-band TIFF image from the RTK drone collection for Port Arthur neighborhood flight 12.",
+          "format": "TIFF",
+          "mimetype": "image/tiff",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF"
+        },
+        {
+          "name": "Port Arthur PPK observation file sample",
+          "description": "GNSS/PPK observation file associated with the RTK drone flight image set.",
+          "format": "OBS",
+          "mimetype": "application/octet-stream",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_PPKOBS.obs"
+        },
+        {
+          "name": "Port Arthur timestamp file sample",
+          "description": "DJI timestamp MRK file associated with the RTK drone flight image set.",
+          "format": "MRK",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_Timestamp.MRK"
+        }
+      ]
+    }
+  },
+  {
+    "name": "ess-dive-3000569-crocus-forward-scatter-disdrometer-argonne-prairie",
+    "error": null,
+    "scores": {
+      "derivable_metadata": 0.873,
+      "catalog_completeness": 0.835,
+      "schema_valid": true,
+      "fidelity_errors": [],
+      "unavailable_fields": [
+        "url",
+        "license_id",
+        "version",
+        "temporal_coverage_start",
+        "temporal_coverage_end",
+        "spatial",
+        "extras"
+      ],
+      "components": {
+        "schema": 1.0,
+        "free_text": 0.9,
+        "structured": 0.75,
+        "tags": 0.6,
+        "resources": 1.0
+      },
+      "gates_applied": [],
+      "free_text_judgment": {
+        "title_score": 5,
+        "notes_score": 4,
+        "tags_score": 3,
+        "faithfulness_pass": true,
+        "comment": "Generated notes lack context about urban field laboratory project and atmospheric instrument metadata"
+      }
+    },
+    "fields": {
+      "name": {
+        "availability": "inferable",
+        "status": "partial",
+        "score": 0.5,
+        "note": "valid relation to title/source but not the gold slug",
+        "fidelity_errors": [],
+        "proposed": "crocus-forward-scatter-disdrometer-argonne-prairie",
+        "standard": "ess-dive-3000569-crocus-forward-scatter-disdrometer-argonne-prairie"
+      },
+      "title": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "judge title_score=5",
+        "fidelity_errors": [],
+        "proposed": "CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site",
+        "standard": "CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site"
+      },
+      "notes": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 0.8,
+        "note": "judge notes_score=4",
+        "fidelity_errors": [],
+        "proposed": "This dataset contains CROCUS forward scatter disdrometer observations for the Argonne National Laboratory Prairie Site. The data is provided in NetCDF format and includes daily files for various dates. The dataset also includes a manifest file with MD5 checksums for integrity validation.",
+        "standard": "ESS-DIVE CROCUS UIFL dataset containing time-indexed atmospheric disdrometer NetCDF files from the Argonne National Laboratory Prairie Site. This package is useful for testing CKAN registration of large collections of daily NetCDF resources, atmospheric instrument metadata, urban field laboratory project metadata, and file manifests."
+      },
+      "type": {
+        "availability": "inferable",
+        "status": "match",
+        "score": 1.0,
+        "note": "",
+        "fidelity_errors": [],
+        "proposed": "dataset",
+        "standard": "dataset"
+      },
+      "url": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "https://data.ess-dive.lbl.gov/view/doi:10.15485/3000569"
+      },
+      "license_id": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "cc-by-4.0"
+      },
+      "version": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "1"
+      },
+      "temporal_coverage_start": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2023-01-31"
+      },
+      "temporal_coverage_end": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "2024-12-31"
+      },
+      "spatial": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": null,
+        "standard": "{\"type\":\"Point\",\"coordinates\":[-87.98,41.72]}"
+      },
+      "tags": {
+        "availability": "inferable",
+        "status": "partial",
+        "score": 0.6,
+        "note": "judge tags_score=3; F1=0.2 (P=0.25 R=0.17); missing=['atmospheric-measurements', 'disdrometer', 'ess-dive', 'netcdf', 'urban-climate']; extra=['argonne national laboratory', 'forward scatter disdrometer', 'prairie site']",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "CROCUS"
+          },
+          {
+            "name": "forward scatter disdrometer"
+          },
+          {
+            "name": "Argonne National Laboratory"
+          },
+          {
+            "name": "Prairie Site"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ess-dive"
+          },
+          {
+            "name": "crocus"
+          },
+          {
+            "name": "disdrometer"
+          },
+          {
+            "name": "netcdf"
+          },
+          {
+            "name": "urban-climate"
+          },
+          {
+            "name": "atmospheric-measurements"
+          }
+        ]
+      },
+      "extras": {
+        "availability": "unavailable",
+        "status": "missing",
+        "score": null,
+        "note": "agent left field empty",
+        "fidelity_errors": [],
+        "proposed": [],
+        "standard": [
+          {
+            "key": "repository",
+            "value": "ESS-DIVE"
+          },
+          {
+            "key": "dataset_doi",
+            "value": "https://doi.org/10.15485/3000569"
+          },
+          {
+            "key": "associated_paper_url",
+            "value": "https://doi.org/10.1175/BAMS-D-23-0247.1"
+          },
+          {
+            "key": "associated_paper_title",
+            "value": "The Community Research on Climate and Urban Science Urban Integrated Field Laboratory"
+          },
+          {
+            "key": "paper_journal",
+            "value": "Bulletin of the American Meteorological Society"
+          },
+          {
+            "key": "source_note",
+            "value": "This is an instrument data product from the CROCUS Urban Integrated Field Laboratory; use it to test instrument time-series metadata and NetCDF resources."
+          }
+        ]
+      },
+      "resources": {
+        "availability": "provided",
+        "status": "match",
+        "score": 1.0,
+        "note": "count 4/4, urls 1.0, names 1.0, formats 1.0",
+        "fidelity_errors": [],
+        "proposed": [
+          {
+            "name": "ESS-DIVE content list",
+            "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/ESS-DIVE-content-list.txt"
+          },
+          {
+            "name": "Disdrometer NetCDF sample 2023-01-31",
+            "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-01-31.",
+            "format": "NetCDF",
+            "mimetype": "application/x-netcdf",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230131.nc"
+          },
+          {
+            "name": "Disdrometer NetCDF sample 2023-02-01",
+            "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-02-01.",
+            "format": "NetCDF",
+            "mimetype": "application/x-netcdf",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230201.nc"
+          },
+          {
+            "name": "Manifest with MD5 checksums",
+            "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/manifest-md5.txt"
+          }
+        ],
+        "standard": [
+          {
+            "name": "ESS-DIVE content list",
+            "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/ESS-DIVE-content-list.txt"
+          },
+          {
+            "name": "Disdrometer NetCDF sample 2023-01-31",
+            "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-01-31.",
+            "format": "NetCDF",
+            "mimetype": "application/x-netcdf",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230131.nc"
+          },
+          {
+            "name": "Disdrometer NetCDF sample 2023-02-01",
+            "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-02-01.",
+            "format": "NetCDF",
+            "mimetype": "application/x-netcdf",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230201.nc"
+          },
+          {
+            "name": "Manifest with MD5 checksums",
+            "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+            "format": "TXT",
+            "mimetype": "text/plain",
+            "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/manifest-md5.txt"
+          }
+        ]
+      }
+    },
+    "resources": [
+      {
+        "name": "ESS-DIVE content list",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/ESS-DIVE-content-list.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      },
+      {
+        "name": "Disdrometer NetCDF sample 2023-01-31",
+        "format": "NetCDF",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230131.nc",
+        "downloaded": false,
+        "note": "unsupported type '.nc'",
+        "gdal": {
+          "pullable": "yes",
+          "driver": "GDAL raster",
+          "note": ".nc is a GDAL raster format"
+        }
+      },
+      {
+        "name": "Disdrometer NetCDF sample 2023-02-01",
+        "format": "NetCDF",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230201.nc",
+        "downloaded": false,
+        "note": "unsupported type '.nc'",
+        "gdal": {
+          "pullable": "yes",
+          "driver": "GDAL raster",
+          "note": ".nc is a GDAL raster format"
+        }
+      },
+      {
+        "name": "Manifest with MD5 checksums",
+        "format": "TXT",
+        "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/manifest-md5.txt",
+        "downloaded": true,
+        "note": null,
+        "gdal": {
+          "pullable": "no",
+          "driver": "",
+          "note": ".txt is not a GDAL/OGR format"
+        }
+      }
+    ],
+    "generated": {
+      "name": "crocus-forward-scatter-disdrometer-argonne-prairie",
+      "title": "CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site",
+      "notes": "This dataset contains CROCUS forward scatter disdrometer observations for the Argonne National Laboratory Prairie Site. The data is provided in NetCDF format and includes daily files for various dates. The dataset also includes a manifest file with MD5 checksums for integrity validation.",
+      "url": null,
+      "license_id": null,
+      "version": null,
+      "type": "dataset",
+      "spatial": null,
+      "temporal_coverage_start": null,
+      "temporal_coverage_end": null,
+      "tags": [
+        {
+          "name": "CROCUS"
+        },
+        {
+          "name": "forward scatter disdrometer"
+        },
+        {
+          "name": "Argonne National Laboratory"
+        },
+        {
+          "name": "Prairie Site"
+        }
+      ],
+      "extras": [],
+      "resources": [
+        {
+          "name": "ESS-DIVE content list",
+          "description": "Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/ESS-DIVE-content-list.txt"
+        },
+        {
+          "name": "Disdrometer NetCDF sample 2023-01-31",
+          "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-01-31.",
+          "format": "NetCDF",
+          "mimetype": "application/x-netcdf",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230131.nc"
+        },
+        {
+          "name": "Disdrometer NetCDF sample 2023-02-01",
+          "description": "Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-02-01.",
+          "format": "NetCDF",
+          "mimetype": "application/x-netcdf",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230201.nc"
+        },
+        {
+          "name": "Manifest with MD5 checksums",
+          "description": "Plain-text manifest listing data files and MD5 checksums for integrity validation.",
+          "format": "TXT",
+          "mimetype": "text/plain",
+          "url": "https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/manifest-md5.txt"
+        }
+      ]
+    }
+  }
+]

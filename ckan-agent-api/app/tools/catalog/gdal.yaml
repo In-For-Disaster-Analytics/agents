@@ -1,0 +1,28 @@
+# GDAL CLI tools — used for deeper geospatial inspection. Run only when GDAL is on PATH;
+# degrade gracefully (dependency_missing) otherwise.
+tools:
+  - name: gdal_info
+    summary: Inspect a raster (GeoTIFF, etc.) with gdalinfo — driver, size, CRS, bounds, bands.
+    description: Runs `gdalinfo -json` on a raster file and returns key spatial metadata.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.gdal:gdal_info
+    args:
+      path: {type: string, required: true, description: "Local raster file path."}
+    returns: {type: object}
+    use_when:
+      - A file looks like a raster/GeoTIFF and you need its CRS, extent, or band info.
+    safety: ["Read-only; needs GDAL on PATH; path is size/sensitive-checked first."]
+
+  - name: ogr_info
+    summary: Inspect a vector dataset (shapefile, GeoPackage, GeoJSON) with ogrinfo.
+    description: Runs `ogrinfo -so -al` and returns a layer/geometry/CRS/extent summary.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.gdal:ogr_info
+    args:
+      path: {type: string, required: true, description: "Local vector dataset path."}
+    returns: {type: object}
+    use_when:
+      - A file looks like a vector dataset and you need its layers, geometry type, CRS, or extent.
+    safety: ["Read-only; needs GDAL on PATH; path is size/sensitive-checked first."]

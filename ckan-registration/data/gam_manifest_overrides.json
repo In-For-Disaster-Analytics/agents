@@ -1,0 +1,11 @@
+{
+  "_note": "Human-authored, version-controlled overrides merged into the freshly generated manifest by discovery.py (read-only to discovery). Keyed by package_id. Use to persist values that recursive discovery cannot derive or that need manual correction: twdb_page_url, report_url, and corrected spatial/bbox. Empty by default.",
+  "_example": {
+    "blossom-aquifer-gam": {
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/blsm/blsm.asp",
+      "report_url": null,
+      "spatial": null
+    }
+  },
+  "overrides": {}
+}

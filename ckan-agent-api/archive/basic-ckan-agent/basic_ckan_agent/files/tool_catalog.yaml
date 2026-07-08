@@ -1,0 +1,198 @@
+tools:
+  - name: file_stat
+    summary: Inspect a user-supplied local file path without reading its contents.
+    description: Return existence, size, extension, MIME guess, and timestamps for a local file path.
+    args:
+      path:
+        type: string
+        required: true
+        description: Local file path exactly as supplied by the user.
+    returns:
+      type: object
+      description: Path status, size, extension, MIME guess, and modified time.
+    use_when:
+      - The user provides a file path and you need to choose the next file inspection tool.
+      - You need to confirm whether a path exists before attempting content extraction.
+    limitations:
+      - Does not read file contents.
+    safety:
+      - Only paths explicitly mentioned in the current user request are available to the model.
+
+  - name: file_read_text
+    summary: Read a bounded sample from a plain text-like file.
+    description: Return a UTF-8 text sample from unstructured text formats such as TXT, Markdown, XML, HTML, or logs.
+    args:
+      path:
+        type: string
+        required: true
+      max_chars:
+        type: integer
+        default: 8000
+    returns:
+      type: object
+      description: Text sample, encoding, truncation flag, and binary-file warning if applicable.
+    use_when:
+      - The file appears to be text, Markdown, XML, HTML, or another text-like format.
+      - You need evidence for title, description, tags, methods, or responsible parties.
+    limitations:
+      - Reads only a bounded sample and may miss information later in large files.
+    safety:
+      - Refuses sensitive paths and files above the configured size limit.
+
+  - name: file_extract_pdf_text
+    summary: Extract bounded text from a PDF using pypdf.
+    description: Return page count and extracted text from selected pages of a PDF.
+    args:
+      path:
+        type: string
+        required: true
+      page_start:
+        type: integer
+        default: 0
+      max_pages:
+        type: integer
+        default: 5
+      max_chars:
+        type: integer
+        default: 12000
+    returns:
+      type: object
+      description: Page count, pages read, extracted text, warnings, and truncation flag.
+    use_when:
+      - The file extension or MIME type suggests PDF.
+      - You need document content to draft CKAN metadata.
+    limitations:
+      - Scanned PDFs may have no extractable text.
+      - Encrypted PDFs may not be readable.
+    safety:
+      - Reads only selected pages and bounded text.
+
+  - name: file_profile_csv
+    summary: Profile a bounded CSV or TSV sample.
+    description: Infer delimiter/header, return headers, sample rows, row scan count, and simple column summaries.
+    args:
+      path:
+        type: string
+        required: true
+      max_rows:
+        type: integer
+        default: 25
+    returns:
+      type: object
+      description: Delimiter, headers, sample rows, row count sampled, and sample values by column.
+    use_when:
+      - The file appears to be CSV, TSV, or another delimited tabular text file.
+      - You need schema evidence for CKAN resource metadata.
+    limitations:
+      - Does not compute full statistical profiles.
+      - Row count is bounded after 10000 scanned rows.
+    safety:
+      - Returns only bounded sample rows.
+
+  - name: file_profile_json
+    summary: Profile a JSON file and return a compact structural sample.
+    description: Parse JSON and return root type, keys or array information, a compact sample, and GeoJSON hints.
+    args:
+      path:
+        type: string
+        required: true
+      max_sample_chars:
+        type: integer
+        default: 12000
+    returns:
+      type: object
+      description: JSON type, structural summary, compact sample JSON, and GeoJSON hint.
+    use_when:
+      - The file appears to be JSON but may not be spatial.
+      - You need fields and sample content for metadata planning.
+    limitations:
+      - Requires the JSON file to fit within the configured file size limit.
+
+  - name: file_profile_geojson
+    summary: Profile a GeoJSON file for metadata and CKAN spatial fields.
+    description: Parse GeoJSON-like JSON and return feature count, geometry types, property keys, bbox, and a bbox polygon for CKAN spatial metadata.
+    args:
+      path:
+        type: string
+        required: true
+      max_sample_chars:
+        type: integer
+        default: 12000
+    returns:
+      type: object
+      description: GeoJSON type, feature count, geometry types, bbox, spatial_geojson, property keys, and sample features.
+    use_when:
+      - The file extension is .geojson.
+      - JSON profiling indicates a FeatureCollection, Feature, or GeoJSON geometry.
+      - You need a spatial extent for CKAN metadata.
+    limitations:
+      - Does not reproject coordinates.
+      - Assumes source coordinates are already suitable for the reported bbox.
+
+  - name: file_inspect_image
+    summary: Inspect basic dimensions for a JPEG, PNG, or GIF image.
+    description: Return image format and dimensions using file headers without sending pixels to the model.
+    args:
+      path:
+        type: string
+        required: true
+    returns:
+      type: object
+      description: Image format, width, height, and parse message if unsupported.
+    use_when:
+      - The user supplies a JPEG, PNG, or GIF.
+      - You need resource format and dimensions before drafting metadata.
+    limitations:
+      - Does not perform OCR or visual interpretation.
+      - Does not extract EXIF metadata.
+
+  - name: file_inspect_zip
+    summary: Inspect ZIP members and detect shapefile component groups.
+    description: Return archive member list, uncompressed size, and candidate shapefile component groups without extraction.
+    args:
+      path:
+        type: string
+        required: true
+      max_members:
+        type: integer
+        default: 100
+    returns:
+      type: object
+      description: ZIP status, member count, listed members, and shapefile candidates.
+    use_when:
+      - The file extension is .zip.
+      - The user says the upload contains shapefiles or multiple spatial files.
+    limitations:
+      - Does not read vector schema or extent unless paired with file_profile_shapefile_zip.
+
+  - name: file_profile_raster
+    summary: Profile raster metadata when rasterio is installed.
+    description: Return raster driver, dimensions, band count, dtypes, CRS, bounds, and nodata value if rasterio is available.
+    args:
+      path:
+        type: string
+        required: true
+    returns:
+      type: object
+      description: Raster profile, or a dependency_missing message when rasterio is unavailable.
+    use_when:
+      - The file appears to be GeoTIFF or another raster dataset.
+      - You need CRS, bounds, bands, or dimensions for CKAN metadata.
+    limitations:
+      - Requires optional rasterio dependency for real raster profiling.
+
+  - name: file_profile_shapefile_zip
+    summary: Profile a zipped shapefile when fiona is installed.
+    description: Inspect ZIP shapefile components and, when fiona is available, return layer schema, feature count, CRS, and bounds.
+    args:
+      path:
+        type: string
+        required: true
+    returns:
+      type: object
+      description: ZIP shapefile candidates plus optional vector layer profiles.
+    use_when:
+      - The user supplies a ZIP that appears to contain a shapefile.
+      - You need vector schema, CRS, or spatial extent for CKAN metadata.
+    limitations:
+      - Requires optional fiona dependency for layer schema and bounds.

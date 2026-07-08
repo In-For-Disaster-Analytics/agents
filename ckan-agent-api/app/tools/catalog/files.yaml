@@ -1,0 +1,109 @@
+# File-extractor tools. Each handler validates the path (size limit + sensitive-path
+# refusal) before reading. Heavy deps (pypdf/rasterio/fiona) degrade gracefully.
+tools:
+  - name: file_read_text
+    summary: Read a bounded text sample from a text-like file.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:read_text
+    args:
+      path: {type: string, required: true, description: "Local file path."}
+      max_chars: {type: integer, default: 4000}
+    returns: {type: object}
+    use_when: ["The file is text/markdown/code and you need its content."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_profile_csv
+    summary: Profile a CSV/TSV (headers, columns, sample rows).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:profile_csv
+    args:
+      path: {type: string, required: true}
+      max_rows: {type: integer, default: 20}
+    returns: {type: object}
+    use_when: ["The file is tabular and you need its schema/sample."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_profile_json
+    summary: Profile a JSON / .ipynb file (structure, keys, compact sample).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:profile_json
+    args:
+      path: {type: string, required: true}
+      max_sample_chars: {type: integer, default: 4000}
+    returns: {type: object}
+    use_when: ["The file is JSON or a notebook and you need its structure."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_profile_geojson
+    summary: Profile a GeoJSON file (feature count, geometry types, bbox, spatial polygon).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:profile_geojson
+    args:
+      path: {type: string, required: true}
+      max_sample_chars: {type: integer, default: 4000}
+    returns: {type: object}
+    use_when: ["The file is GeoJSON and you need spatial extent/properties."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_extract_pdf_text
+    summary: Extract bounded text from a PDF (needs pypdf).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:extract_pdf_text
+    args:
+      path: {type: string, required: true}
+      page_start: {type: integer, default: 0}
+      max_pages: {type: integer, default: 5}
+      max_chars: {type: integer, default: 6000}
+    returns: {type: object}
+    use_when: ["You need text/abstract from a PDF report."]
+    safety: ["Refuses sensitive paths and oversized files; pypdf optional."]
+
+  - name: file_inspect_image
+    summary: Read PNG/JPEG/GIF dimensions from headers.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:inspect_image
+    args:
+      path: {type: string, required: true}
+    returns: {type: object}
+    use_when: ["The file is an image and you need basic dimensions."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_inspect_zip
+    summary: Inspect ZIP members and detect shapefile component groups.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:inspect_zip
+    args:
+      path: {type: string, required: true}
+      max_members: {type: integer, default: 100}
+    returns: {type: object}
+    use_when: ["The file is a ZIP and you need its contents/shapefile detection."]
+    safety: ["Refuses sensitive paths and oversized files."]
+
+  - name: file_profile_raster
+    summary: Profile raster CRS/bounds/bands (needs rasterio).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:profile_raster
+    args:
+      path: {type: string, required: true}
+    returns: {type: object}
+    use_when: ["The file is a GeoTIFF/raster and you need CRS/bounds."]
+    safety: ["Refuses sensitive paths and oversized files; rasterio optional."]
+
+  - name: file_profile_shapefile_zip
+    summary: Profile a zipped shapefile (layers, CRS, bounds; needs fiona).
+    category: file
+    read_only: true
+    handler: app.tools.handlers.files:profile_shapefile_zip
+    args:
+      path: {type: string, required: true}
+    returns: {type: object}
+    use_when: ["The file is a zipped shapefile and you need layer/CRS info."]
+    safety: ["Refuses sensitive paths and oversized files; fiona optional."]

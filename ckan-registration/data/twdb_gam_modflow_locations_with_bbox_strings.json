@@ -1,0 +1,1794 @@
+{
+  "generated_from": "/mnt/data/tree.log",
+  "source_tree_root": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection",
+  "selection_rule": "Includes top-level packages from the uploaded tree that contain at least one MODFLOW name file matching *.nam or *.NAM. Each model directory is the parent directory of a discovered name file. Package folder values have been expanded to absolute paths under source_tree_root. Boundary boxes are WGS84 rectangular envelopes added for map/search metadata.",
+  "record_count": 23,
+  "total_namefiles": 108,
+  "models": [
+    {
+      "package_id": "blossom-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Blossom_Aquifer_GAM",
+      "title": "Blossom Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/blsm/blsm.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Blossom_Aquifer_GAM/Model_File/blsm_model_v1.01/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Blossom_Aquifer_GAM/Model_File/blsm_model_v1.01/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "blsm_tr4.nam",
+              "relative_path": "Blossom_Aquifer_GAM/Model_File/blsm_model_v1.01/MODFLOW/blsm_tr4.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Blossom_Aquifer_GAM/Model_File/blsm_model_v1.01/MODFLOW/blsm_tr4.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Blossom_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Blossom",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -96.6,
+        "min_lat": 32.55,
+        "max_lon": -94.3,
+        "max_lat": 34.0
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.6,32.55],[-96.6,34.0],[-94.3,34.0],[-94.3,32.55],[-96.6,32.55]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.6,32.55],[-96.6,34.0],[-94.3,34.0],[-94.3,32.55],[-96.6,32.55]]]}"
+    },
+    {
+      "package_id": "bone-spring-victorio-peak-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Bone_Spring-Victorio_Peak_Aquifer_GAM",
+      "title": "Bone Spring-Victorio Peak Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/bsvp/bsvp.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Bone_Spring-Victorio_Peak_Aquifer_GAM/Model_File/bsvp_model_report/01_Model_Report/bsvp hybrid model",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Bone_Spring-Victorio_Peak_Aquifer_GAM/Model_File/bsvp_model_report/01_Model_Report/bsvp hybrid model",
+          "namefiles": [
+            {
+              "filename": "dvh.nam",
+              "relative_path": "Bone_Spring-Victorio_Peak_Aquifer_GAM/Model_File/bsvp_model_report/01_Model_Report/bsvp hybrid model/dvh.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Bone_Spring-Victorio_Peak_Aquifer_GAM/Model_File/bsvp_model_report/01_Model_Report/bsvp hybrid model/dvh.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Bone_Spring-Victorio_Peak_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Bone Spring-Victorio Peak",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -105.3,
+        "min_lat": 30.45,
+        "max_lon": -103.4,
+        "max_lat": 31.95
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.3,30.45],[-105.3,31.95],[-103.4,31.95],[-103.4,30.45],[-105.3,30.45]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.3,30.45],[-105.3,31.95],[-103.4,31.95],[-103.4,30.45],[-105.3,30.45]]]}"
+    },
+    {
+      "package_id": "capitan-reef-complex-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Capitan_Reef_Complex_Aquifer_GAM",
+      "title": "Capitan Reef Complex Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/crcx/crcx.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 3,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow",
+          "namefiles": [
+            {
+              "filename": "Capitan.nam",
+              "relative_path": "Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/Capitan.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/Capitan.nam"
+            },
+            {
+              "filename": "mf2005.nam",
+              "relative_path": "Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/mf2005.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/mf2005.nam"
+            },
+            {
+              "filename": "mfsim.nam",
+              "relative_path": "Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/mfsim.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Capitan_Reef_Complex_Aquifer_GAM/Model_File/Capitan_Reef_Complex_Aquifer_GAM_Model_Report/Model/modflow/mfsim.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Capitan_Reef_Complex_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Capitan Reef Complex",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -105.2,
+        "min_lat": 30.45,
+        "max_lon": -102.7,
+        "max_lat": 32.4
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.2,30.45],[-105.2,32.4],[-102.7,32.4],[-102.7,30.45],[-105.2,30.45]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.2,30.45],[-105.2,32.4],[-102.7,32.4],[-102.7,30.45],[-105.2,30.45]]]}"
+    },
+    {
+      "package_id": "carrizo-wilcox-aquifer-central-portion-gam-version-3-02",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02",
+      "title": "Carrizo-Wilcox Aquifer central portion GAM version 3.02",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/czwx_c/czwx_c.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 3,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified",
+          "namefiles": [
+            {
+              "filename": "gma12.mod.nam",
+              "relative_path": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/gma12.mod.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/gma12.mod.nam"
+            },
+            {
+              "filename": "gma12.nam",
+              "relative_path": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/gma12.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/gma12.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/nam.gnc.dis.evt",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/nam.gnc.dis.evt",
+          "namefiles": [
+            {
+              "filename": "gma12.nam",
+              "relative_path": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/nam.gnc.dis.evt/gma12.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02/Model_File/czwx_c_qcsp_v3.02_model_files/czwx_c_qcsp_v3.02_model_files/GMA12_Modified_MODFLOW/Modified_GAM/gwv-modflow-usg-Modified/nam.gnc.dis.evt/gma12.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Carrizo-Wilcox_Aquifer_central_portion_GAM_version_3.02",
+      "boundary_match": {
+        "label": "Carrizo-Wilcox",
+        "source_id": "major_aquifers_service",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -98.3,
+        "min_lat": 28.8,
+        "max_lon": -95.0,
+        "max_lat": 32.5
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.3,28.8],[-98.3,32.5],[-95.0,32.5],[-95.0,28.8],[-98.3,28.8]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.3,28.8],[-98.3,32.5],[-95.0,32.5],[-95.0,28.8],[-98.3,28.8]]]}"
+    },
+    {
+      "package_id": "edwards-trinity-plateau-and-pecos-valley-aquifers-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM",
+      "title": "Edwards-Trinity Plateau and Pecos Valley aquifers GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/eddt_p/eddt_r.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 8,
+      "modflow_model_directory_count": 8,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2000",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2000",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2000/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2000/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2010",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2010",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2010/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2010/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2020",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2020",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2020/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2020/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2030",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2030",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2030/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2030/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2040",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2040",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2040/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2040/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_av",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_av",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_av/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_av/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_drought",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_drought",
+          "namefiles": [
+            {
+              "filename": "eddt_p_tr.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_drought/eddt_p_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_1980-2050_drought/eddt_p_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_ss",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_ss",
+          "namefiles": [
+            {
+              "filename": "eddt_p_ss.nam",
+              "relative_path": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_ss/eddt_p_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM/Model_File/Edwards_Trinity_Plateau_Model_Only/MODFLOW/eddt_p_mf_ss/eddt_p_ss.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Edwards-Trinity_Plateau_and_Pecos_Valley_aquifers_GAM",
+      "boundary_match": {
+        "label": "Edwards-Trinity Plateau / Pecos Valley",
+        "source_id": "major_aquifers_service",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -104.2,
+        "min_lat": 29.0,
+        "max_lon": -97.7,
+        "max_lat": 32.9
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-104.2,29.0],[-104.2,32.9],[-97.7,32.9],[-97.7,29.0],[-104.2,29.0]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-104.2,29.0],[-104.2,32.9],[-97.7,32.9],[-97.7,29.0],[-104.2,29.0]]]}"
+    },
+    {
+      "package_id": "edwards-bfz-aquifer-barton-springs-segment-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM",
+      "title": "Edwards BFZ Aquifer Barton Springs Segment GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/ebfz_b/ebfz_b.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 11,
+      "modflow_model_directory_count": 11,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping avg rch/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping avg rch/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping avg rch/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping avg rch/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping with drought/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping with drought/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping with drought/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/2001 pumping with drought/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 01-10 avg rch/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 01-10 avg rch/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 01-10 avg rch/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 01-10 avg rch/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 41-50 avg rch/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 41-50 avg rch/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 41-50 avg rch/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/Pumping 41-50 avg rch/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2001_2010/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2001_2010/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2001_2010/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2001_2010/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2011_2020/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2011_2020/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2011_2020/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2011_2020/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2021_2030/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2021_2030/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2021_2030/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2021_2030/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2031_2040/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2031_2040/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2031_2040/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2031_2040/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2041_2050/MODFLOW",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2041_2050/MODFLOW",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2041_2050/MODFLOW/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_2041_2050/MODFLOW/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_SS",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_SS",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_SS/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_SS/spring.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_Tran",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_Tran",
+          "namefiles": [
+            {
+              "filename": "spring.nam",
+              "relative_path": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_Tran/spring.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM/Model_File/Edwards_BFZ_Barton_Springs/Edwards_BFZ_Barton_Springs/ebfz_b_CD-2_model/modflow/ebfz_b_mf_Tran/spring.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Edwards_BFZ_Aquifer_Barton_Springs_Segment_GAM",
+      "boundary_match": {
+        "label": "Edwards BFZ - Barton Springs segment",
+        "source_id": "major_aquifers_service",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -98.25,
+        "min_lat": 29.95,
+        "max_lon": -97.55,
+        "max_lat": 30.55
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.25,29.95],[-98.25,30.55],[-97.55,30.55],[-97.55,29.95],[-98.25,29.95]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.25,29.95],[-98.25,30.55],[-97.55,30.55],[-97.55,29.95],[-98.25,29.95]]]}"
+    },
+    {
+      "package_id": "gma-16-groundwater-flow-model",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/GMA_16_groundwater_flow_model",
+      "title": "GMA 16 groundwater flow model",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/alt/gma16/gma16.asp",
+      "twdb_page_type": "alternative",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "GMA_16_groundwater_flow_model/Model_File/GMA16_Draft_Model",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/GMA_16_groundwater_flow_model/Model_File/GMA16_Draft_Model",
+          "namefiles": [
+            {
+              "filename": "GMA16.nam",
+              "relative_path": "GMA_16_groundwater_flow_model/Model_File/GMA16_Draft_Model/GMA16.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/GMA_16_groundwater_flow_model/Model_File/GMA16_Draft_Model/GMA16.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "GMA_16_groundwater_flow_model",
+      "boundary_match": {
+        "label": "GMA 16 model area",
+        "source_id": "model_area_approx",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -99.7,
+        "min_lat": 27.0,
+        "max_lon": -96.0,
+        "max_lat": 29.7
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.7,27.0],[-99.7,29.7],[-96.0,29.7],[-96.0,27.0],[-99.7,27.0]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.7,27.0],[-99.7,29.7],[-96.0,29.7],[-96.0,27.0],[-99.7,27.0]]]}"
+    },
+    {
+      "package_id": "gulf-coast-aquifer-system-northern-portion-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM",
+      "title": "Gulf Coast Aquifer System northern portion GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/glfc_n/glfc_n.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 2,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive",
+          "namefiles": [
+            {
+              "filename": "gulf_history.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive/gulf_history.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive/gulf_history.nam"
+            },
+            {
+              "filename": "mfsim.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive/mfsim.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM/Model_File/glfc_n_v4.01_GULF2023_baseModelFiles/1_base_history_model_archive/mfsim.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Gulf_Coast_Aquifer_System_northern_portion_GAM",
+      "boundary_match": {
+        "label": "Gulf Coast northern portion",
+        "source_id": "major_aquifers_service",
+        "match_method": "user_example",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -96.27978518139572,
+        "min_lat": 28.08641391278623,
+        "max_lon": -93.65405275952072,
+        "max_lat": 30.71214633466123
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.27978518139572,28.08641391278623],[-96.27978518139572,30.71214633466123],[-93.65405275952072,30.71214633466123],[-93.65405275952072,28.08641391278623],[-96.27978518139572,28.08641391278623]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.27978518139572,28.08641391278623],[-96.27978518139572,30.71214633466123],[-93.65405275952072,30.71214633466123],[-93.65405275952072,28.08641391278623],[-96.27978518139572,28.08641391278623]]]}"
+    },
+    {
+      "package_id": "gulf-coast-aquifer-system-northern-portion-gam-version-4-1",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1",
+      "title": "Gulf Coast Aquifer System northern portion GAM version 4.1",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/glfc_n/glfc_n.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 4,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4",
+          "namefiles": [
+            {
+              "filename": "gma14.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4/gma14.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4/gma14.nam"
+            },
+            {
+              "filename": "mfsim.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4/mfsim.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4/mfsim.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14",
+          "namefiles": [
+            {
+              "filename": "gma14.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14/gma14.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14/gma14.nam"
+            },
+            {
+              "filename": "mfsim.nam",
+              "relative_path": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14/mfsim.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1/glfc_n_v4_tacc/gma14/mfsim.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Gulf_Coast_Aquifer_System_northern_portion_GAM_version_4.1",
+      "boundary_match": {
+        "label": "Gulf Coast northern portion",
+        "source_id": "major_aquifers_service",
+        "match_method": "user_example",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -96.27978518139572,
+        "min_lat": 28.08641391278623,
+        "max_lon": -93.65405275952072,
+        "max_lat": 30.71214633466123
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.27978518139572,28.08641391278623],[-96.27978518139572,30.71214633466123],[-93.65405275952072,30.71214633466123],[-93.65405275952072,28.08641391278623],[-96.27978518139572,28.08641391278623]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.27978518139572,28.08641391278623],[-96.27978518139572,30.71214633466123],[-93.65405275952072,30.71214633466123],[-93.65405275952072,28.08641391278623],[-96.27978518139572,28.08641391278623]]]}"
+    },
+    {
+      "package_id": "high-plains-aquifer-system-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/High_Plains_Aquifer_System_GAM",
+      "title": "High Plains Aquifer System GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/hpas/hpas.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 2,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_historical",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_historical",
+          "namefiles": [
+            {
+              "filename": "hpas1_02.nam",
+              "relative_path": "High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_historical/hpas1_02.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_historical/hpas1_02.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_predictive",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_predictive",
+          "namefiles": [
+            {
+              "filename": "hpas1_02_pred.nam",
+              "relative_path": "High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_predictive/hpas1_02_pred.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/High_Plains_Aquifer_System_GAM/Model_File/hpas_ext_model_05_2025/hpas_v2_model_predictive/hpas1_02_pred.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "High_Plains_Aquifer_System_GAM",
+      "boundary_match": {
+        "label": "High Plains / Ogallala",
+        "source_id": "major_aquifers_service",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -103.3,
+        "min_lat": 31.55,
+        "max_lon": -100.0,
+        "max_lat": 36.55
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-103.3,31.55],[-103.3,36.55],[-100.0,36.55],[-100.0,31.55],[-103.3,31.55]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-103.3,31.55],[-103.3,36.55],[-100.0,36.55],[-100.0,31.55],[-103.3,31.55]]]}"
+    },
+    {
+      "package_id": "hueco-bolsons-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Hueco_Bolsons_Aquifer_GAM",
+      "title": "Hueco Bolsons Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/hmbl/hmbl.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 2,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/ststate/hmbl_ss",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/ststate/hmbl_ss",
+          "namefiles": [
+            {
+              "filename": "huecoss.nam",
+              "relative_path": "Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/ststate/hmbl_ss/huecoss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/ststate/hmbl_ss/huecoss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/transient/Annual",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/transient/Annual",
+          "namefiles": [
+            {
+              "filename": "huecoann.nam",
+              "relative_path": "Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/transient/Annual/huecoann.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Hueco_Bolsons_Aquifer_GAM/Model_File/Hueco_Bolson_Model_Only/transient/Annual/huecoann.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Hueco_Bolsons_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Hueco-Mesilla Bolsons / Hueco Bolson",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -106.75,
+        "min_lat": 31.45,
+        "max_lon": -105.75,
+        "max_lat": 32.2
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-106.75,31.45],[-106.75,32.2],[-105.75,32.2],[-105.75,31.45],[-106.75,31.45]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-106.75,31.45],[-106.75,32.2],[-105.75,32.2],[-105.75,31.45],[-106.75,31.45]]]}"
+    },
+    {
+      "package_id": "igneous-and-west-texas-bolsons-wild-horse-flat-michigan-flat-ryan-flat-and-lobo-flat-aquifers-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM",
+      "title": "Igneous and West Texas Bolsons Wild Horse Flat Michigan Flat Ryan Flat and Lobo Flat aquifers GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/igbl/igbl.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 8,
+      "modflow_model_directory_count": 8,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2010-DOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2010-DOR",
+          "namefiles": [
+            {
+              "filename": "pred-2010-dor.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2010-DOR/pred-2010-dor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2010-DOR/pred-2010-dor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2020-DOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2020-DOR",
+          "namefiles": [
+            {
+              "filename": "pred-2020-dor.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2020-DOR/pred-2020-dor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2020-DOR/pred-2020-dor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2030-DOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2030-DOR",
+          "namefiles": [
+            {
+              "filename": "pred-2030-dor.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2030-DOR/pred-2030-dor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2030-DOR/pred-2030-dor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2040-DOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2040-DOR",
+          "namefiles": [
+            {
+              "filename": "pred-2040-dor.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2040-DOR/pred-2040-dor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2040-DOR/pred-2040-dor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-DOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-DOR",
+          "namefiles": [
+            {
+              "filename": "pred-2050-dor.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-DOR/pred-2050-dor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-DOR/pred-2050-dor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-aver",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-aver",
+          "namefiles": [
+            {
+              "filename": "pred-aver.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-aver/pred-aver.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/Prediction/2050-aver/pred-aver.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/calibration/Calibration",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/calibration/Calibration",
+          "namefiles": [
+            {
+              "filename": "igbl-cal.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/calibration/Calibration/igbl-cal.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/modflow/trans/calibration/Calibration/igbl-cal.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/pmwin_50/input/trans/Calibration",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/pmwin_50/input/trans/Calibration",
+          "namefiles": [
+            {
+              "filename": "igbl-cal.nam",
+              "relative_path": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/pmwin_50/input/trans/Calibration/igbl-cal.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM/Model_File/Igneous_WTBL_Model_Only/CD-2_model/pmwin_50/input/trans/Calibration/igbl-cal.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Igneous_and_West_Texas_Bolsons_Wild_Horse_Flat_Michigan_Flat_Ryan_Flat_and_Lobo_Flat_aquifers_GAM",
+      "boundary_match": {
+        "label": "Igneous / West Texas Bolsons",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -105.25,
+        "min_lat": 29.4,
+        "max_lon": -103.45,
+        "max_lat": 31.45
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.25,29.4],[-105.25,31.45],[-103.45,31.45],[-103.45,29.4],[-105.25,29.4]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.25,29.4],[-105.25,31.45],[-103.45,31.45],[-103.45,29.4],[-105.25,29.4]]]}"
+    },
+    {
+      "package_id": "kinney-county-model",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Kinney_County_model",
+      "title": "Kinney County model",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/alt/knny/knny.asp",
+      "twdb_page_type": "alternative",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Kinney_County_model/Model_File/Kinney_County_Model",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Kinney_County_model/Model_File/Kinney_County_Model",
+          "namefiles": [
+            {
+              "filename": "kc-4.nam",
+              "relative_path": "Kinney_County_model/Model_File/Kinney_County_Model/kc-4.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Kinney_County_model/Model_File/Kinney_County_Model/kc-4.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Kinney_County_model",
+      "boundary_match": {
+        "label": "Kinney County model area",
+        "source_id": "model_area_approx",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -101.0,
+        "min_lat": 28.85,
+        "max_lon": -99.8,
+        "max_lat": 29.75
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.0,28.85],[-101.0,29.75],[-99.8,29.75],[-99.8,28.85],[-101.0,28.85]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.0,28.85],[-101.0,29.75],[-99.8,29.75],[-99.8,28.85],[-101.0,28.85]]]}"
+    },
+    {
+      "package_id": "lipan-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM",
+      "title": "Lipan Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/lipn/lipn.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 14,
+      "modflow_model_directory_count": 13,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate",
+          "namefiles": [
+            {
+              "filename": "lipansscal.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate/lipansscal.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate/lipansscal.nam"
+            },
+            {
+              "filename": "steady-state.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate/steady-state.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/ststate/steady-state.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans",
+          "namefiles": [
+            {
+              "filename": "lipantransient.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/lipantransient.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/lipantransient.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/10yrDOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/10yrDOR",
+          "namefiles": [
+            {
+              "filename": "10yrdor.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/10yrDOR/10yrdor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/10yrDOR/10yrdor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/20yrDOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/20yrDOR",
+          "namefiles": [
+            {
+              "filename": "20yrdor.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/20yrDOR/20yrdor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/20yrDOR/20yrdor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/30yrDOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/30yrDOR",
+          "namefiles": [
+            {
+              "filename": "30yrdor.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/30yrDOR/30yrdor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/30yrDOR/30yrdor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/40yrDOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/40yrDOR",
+          "namefiles": [
+            {
+              "filename": "40yrdor.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/40yrDOR/40yrdor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/40yrDOR/40yrdor.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG",
+          "namefiles": [
+            {
+              "filename": "pmconvert.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/pmconvert.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/pmconvert.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/10K-Pump",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/10K-Pump",
+          "namefiles": [
+            {
+              "filename": "10k-pump.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/10K-Pump/10k-pump.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/10K-Pump/10k-pump.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/20K-Pump",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/20K-Pump",
+          "namefiles": [
+            {
+              "filename": "20k-pump.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/20K-Pump/20k-pump.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/20K-Pump/20k-pump.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/30K-Pump",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/30K-Pump",
+          "namefiles": [
+            {
+              "filename": "30k-pump.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/30K-Pump/30k-pump.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/30K-Pump/30k-pump.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/40K-Pump",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/40K-Pump",
+          "namefiles": [
+            {
+              "filename": "40k-pump.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/40K-Pump/40k-pump.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/40K-Pump/40k-pump.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/50K-pump",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/50K-pump",
+          "namefiles": [
+            {
+              "filename": "50k-pump.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/50K-pump/50k-pump.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrAVG/50K-pump/50k-pump.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrDOR",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrDOR",
+          "namefiles": [
+            {
+              "filename": "50yrdor.nam",
+              "relative_path": "Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrDOR/50yrdor.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lipan_Aquifer_GAM/Model_File/Lipan_Model_Only/CD-2_model/pmwin_50/input/trans/Predictive/50yrDOR/50yrdor.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Lipan_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Lipan",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -101.1,
+        "min_lat": 31.0,
+        "max_lon": -99.25,
+        "max_lat": 32.55
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.1,31.0],[-101.1,32.55],[-99.25,32.55],[-99.25,31.0],[-101.1,31.0]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.1,31.0],[-101.1,32.55],[-99.25,32.55],[-99.25,31.0],[-101.1,31.0]]]}"
+    },
+    {
+      "package_id": "llano-uplift-aquifer-system-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Llano_Uplift_Aquifer_System_GAM",
+      "title": "Llano Uplift Aquifer System GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/llano/llano.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Llano_Uplift_Aquifer_System_GAM/Model_File/Llano_v1.01_model_reports/Model/Model/modflow-usg",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Llano_Uplift_Aquifer_System_GAM/Model_File/Llano_v1.01_model_reports/Model/Model/modflow-usg",
+          "namefiles": [
+            {
+              "filename": "llano-uplift.nam",
+              "relative_path": "Llano_Uplift_Aquifer_System_GAM/Model_File/Llano_v1.01_model_reports/Model/Model/modflow-usg/llano-uplift.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Llano_Uplift_Aquifer_System_GAM/Model_File/Llano_v1.01_model_reports/Model/Model/modflow-usg/llano-uplift.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Llano_Uplift_Aquifer_System_GAM",
+      "boundary_match": {
+        "label": "Llano Uplift / Hickory-Ellenburger-San Saba-Marble Falls area",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -99.45,
+        "min_lat": 30.25,
+        "max_lon": -97.85,
+        "max_lat": 31.45
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.45,30.25],[-99.45,31.45],[-97.85,31.45],[-97.85,30.25],[-99.45,30.25]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.45,30.25],[-99.45,31.45],[-97.85,31.45],[-97.85,30.25],[-99.45,30.25]]]}"
+    },
+    {
+      "package_id": "lower-rio-grande-valley-transport-model",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lower_Rio_Grande_Valley_transport_model",
+      "title": "Lower Rio Grande Valley transport model",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/research/lrgv_t/lrgv_t.asp",
+      "twdb_page_type": "research",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Lower_Rio_Grande_Valley_transport_model/Model_File/lrgv1.01_model_files/Numerical Model Files/Calibrated Flow Model Simulation",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lower_Rio_Grande_Valley_transport_model/Model_File/lrgv1.01_model_files/Numerical Model Files/Calibrated Flow Model Simulation",
+          "namefiles": [
+            {
+              "filename": "3-finetuneFluxes.nam",
+              "relative_path": "Lower_Rio_Grande_Valley_transport_model/Model_File/lrgv1.01_model_files/Numerical Model Files/Calibrated Flow Model Simulation/3-finetuneFluxes.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Lower_Rio_Grande_Valley_transport_model/Model_File/lrgv1.01_model_files/Numerical Model Files/Calibrated Flow Model Simulation/3-finetuneFluxes.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Lower_Rio_Grande_Valley_transport_model",
+      "boundary_match": {
+        "label": "Lower Rio Grande Valley model area",
+        "source_id": "model_area_approx",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -98.95,
+        "min_lat": 25.75,
+        "max_lon": -96.85,
+        "max_lat": 27.55
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.95,25.75],[-98.95,27.55],[-96.85,27.55],[-96.85,25.75],[-98.95,25.75]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-98.95,25.75],[-98.95,27.55],[-96.85,27.55],[-96.85,25.75],[-98.95,25.75]]]}"
+    },
+    {
+      "package_id": "mesilla-bolsons-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Mesilla_Bolsons_Aquifer_GAM",
+      "title": "Mesilla Bolsons Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/hmbl/hmbl.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Mesilla_Bolsons_Aquifer_GAM/Model_File/Mesilla_Bolson_Model_Only/modflow/input",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Mesilla_Bolsons_Aquifer_GAM/Model_File/Mesilla_Bolson_Model_Only/modflow/input",
+          "namefiles": [
+            {
+              "filename": "msbl.nam",
+              "relative_path": "Mesilla_Bolsons_Aquifer_GAM/Model_File/Mesilla_Bolson_Model_Only/modflow/input/msbl.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Mesilla_Bolsons_Aquifer_GAM/Model_File/Mesilla_Bolson_Model_Only/modflow/input/msbl.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Mesilla_Bolsons_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Mesilla Bolson",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -106.85,
+        "min_lat": 31.55,
+        "max_lon": -105.7,
+        "max_lat": 32.25
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-106.85,31.55],[-106.85,32.25],[-105.7,32.25],[-105.7,31.55],[-106.85,31.55]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-106.85,31.55],[-106.85,32.25],[-105.7,32.25],[-105.7,31.55],[-106.85,31.55]]]}"
+    },
+    {
+      "package_id": "nacatoch-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM",
+      "title": "Nacatoch Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/nctc/nctc.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 3,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState",
+          "namefiles": [
+            {
+              "filename": "mf2k.nam",
+              "relative_path": "Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState/mf2k.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState/mf2k.nam"
+            },
+            {
+              "filename": "nac_H21.nam",
+              "relative_path": "Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState/nac_H21.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/SteadyState/nac_H21.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/Transient",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/Transient",
+          "namefiles": [
+            {
+              "filename": "nac_H21.nam",
+              "relative_path": "Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/Transient/nac_H21.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Nacatoch_Aquifer_GAM/Model_File/Nacatoch_Model_Only/CD-2 Model/MODFLOW/Transient/nac_H21.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Nacatoch_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Nacatoch",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -96.6,
+        "min_lat": 32.2,
+        "max_lon": -94.0,
+        "max_lat": 34.1
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.6,32.2],[-96.6,34.1],[-94.0,34.1],[-94.0,32.2],[-96.6,32.2]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-96.6,32.2],[-96.6,34.1],[-94.0,34.1],[-94.0,32.2],[-96.6,32.2]]]}"
+    },
+    {
+      "package_id": "seymour-aquifer-in-haskell-knox-and-baylor-counties-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM",
+      "title": "Seymour Aquifer in Haskell Knox and Baylor counties GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/symr_hkb/symr_hkb.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM/Model_File/symr_hkb",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM/Model_File/symr_hkb",
+          "namefiles": [
+            {
+              "filename": "symr_hkb.nam",
+              "relative_path": "Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM/Model_File/symr_hkb/symr_hkb.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM/Model_File/symr_hkb/symr_hkb.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Seymour_Aquifer_in_Haskell_Knox_and_Baylor_counties_GAM",
+      "boundary_match": {
+        "label": "Seymour - Haskell/Knox/Baylor",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -100.4,
+        "min_lat": 33.2,
+        "max_lon": -98.6,
+        "max_lat": 34.2
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-100.4,33.2],[-100.4,34.2],[-98.6,34.2],[-98.6,33.2],[-100.4,33.2]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-100.4,33.2],[-100.4,34.2],[-98.6,34.2],[-98.6,33.2],[-100.4,33.2]]]}"
+    },
+    {
+      "package_id": "seymour-and-blaine-aquifers-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM",
+      "title": "Seymour and Blaine Aquifers GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/symr/symr.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 33,
+      "modflow_model_directory_count": 17,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2010",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2010",
+          "namefiles": [
+            {
+              "filename": "sey_pre10.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2010/sey_pre10.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2010/sey_pre10.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2020",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2020",
+          "namefiles": [
+            {
+              "filename": "sey_pre20.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2020/sey_pre20.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2020/sey_pre20.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2030",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2030",
+          "namefiles": [
+            {
+              "filename": "sey_pre30.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2030/sey_pre30.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2030/sey_pre30.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2040",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2040",
+          "namefiles": [
+            {
+              "filename": "sey_pre40.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2040/sey_pre40.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2040/sey_pre40.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050",
+          "namefiles": [
+            {
+              "filename": "sey_pre50b.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050/sey_pre50b.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050/sey_pre50b.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050nodor",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050nodor",
+          "namefiles": [
+            {
+              "filename": "sey_pre50a.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050nodor/sey_pre50a.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/2050nodor/sey_pre50a.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/ststate",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/ststate",
+          "namefiles": [
+            {
+              "filename": "sey_ss.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/ststate/sey_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/ststate/sey_ss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/trans",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/trans",
+          "namefiles": [
+            {
+              "filename": "sey_mo.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/trans/sey_mo.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD2_modflow/mf2k/input/trans/sey_mo.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor",
+          "namefiles": [
+            {
+              "filename": "PM_PRE50A_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/PM_PRE50A_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/PM_PRE50A_2K.nam"
+            },
+            {
+              "filename": "pm_pre50a.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/pm_pre50a.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/pm_pre50a.nam"
+            },
+            {
+              "filename": "sey_pre50a.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/sey_pre50a.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/2050nodor/sey_pre50a.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate",
+          "namefiles": [
+            {
+              "filename": "PM_SS2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/PM_SS2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/PM_SS2K.nam"
+            },
+            {
+              "filename": "pm_ss.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/pm_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/pm_ss.nam"
+            },
+            {
+              "filename": "sey_ss.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/sey_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/ststate/sey_ss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans",
+          "namefiles": [
+            {
+              "filename": "PM_MO2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/PM_MO2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/PM_MO2K.nam"
+            },
+            {
+              "filename": "pm_mo.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/pm_mo.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/pm_mo.nam"
+            },
+            {
+              "filename": "sey_mo.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/sey_mo.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD3_PM5/trans/sey_mo.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010",
+          "namefiles": [
+            {
+              "filename": "PM_PRE10_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/PM_PRE10_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/PM_PRE10_2K.nam"
+            },
+            {
+              "filename": "pm_pre10.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/pm_pre10.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/pm_pre10.nam"
+            },
+            {
+              "filename": "sey_pre10.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/sey_pre10.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2010/sey_pre10.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020",
+          "namefiles": [
+            {
+              "filename": "PM_PRE20_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/PM_PRE20_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/PM_PRE20_2K.nam"
+            },
+            {
+              "filename": "pm_pre20.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/pm_pre20.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/pm_pre20.nam"
+            },
+            {
+              "filename": "sey_pre20.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/sey_pre20.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2020/sey_pre20.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030",
+          "namefiles": [
+            {
+              "filename": "PM_PRE30_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/PM_PRE30_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/PM_PRE30_2K.nam"
+            },
+            {
+              "filename": "pm_pre30.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/pm_pre30.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/pm_pre30.nam"
+            },
+            {
+              "filename": "sey_pre30.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/sey_pre30.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2030/sey_pre30.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040",
+          "namefiles": [
+            {
+              "filename": "PM_PRE40_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/PM_PRE40_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/PM_PRE40_2K.nam"
+            },
+            {
+              "filename": "pm_pre40.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/pm_pre40.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/pm_pre40.nam"
+            },
+            {
+              "filename": "sey_pre40.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/sey_pre40.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2040/sey_pre40.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050",
+          "namefiles": [
+            {
+              "filename": "PM_PRE50B_2K.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/PM_PRE50B_2K.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/PM_PRE50B_2K.nam"
+            },
+            {
+              "filename": "pm_pre50b.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/pm_pre50b.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/pm_pre50b.nam"
+            },
+            {
+              "filename": "sey_pre50b.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/sey_pre50b.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD4_PM5_DOR/2050/sey_pre50b.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD6_standard_mf2k",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD6_standard_mf2k",
+          "namefiles": [
+            {
+              "filename": "sey_mo.nam",
+              "relative_path": "Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD6_standard_mf2k/sey_mo.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Seymour_and_Blaine_Aquifers_GAM/Model_File/Seymour_Model_Only/CD6_standard_mf2k/sey_mo.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Seymour_and_Blaine_Aquifers_GAM",
+      "boundary_match": {
+        "label": "Seymour / Blaine",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -101.3,
+        "min_lat": 32.5,
+        "max_lon": -98.2,
+        "max_lat": 35.0
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.3,32.5],[-101.3,35.0],[-98.2,35.0],[-98.2,32.5],[-101.3,32.5]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-101.3,32.5],[-101.3,35.0],[-98.2,35.0],[-98.2,32.5],[-101.3,32.5]]]}"
+    },
+    {
+      "package_id": "trinity-aquifer-hill-country-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM",
+      "title": "Trinity Aquifer Hill Country GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/trnt_h/trnt_s.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 4,
+      "modflow_model_directory_count": 4,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/ststate",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/ststate",
+          "namefiles": [
+            {
+              "filename": "trnt_h_ss.nam",
+              "relative_path": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/ststate/trnt_h_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/ststate/trnt_h_ss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/trans",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/trans",
+          "namefiles": [
+            {
+              "filename": "trnt_h_tr.nam",
+              "relative_path": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/trans/trnt_h_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/modfl_96/trans/trnt_h_tr.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/ststate/modelss_final",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/ststate/modelss_final",
+          "namefiles": [
+            {
+              "filename": "trnt_h_ss.nam",
+              "relative_path": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/ststate/modelss_final/trnt_h_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/ststate/modelss_final/trnt_h_ss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/trans/model_final",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/trans/model_final",
+          "namefiles": [
+            {
+              "filename": "trnt_h_tr.nam",
+              "relative_path": "Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/trans/model_final/trnt_h_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Trinity_Aquifer_Hill_Country_GAM/Model_File/Trinity_Hill_Country_Model_Only/pmwin/input/trans/model_final/trnt_h_tr.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Trinity_Aquifer_Hill_Country_GAM",
+      "boundary_match": {
+        "label": "Trinity - Hill Country",
+        "source_id": "major_aquifers_service",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -99.4,
+        "min_lat": 29.45,
+        "max_lon": -97.35,
+        "max_lat": 31.1
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.4,29.45],[-99.4,31.1],[-97.35,31.1],[-97.35,29.45],[-99.4,29.45]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-99.4,29.45],[-99.4,31.1],[-97.35,31.1],[-97.35,29.45],[-99.4,29.45]]]}"
+    },
+    {
+      "package_id": "west-texas-bolsons-red-light-green-river-and-eagle-flat-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM",
+      "title": "West Texas Bolsons Red Light Green River and Eagle Flat Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/wtbl/wtbl.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 2,
+      "modflow_model_directory_count": 2,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/SteadyState",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/SteadyState",
+          "namefiles": [
+            {
+              "filename": "wtb_ss.nam",
+              "relative_path": "West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/SteadyState/wtb_ss.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/SteadyState/wtb_ss.nam"
+            }
+          ]
+        },
+        {
+          "relative_directory": "West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/Transient",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/Transient",
+          "namefiles": [
+            {
+              "filename": "wtb_tr.nam",
+              "relative_path": "West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/Transient/wtb_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM/Model_File/West_Texas_Bolsons_Model_Only/CD-2_wtbl_model/Modflow/Transient/wtb_tr.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "West_Texas_Bolsons_Red_Light_Green_River_and_Eagle_Flat_Aquifer_GAM",
+      "boundary_match": {
+        "label": "West Texas Bolsons - Red Light/Green River/Eagle Flat",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -105.9,
+        "min_lat": 29.65,
+        "max_lon": -103.75,
+        "max_lat": 31.45
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.9,29.65],[-105.9,31.45],[-103.75,31.45],[-103.75,29.65],[-105.9,29.65]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-105.9,29.65],[-105.9,31.45],[-103.75,31.45],[-103.75,29.65],[-105.9,29.65]]]}"
+    },
+    {
+      "package_id": "yegua-jackson-aquifer-gam",
+      "package_folder": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Yegua-Jackson_Aquifer_GAM",
+      "title": "Yegua-Jackson Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/ygjk/ygjk.asp",
+      "twdb_page_type": "gam",
+      "url_verified_from_twdb": true,
+      "namefile_count": 1,
+      "modflow_model_directory_count": 1,
+      "modflow_model_directories": [
+        {
+          "relative_directory": "Yegua-Jackson_Aquifer_GAM/Model_File/Yegua_Jackson_Model_Only/CD-2_ygjk_model/Modflow_2000",
+          "absolute_directory": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Yegua-Jackson_Aquifer_GAM/Model_File/Yegua_Jackson_Model_Only/CD-2_ygjk_model/Modflow_2000",
+          "namefiles": [
+            {
+              "filename": "ygjk_tr.nam",
+              "relative_path": "Yegua-Jackson_Aquifer_GAM/Model_File/Yegua_Jackson_Model_Only/CD-2_ygjk_model/Modflow_2000/ygjk_tr.nam",
+              "absolute_path": "/corral-repl/tacc/aci/PT2050/projects/PTDATAX-286/twdb_gam_collection/Yegua-Jackson_Aquifer_GAM/Model_File/Yegua_Jackson_Model_Only/CD-2_ygjk_model/Modflow_2000/ygjk_tr.nam"
+            }
+          ]
+        }
+      ],
+      "package_folder_name": "Yegua-Jackson_Aquifer_GAM",
+      "boundary_match": {
+        "label": "Yegua-Jackson",
+        "source_id": "minor_aquifers_zip",
+        "match_method": "approximate",
+        "is_exact_aquifer_geometry": false,
+        "notes": "Rectangular WGS84 envelope for discovery/metadata. Use the referenced source geometry to recompute exact extents if this will drive clipping/analysis."
+      },
+      "boundary_bbox_wgs84": {
+        "min_lon": -97.4,
+        "min_lat": 28.2,
+        "max_lon": -93.65,
+        "max_lat": 31.3
+      },
+      "boundary_bbox_geojson": "{\"type\":\"Polygon\",\"coordinates\":[[[-97.4,28.2],[-97.4,31.3],[-93.65,31.3],[-93.65,28.2],[-97.4,28.2]]]}",
+      "dataset_spatial": "{\"type\":\"Polygon\",\"coordinates\":[[[-97.4,28.2],[-97.4,31.3],[-93.65,31.3],[-93.65,28.2],[-97.4,28.2]]]}"
+    }
+  ],
+  "packages_without_detected_modflow_namefiles": [
+    {
+      "package_folder": "Brazos_River_Alluvium_Aquifer_GAM",
+      "title": "Brazos River Alluvium Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/bzrv/bzrv.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Carrizo-Wilcox_Aquifer_northern_portion_GAM_version_3.01",
+      "title": "Carrizo-Wilcox Aquifer northern portion GAM version 3.01",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/czwx_n/czwx_n.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Carrizo-Wilcox_Aquifer_southern_portion_GAM_version_3.01",
+      "title": "Carrizo-Wilcox Aquifer southern portion GAM version 3.01",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/czwx_s/czwx_s.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Cross_Timbers_Aquifer_GAM",
+      "title": "Cross Timbers Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/cstb/cstb.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Edwards_BFZ_Aquifer_Northern_Segment_GAM",
+      "title": "Edwards BFZ Aquifer Northern Segment GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/ebfz_n/ebfz_n.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Edwards_BFZ_Aquifer_San_Antonio_Segment_GAM",
+      "title": "Edwards BFZ Aquifer San Antonio Segment GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/ebfz_s/ebfz_s.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Gulf_Coast_Aquifer_System_central_and_southern_portions_GAM",
+      "title": "Gulf Coast Aquifer System central and southern portions GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/glfc_c_s/glfc_c_s.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Older_GAMS",
+      "title": "Older GAMS",
+      "twdb_page_url": null,
+      "twdb_page_type": null,
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Rustler_Aquifer_GAM",
+      "title": "Rustler Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/rslr/rslr.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "Trinity_northern_portion_and_Woodbine_Aquifers_GAM",
+      "title": "Trinity northern portion and Woodbine Aquifers GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/trnt_n/trnt_n.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    },
+    {
+      "package_folder": "West_Texas_Bolsons_Presidio_and_Redford_Bolsons_Aquifer_GAM",
+      "title": "West Texas Bolsons Presidio and Redford Bolsons Aquifer GAM",
+      "twdb_page_url": "https://www.twdb.texas.gov/groundwater/models/gam/prbl/prbl.asp",
+      "twdb_page_type": "gam",
+      "reason": "No .nam/.NAM MODFLOW namefile was found in the uploaded tree."
+    }
+  ],
+  "boundary_sources": [
+    {
+      "id": "major_aquifers_service",
+      "url": "https://services.arcgis.com/jDGuO8tYggdCCnUJ/arcgis/rest/services/maj_aquifers_simplified_TX/FeatureServer",
+      "notes": "ArcGIS FeatureServer layer for major aquifers; layer supports JSON/geoJSON query formats and includes AQ_NAME field."
+    },
+    {
+      "id": "minor_aquifers_zip",
+      "url": "https://www.twdb.texas.gov/mapping/gisdata/doc/minor_aquifers.zip",
+      "notes": "TWDB Minor Aquifers shapefile zip; TWDB describes minor aquifers as the 22 minor aquifers of Texas, updated December 2017."
+    },
+    {
+      "id": "model_area_approx",
+      "url": null,
+      "notes": "No single statewide aquifer polygon match was assigned from the two provided sources; bbox is a model-area approximation from the package/model name."
+    }
+  ],
+  "geojson_storage_note": "boundary_bbox_geojson and dataset_spatial are compact GeoJSON Polygon strings, not nested JSON objects."
+}

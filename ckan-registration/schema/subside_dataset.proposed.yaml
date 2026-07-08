@@ -1,0 +1,431 @@
+scheming_version: 2
+dataset_type: subside_dataset
+about: >
+  PROPOSED EXTENDED schema for SUBSIDE resources.
+  This file is the in-repo proposed schema for Capability C of the GAM
+  discovery / TWDB enrichment feature.  It must NOT be applied to the live
+  ckan.tacc.utexas.edu instance without explicit user approval, a completed
+  data-migration step, and redeployment of ckanext-dso_scheming.
+  See schema/README.md for deployment gates and approval requirements.
+about_url: http://github.com/ckan/ckanext-scheming
+
+# ---------------------------------------------------------------------------
+# DATASET-LEVEL FIELDS
+# ---------------------------------------------------------------------------
+# Field placement resolved 2026-06-25 per approved design spec:
+#   - program_area, data_contact_email, caveats_usage, categories, primary_tags,
+#     secondary_tags, collection_method, quality_control_level, spatial
+#     MOVED from resource_fields → dataset_fields (OQ-1 resolved)
+#   - mint_standard_variables MOVED from dataset_fields → resource_fields (OQ-2 resolved)
+# ---------------------------------------------------------------------------
+
+dataset_fields:
+
+  # ---- Core identifiers (CKAN-native presets) ----------------------------
+
+  - field_name: title
+    label: Title
+    preset: title
+    form_placeholder: eg. A descriptive title for the dataset
+    form_snippet: large_text.html
+
+  - field_name: name
+    label: URL
+    preset: dataset_slug
+    form_placeholder: eg. my-dataset
+
+  - field_name: notes
+    label: Description
+    form_snippet: markdown.html
+    help_text: >
+      A free-text description of the dataset.  For SUBSIDE datasets, this
+      field serves as the long-form abstract describing purpose, scope, and
+      methodology.
+
+  - field_name: tag_string
+    label: Tags
+    preset: tag_string_autocomplete
+    form_placeholder: eg. subsidence, groundwater, Texas
+
+  - field_name: license_id
+    label: License
+    form_snippet: license.html
+
+  - field_name: owner_org
+    label: Organization
+    preset: dataset_organization
+
+  # ---- URL / version / authorship (CKAN-native) --------------------------
+
+  - field_name: url
+    label: Source
+    form_snippet: link.html
+    help_text: >
+      The primary source URL for this dataset (e.g., TWDB landing page).
+
+  - field_name: version
+    label: Version
+    validators: ignore_missing unicode_safe
+    form_placeholder: "1.0"
+
+  - field_name: author
+    label: Author
+    form_placeholder: Joe Bloggs
+    form_snippet: text.html
+
+  - field_name: author_email
+    label: Author Email
+    form_snippet: email.html
+    display_snippet: email.html
+
+  - field_name: maintainer
+    label: Maintainer
+    form_placeholder: Joe Bloggs
+    form_snippet: text.html
+
+  - field_name: maintainer_email
+    label: Maintainer Email
+    form_snippet: email.html
+    display_snippet: email.html
+
+  # ---- Dataset-level temporal coverage -----------------------------------
+
+  - field_name: temporal_coverage_start
+    label: Temporal Coverage Start
+    preset: date
+    help_text: Start date of the overall dataset's temporal coverage (ISO 8601).
+
+  - field_name: temporal_coverage_end
+    label: Temporal Coverage End
+    preset: date
+    help_text: End date of the overall dataset's temporal coverage (ISO 8601).
+
+  # ---- Publishing / governance -------------------------------------------
+
+  - field_name: publishing_status
+    label: Publishing Status
+    help_text: >
+      Indicates whether the dataset is publicly visible, private, or still
+      being drafted.
+    choices:
+      # Source: Domain sheet of Subside_Metadata_Schema.xlsx (rows 2-4)
+      - value: Public
+        label: Public
+      - value: Private
+        label: Private
+      - value: Draft
+        label: Draft
+
+  # ---- Administrative / contact ------------------------------------------
+  # Moved from resource_fields (OQ-1 resolved, 2026-06-25)
+
+  - field_name: program_area
+    label: Program Area
+    form_snippet: text.html
+    help_text: >
+      The program or project area this dataset belongs to (e.g., SUBSIDE,
+      TWDB GAM, Texas Water Data Hub).
+
+  - field_name: data_contact_email
+    label: Data Contact Email
+    form_snippet: email.html
+    display_snippet: email.html
+    help_text: >
+      Email address of the person or team responsible for this dataset.
+
+  - field_name: caveats_usage
+    label: Caveats and Usage
+    form_snippet: text.html
+    help_text: >
+      Any caveats, conditions, or restrictions that apply to the use of this
+      dataset.
+
+  - field_name: disclaimer
+    label: Disclaimer
+    form_snippet: markdown.html
+    help_text: >
+      Legal or policy disclaimer text, if any, that accompanies the dataset.
+
+  # ---- Classification / facet fields -------------------------------------
+  # Moved from resource_fields (OQ-1 resolved, 2026-06-25)
+
+  - field_name: categories
+    label: Categories
+    preset: multiple_select
+    choices:
+      # Source: Domain sheet, variable 'group', rows 5-13 of
+      # Subside_Metadata_Schema.xlsx.  Note: the spreadsheet uses 'group' as
+      # the variable name; SUBSIDE CKAN uses 'categories' as the field key.
+      - value: Boundaries
+        label: Boundaries
+      - value: Funding and Infrastructure
+        label: Funding and Infrastructure
+      - value: Groundwater
+        label: Groundwater
+      - value: Natural Hazards
+        label: Natural Hazards
+      - value: Planning
+        label: Planning
+      - value: Soil, Environment, and Climate
+        label: Soil, Environment, and Climate
+      - value: Surface Water
+        label: Surface Water
+      - value: Water Quality
+        label: Water Quality
+      - value: Water Use
+        label: Water Use
+    help_text: >
+      Select one or more thematic categories.  GAM datasets should include at
+      least "Groundwater".  Use "Natural Hazards" for subsidence-focused
+      models.
+
+  - field_name: primary_tags
+    label: Primary Tags
+    form_snippet: text.html
+    help_text: Primary subject keywords or tags for the dataset.
+
+  - field_name: secondary_tags
+    label: Secondary Tags
+    form_snippet: text.html
+    help_text: Secondary or supplemental keywords for the dataset.
+
+  # ---- Collection method -------------------------------------------------
+  # Moved from resource_fields (OQ-1 resolved, 2026-06-25)
+
+  - field_name: collection_method
+    label: Collection Method
+    help_text: >
+      The primary method used to collect or produce this dataset.  GAM
+      datasets should use "Model Output".
+    choices:
+      # Source: Domain sheet, variable 'collection_method', rows 14-26 of
+      # Subside_Metadata_Schema.xlsx
+      - value: Administrative Record
+        label: Administrative Record
+      - value: Instrumentation Measurement
+        label: Instrumentation Measurement
+      - value: Imagery
+        label: Imagery
+      - value: Human Collected Observation
+        label: Human Collected Observation
+      - value: Survey
+        label: Survey
+      - value: Model Output
+        label: Model Output
+      - value: Geocoding
+        label: Geocoding
+      - value: Digitization
+        label: Digitization
+      - value: Ground Survey
+        label: Ground Survey
+      - value: Analysis or Synthesis
+        label: Analysis or Synthesis
+      - value: GPS Measurement
+        label: GPS Measurement
+      - value: Unknown
+        label: Unknown
+      - value: Other
+        label: Other
+
+  - field_name: collection_method_description
+    label: Collection Method Description
+    form_snippet: markdown.html
+    help_text: >
+      Additional narrative describing the collection method, instrumentation,
+      or model configuration.  Required when "Other" or "Unknown" is selected
+      for Collection Method.
+
+  # ---- Quality -----------------------------------------------------------
+  # Moved from resource_fields (OQ-1 resolved, 2026-06-25)
+
+  - field_name: quality_control_level
+    label: Quality Control Level
+    help_text: >
+      The level of quality control that has been applied to this dataset.
+    choices:
+      # Source: Domain sheet, variable 'quality_control_level', rows 27-32 of
+      # Subside_Metadata_Schema.xlsx (confirmed from spreadsheet 2026-06-25;
+      # values are NOT invented).
+      - value: Raw/Provisional/Un-reviewed
+        label: "Raw / Provisional / Un-reviewed"
+      - value: Automatic Rules
+        label: Automatic Rules
+      - value: Manual Spot Check
+        label: Manual Spot Check
+      - value: Review (one person)
+        label: "Review (one person)"
+      - value: Comprehensive Review (multiple people)
+        label: "Comprehensive Review (multiple people)"
+      - value: Draft/ Under Review
+        label: "Draft / Under Review"
+
+  - field_name: quality_assurance_description
+    label: Quality Assurance Description
+    form_snippet: markdown.html
+    help_text: >
+      Narrative description of the quality-assurance processes applied to
+      this dataset.
+
+  # ---- Update policy -----------------------------------------------------
+
+  - field_name: update_type
+    label: Update Type
+    help_text: How updates are delivered to this dataset.
+    choices:
+      # Source: Domain sheet, variable 'update_type', rows 33-35 of
+      # Subside_Metadata_Schema.xlsx.
+      # Note: the spreadsheet lists 'Automatic', 'Manual', and 'None'.
+      # The design spec narrative also mentions 'Real-Time'; that value is
+      # covered by update_frequency below.  The three spreadsheet values are
+      # the authoritative choices for update_type.
+      - value: Automatic
+        label: Automatic
+      - value: Manual
+        label: Manual
+      - value: None
+        label: None
+
+  - field_name: update_frequency
+    label: Update Frequency
+    help_text: How often this dataset is updated or refreshed.
+    choices:
+      # Source: Domain sheet, variable 'update_frequency', rows 36-47 of
+      # Subside_Metadata_Schema.xlsx.
+      # Rows 36-37 both represent near-real-time; row 37 ('15 minutes or less')
+      # has no definition and appears to be a duplicate fragment — only the
+      # canonical row 36 label is retained here.
+      - value: "Real-Time (15 minutes or less)"
+        label: "Real-Time (15 minutes or less)"
+      - value: Hourly
+        label: Hourly
+      - value: Daily
+        label: Daily
+      - value: Weekly
+        label: Weekly
+      - value: Monthly
+        label: Monthly
+      - value: Quarterly
+        label: Quarterly
+      - value: Twice annually
+        label: Twice Annually
+      - value: Annually
+        label: Annually
+      - value: As Needed
+        label: As Needed
+      - value: Never
+        label: Never
+      - value: Other
+        label: Other
+
+  # ---- Temporal date-range fields ----------------------------------------
+  # (from_date / to_date are the fine-grained date-range complement to
+  # temporal_coverage_start / temporal_coverage_end)
+
+  - field_name: from_date
+    label: From Date
+    preset: date
+    help_text: Start of the date range for which data in this dataset is valid.
+
+  - field_name: to_date
+    label: To Date
+    preset: date
+    help_text: End of the date range for which data in this dataset is valid.
+
+  # ---- Spatial metadata --------------------------------------------------
+  # 'spatial' moved from resource_fields to dataset_fields (OQ-1 resolved).
+  # The existing ckan-registration code already writes spatial at dataset
+  # level; this change brings the schema into alignment with that behavior.
+
+  - field_name: spatial
+    label: Bounding Coordinates
+    preset: json_object
+    help_text: >
+      GeoJSON object representing the spatial extent of the dataset
+      (bounding box or polygon).  Use WGS84 (EPSG:4326) coordinates.
+
+  - field_name: coordinate_system
+    label: Coordinate System
+    form_snippet: text.html
+    help_text: >
+      The coordinate reference system used in the dataset
+      (e.g., "NAD83 / UTM Zone 14N", "WGS84").
+
+  - field_name: coordinate_field_format
+    label: Coordinate Field Format
+    form_snippet: text.html
+    help_text: >
+      The format in which coordinates are expressed
+      (e.g., "Decimal Degrees", "DMS", "Easting/Northing in feet").
+
+  # ---- Supplementary / discovery fields ----------------------------------
+
+  - field_name: additional_information
+    label: Additional Information
+    form_snippet: markdown.html
+    help_text: >
+      Any additional context, methodology notes, or background information
+      that does not fit in the Description or Caveats fields.
+
+  - field_name: related_resources
+    label: Related Resources
+    preset: multiple_text
+    help_text: >
+      URLs or identifiers of related datasets, reports, or publications that
+      provide additional context for this dataset.
+
+  - field_name: supporting_url
+    label: Supporting URL
+    form_snippet: link.html
+    help_text: >
+      A supplementary URL (e.g., a project page, documentation site, or
+      archive) that provides additional information about the dataset.
+
+
+# ---------------------------------------------------------------------------
+# RESOURCE-LEVEL FIELDS
+# ---------------------------------------------------------------------------
+# mint_standard_variables MOVED here from dataset_fields (OQ-2 resolved,
+# 2026-06-25) to match per-resource MINT annotation in utils.py.
+# All other resource-level fields are unchanged from the deployed schema.
+# ---------------------------------------------------------------------------
+
+resource_fields:
+
+  - field_name: name
+    label: Name
+    form_placeholder: eg. January 2011 Gold Prices
+    help_text: >
+      Short descriptive name for this resource file or link.
+
+  - field_name: url
+    label: URL
+    preset: resource_url_upload
+
+  - field_name: abstract
+    label: Abstract
+    form_snippet: markdown.html
+    help_text: >
+      A brief description of this specific resource file or product,
+      including variable names, units, and file role if applicable.
+
+  - field_name: format
+    label: Format
+    preset: resource_format_autocomplete
+
+  - field_name: temporal_coverage_start
+    label: Temporal Coverage Start
+    preset: date
+    help_text: Start date of this resource's temporal coverage (ISO 8601).
+
+  - field_name: temporal_coverage_end
+    label: Temporal Coverage End
+    preset: date
+    help_text: End date of this resource's temporal coverage (ISO 8601).
+
+  - field_name: mint_standard_variables
+    label: MINT Standard Variables
+    preset: multiple_text
+    help_text: >
+      MINT ontology standard variable names that describe the variables
+      present in this resource file.  Populated automatically by the
+      SUBSIDE MINT enrichment pipeline.

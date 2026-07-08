@@ -1,0 +1,76 @@
+name: subside
+description: >
+  SUBSIDE CKAN schema for Texas groundwater datasets (Groundwater Availability
+  Models, subsidence models, and related model outputs).
+when_to_use: >
+  Use for Texas Groundwater Availability Models (GAMs), subsidence datasets, MODFLOW
+  model outputs, or anything destined for the subside_dataset CKAN type. This is the
+  default profile.
+
+# Canonical SUBSIDE schema (spec R5). The ckanext-scheming deploy artifact in
+# ckan-registration/schema/subside_dataset.proposed.yaml is derived from / validated
+# against this profile, not hand-maintained in parallel.
+dataset_type: subside_dataset
+
+# Hard defaults applied unconditionally at registration time (formerly orchestrate._GAM_DEFAULTS).
+defaults:
+  collection_method: Model Output
+  categories:
+    - Groundwater
+
+controlled_vocab:
+  categories:
+    - Boundaries
+    - Groundwater
+    - Natural Hazards
+    - Planning
+    - Water Quality
+    - Water Use
+  collection_method:
+    - Administrative Record
+    - Instrumentation Measurement
+    - Imagery
+    - Human Collected Observation
+    - Survey
+    - Model Output
+    - Geocoding
+    - Digitization
+    - Ground Survey
+    - Analysis or Synthesis
+    - GPS Measurement
+    - Unknown
+    - Other
+
+fields:
+  - {key: title, required: true, guidance: "Descriptive title naming the aquifer/region and model."}
+  - {key: name, required: true, guidance: "Lowercase, hyphenated, URL-safe slug. No spaces or special chars."}
+  - {key: notes, required: true, guidance: "2-4 sentences: what the model is, geographic/temporal scope, source org."}
+  - {key: url, required: false, guidance: "Source/landing-page URL (e.g. the TWDB GAM page)."}
+  - {key: version, required: false, guidance: null}
+  - {key: author, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: author_email, required: false, guidance: null}
+  - {key: maintainer, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: maintainer_email, required: false, guidance: null}
+  - {key: license_id, required: false, guidance: "Dataset-specific; do not inherit across unrelated datasets."}
+  - {key: owner_org, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: tag_string, required: false, guidance: "Comma-separated discovery tags, e.g. 'groundwater, aquifer, modflow, texas'."}
+  - {key: temporal_coverage_start, required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
+  - {key: temporal_coverage_end, required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
+  - {key: program_area, required: false, guidance: null}
+  - {key: data_contact_email, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: caveats_usage, required: false, guidance: null}
+  - {key: categories, required: true, guidance: "Controlled vocab; MUST include 'Groundwater' for GAMs."}
+  - {key: primary_tags, required: false, guidance: null}
+  - {key: secondary_tags, required: false, guidance: null}
+  - {key: collection_method, required: true, guidance: "Controlled vocab; MUST be 'Model Output' for GAMs."}
+  - {key: collection_method_description, required: false, guidance: null}
+  - {key: quality_control_level, required: false, guidance: null}
+  - {key: quality_assurance_description, required: false, guidance: null}
+  - {key: coordinate_system, required: false, guidance: "CRS, often derivable from a geodatabase."}
+  - {key: spatial, required: false, guidance: "GeoJSON string if a bounding box is available."}
+  - {key: update_frequency, required: false, guidance: null}
+  - {key: from_date, required: false, guidance: "ISO-8601."}
+  - {key: to_date, required: false, guidance: "ISO-8601."}
+  - {key: disclaimer, required: false, guidance: null}
+  - {key: additional_information, required: false, guidance: null}
+  - {key: supporting_url, required: false, guidance: null}

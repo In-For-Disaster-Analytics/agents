@@ -1,0 +1,7 @@
+{
+  "dependencies": ["."],
+  "graphs": {
+    "ckan_registration": "./app/agents/ckan_registration/graph.py:graph"
+  },
+  "env": ".env"
+}

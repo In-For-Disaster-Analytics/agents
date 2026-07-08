@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../../../../../Volumes/Macintosh HD - Data/Github/modflow-suite/SubsideWiki"
+		},
+		{
+			"path": "../../../../../../Volumes/Macintosh HD - Data/Github/modflow-suite/mcp-suite"
+		}
+	],
+	"settings": {
+		"jupyter.allowUnauthorizedRemoteConnection": true
+	}
+}

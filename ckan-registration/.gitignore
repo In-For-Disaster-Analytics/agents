@@ -1,0 +1,27 @@
+# Secrets / credentials
+.env
+.env.*
+!.env.sample
+
+# Persona-loop audit transcripts (may contain proposed metadata + contact fields)
+runs/
+
+# Generated manifests are artifacts (regenerated fresh each run)
+# (kept tracked intentionally? no — they are generated; ignore the generated one)
+# Note: gam_aquifer_map.json and gam_manifest_overrides.json ARE version-controlled (human-authored).
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Editable install metadata (pip install -e .)
+src/*.egg-info/
+
+# OS
+.DS_Store

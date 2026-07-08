@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "gam-registration"
+version = "0.1.0"
+description = "TWDB GAM CKAN registration pipeline (Capabilities A/B/D)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.28",
+    "openai>=1.0",
+    "pyyaml>=6.0",
+    "pymupdf>=1.23",
+    "flopy>=3.4",
+    "geopandas>=0.14",
+    "jupyter>=1.0",
+    "ipykernel>=6.0",
+]
+
+[project.scripts]
+ckan-agent = "gam_registration.ckan_agent:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

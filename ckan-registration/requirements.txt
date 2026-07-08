@@ -1,0 +1,36 @@
+# ckan-registration dependencies
+#
+# Install with:  pip install -r requirements.txt
+# On Lonestar6 / TACC HPC:  use a virtual environment or conda env.
+
+# --- Core HTTP and data ---
+requests>=2.28
+
+# --- LLM client (optional but strongly recommended) ---
+# Falls back to a plain requests HTTP call when openai is unavailable.
+openai>=1.0
+
+# --- YAML (for schema loading) ---
+pyyaml>=6.0
+
+# --- PDF extraction (Capability B) ---
+# PyMuPDF provides high-quality text extraction for multi-column and
+# mixed-content PDFs. Bundled native libs on most platforms; on some
+# Linux HPC environments you may need to load the system libmupdf module.
+pymupdf>=1.23
+
+# --- MODFLOW / DIS bbox derivation (Capability A) ---
+# flopy is used to read MODFLOW DIS files and derive bounding boxes.
+flopy>=3.4
+
+# --- Geodatabase (.gdb) bbox derivation (Capability A) ---
+# geopandas is used lazily inside _derive_bbox_from_geodatabase; all modules
+# import cleanly when geopandas is absent (ImportError is caught).
+geopandas>=0.14
+
+# --- Jupyter (for ckan_registration.ipynb) ---
+jupyter>=1.0
+ipykernel>=6.0
+
+# --- Testing ---
+pytest>=7.0

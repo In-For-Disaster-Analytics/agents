@@ -1,0 +1,16 @@
+tools:
+  - name: pdf_summarize
+    summary: Summarize a whole PDF report via map-reduce (section summaries combined into one).
+    description: >
+      Reads a PDF in order, summarizes it section-by-section, then combines those into a single
+      document summary covering subject, study area, methods/data, and findings. Use this for any
+      report longer than a few pages — it reads far more of the document than file_extract_pdf_text.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.pdf:pdf_summarize
+    args:
+      path: {type: string, required: true, description: "Local PDF file path."}
+    returns: {type: object, description: "{summary, windows, section_summaries, truncated, chars_read}."}
+    use_when:
+      - The dataset includes a PDF report and you need a faithful description of its full content.
+    safety: ["Read-only; bounded pages/chars/windows; needs pypdf; path is size/sensitive-checked."]

@@ -1,0 +1,66 @@
+# Read-only CKAN tools. Writes (create/update/resource-upload/apply) are intentionally
+# absent — they stay behind the REGISTER-gated graph path (spec R4).
+tools:
+  - name: ckan_package_show
+    summary: Fetch a CKAN dataset (package) by name or id.
+    description: Returns the full package dict, or null if it does not exist.
+    category: ckan
+    read_only: true
+    handler: app.tools.handlers.ckan:package_show
+    args:
+      dataset_name: {type: string, required: true, description: "Dataset name or id."}
+    returns: {type: object, description: "CKAN package dict or null."}
+    use_when:
+      - You need the current metadata/resources of a known dataset.
+    safety: ["Read-only CKAN call."]
+
+  - name: ckan_package_search
+    summary: Search CKAN datasets by free text.
+    description: Returns up to `rows` matching datasets (name, title, org) for disambiguation.
+    category: ckan
+    read_only: true
+    handler: app.tools.handlers.ckan:package_search
+    args:
+      query: {type: string, required: true, description: "Free-text query."}
+      rows: {type: integer, default: 10, description: "Max results."}
+    returns: {type: array, description: "Matching dataset summaries."}
+    use_when:
+      - You need to check whether a similar dataset already exists before proposing a new one.
+    safety: ["Read-only CKAN call."]
+
+  - name: ckan_organization_list
+    summary: List CKAN organizations (all fields).
+    category: ckan
+    read_only: true
+    handler: app.tools.handlers.ckan:organization_list
+    args: {}
+    returns: {type: array, description: "Organizations."}
+    use_when:
+      - You need to choose or verify an owner_org.
+    safety: ["Read-only CKAN call."]
+
+  - name: ckan_resolve_org
+    summary: Resolve an organization name/title to its CKAN id.
+    category: ckan
+    read_only: true
+    handler: app.tools.handlers.ckan:resolve_org
+    args:
+      organization: {type: string, required: true, description: "Org name, title, or id."}
+    returns: {type: object, description: "{id, name, title, matched_by}."}
+    use_when:
+      - You have an org label and need the canonical owner_org id.
+    safety: ["Read-only CKAN call."]
+
+  - name: ckan_dry_run_diff
+    summary: Compare a desired metadata field set against the live CKAN package.
+    description: Read-only diff — returns existing_found and a list of field changes. No writes.
+    category: ckan
+    read_only: true
+    handler: app.tools.handlers.ckan:dry_run_diff
+    args:
+      dataset_name: {type: string, required: true, description: "Target dataset name/id."}
+      desired: {type: object, description: "Desired field values to compare."}
+    returns: {type: object, description: "{existing_found, changes:[{field, from, to}]}."}
+    use_when:
+      - You want to preview what a registration would change before the gated apply step.
+    safety: ["Read-only; does not modify CKAN."]

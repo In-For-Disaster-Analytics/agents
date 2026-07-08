@@ -1,0 +1,2 @@
+"""Basic CKAN agent package."""
+

@@ -1,0 +1,340 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<title>ESS-DIVE Round-Trip Evaluation</title><style>
+ body{font:14px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;margin:2rem;color:#1f2328;max-width:1150px}
+ h1{font-size:1.5rem;margin-bottom:.2rem} h2{font-size:1.15rem;margin-top:2rem;border-bottom:1px solid #d0d7de;padding-bottom:.3rem}
+ .muted{color:#656d76} table{border-collapse:collapse;width:100%;margin:.5rem 0}
+ th,td{border:1px solid #d0d7de;padding:.4rem .6rem;text-align:left;vertical-align:top}
+ th{background:#f6f8fa} td.num{text-align:center} code{background:#eff1f3;padding:.1rem .3rem;border-radius:4px;font-size:.85em}
+ .score{font-size:1.6rem;font-weight:700} .scores{display:flex;gap:2.5rem;margin:.5rem 0}
+ .pill{font-weight:700;font-size:.78rem;padding:.1rem .5rem;border-radius:10px}
+ details summary{cursor:pointer;color:#0969da} pre{background:#f6f8fa;padding:.6rem;border-radius:6px;overflow:auto;font-size:.82em}
+ .err{color:#cf222e} .gate{color:#9a6700}
+</style></head><body>
+<h1>ESS-DIVE Round-Trip Evaluation</h1>
+<p class='muted'>Generated 2026-06-15 16:47:36 · files-only inputs · resources injected from manifest</p>
+<h2>ess-dive-2319247-yakama-river-game-camera-stream-inundation</h2>
+<div class='scores'><div><div class='score' style='color:#0969da'>89%</div><div class='muted'>derivable metadata</div></div><div><div class='score'>86%</div><div class='muted'>catalog completeness</div></div><div><div class='score' style='color:#1a7f37'>0</div><div class='muted'>fidelity errors</div></div></div>
+<p class='muted'>judge: title 4/5 · notes 4/5 · tags 5/5 · faithful True — Generated title and notes are concise and capture the dataset&#x27;s meaning, tags are a reasonable and faithful set</p>
+<table><thead><tr><th>Field</th><th>Availability</th><th>Status</th><th>Score</th><th>Proposed (agent)</th><th>Standard (gold)</th><th>Note</th></tr></thead><tbody><tr><td><code>name</code></td><td>inferable</td><td style='color:#9a6700;font-weight:600'>partial</td><td class='num'>0.50</td><td><span title='yakama-river-game-camera-data'>yakama-river-game-camera-data</span></td><td class='muted'><span title='ess-dive-2319247-yakama-river-game-camera-stream-inundation'>ess-dive-2319247-yakama-river-game-camera-stream-inundation</span></td><td class='muted' title='valid relation to title/source but not the gold slug'>valid relation to title/source but not the gold slug</td></tr><tr><td><code>title</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='Yakama River Game Camera Stream Inundation Data'>Yakama River Game Camera Stream Inundation Data</span></td><td class='muted'><span title='Timeseries Unlabeled and Labeled Photos, Modeled Water Surface Fractions, and Metadata of Variably Inundated Streams Across the Yakima River Basin'>Timeseries Unlabeled and Labeled Photos, Modeled Water Surface Fractions, and Metadata of Variably Inundated Streams Across the Yakima River Basin</span></td><td class='muted' title='judge title_score=4'>judge title_score=4</td></tr><tr><td><code>notes</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='This dataset contains game camera data related to the Yakama River, including water surface fractions and labeled wildlife images collected using methods like Mask2Former and YOLO.'>This dataset contains game camera data related to the Yakama River, including water surface fractions and labeled wildlife images collected using methods like Mask2Former and YOLO.</span></td><td class='muted'><span title='ESS-DIVE dataset supporting a paper on monitoring river flow status using low-cost wildlife cameras and image segmentation AI. This package is useful for testing CKAN registration from a dataset that combines unstructured image collections, labeled image training data, CSV model outputs, file-level metadata, and manuscript-associated documentation.'>ESS-DIVE dataset supporting a paper on monitoring river flow status using low-cost wildlife cameras and image segmentation AI. This package is useful for testing CKAN registration …</span></td><td class='muted' title='judge notes_score=4'>judge notes_score=4</td></tr><tr><td><code>type</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='dataset'>dataset</span></td><td class='muted'><span title='dataset'>dataset</span></td><td class='muted' title=''></td></tr><tr><td><code>url</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='https://data.ess-dive.lbl.gov/view/doi:10.15485/2319247'>https://data.ess-dive.lbl.gov/view/doi:10.15485/2319247</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>license_id</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='cc-by-4.0'>cc-by-4.0</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>version</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='1'>1</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_start</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2024-01-01'>2024-01-01</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_end</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2024-12-31'>2024-12-31</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>spatial</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-121.6,46.0],[-121.6,47.2],[-119.0,47.2],[-119.0,46.0],[-121.6,46.0]]]}'>{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-121.6,46.0],[-121.6,47.2],[-119.0,47.2],[-119.0,46.0],[-121.6,46.0]]]}</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>tags</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='Yakama River, game camera, inundation, water surface fractions, wildlife, Mask2Former, YOLO'>Yakama River, game camera, inundation, water surface fractions, wildlife, Mask2Former, YOLO</span></td><td class='muted'><span title='ess-dive, wildlife-camera, streamflow, image-segmentation, yakama-river-basin, machine-learning'>ess-dive, wildlife-camera, streamflow, image-segmentation, yakama-river-basin, machine-learning</span></td><td class='muted' title='judge tags_score=5; F1=0.0 (P=0.00 R=0.00); missing=[&#x27;ess-dive&#x27;, &#x27;image-segmentation&#x27;, &#x27;machine-learning&#x27;, &#x27;streamflow&#x27;, &#x27;wildlife-camera&#x27;, &#x27;yakama-river-basin&#x27;]; extra=[&#x27;game camera&#x27;, &#x27;inundation&#x27;, &#x27;mask2former&#x27;, &#x27;water surface fractions&#x27;, &#x27;wildlife&#x27;, &#x27;yakama river&#x27;, &#x27;yolo&#x27;]'>judge tags_score=5; F1=0.0 (P=0.00 R=0.00); missing=[&#x27;ess-dive&#x27;, &#x27;imag</td></tr><tr><td><code>extras</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note'>repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>resources</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='5 resource(s)'>5 resource(s)</span></td><td class='muted'><span title='5 resource(s)'>5 resource(s)</span></td><td class='muted' title='count 5/5, urls 1.0, names 1.0, formats 1.0'>count 5/5, urls 1.0, names 1.0, formats 1.0</td></tr></tbody></table>
+<details><summary>GDAL pullability (0 pullable)</summary><table><thead><tr><th>Resource</th><th>Format</th><th>Pullable</th><th>Driver</th><th>Note</th></tr></thead><tbody><tr><td>Water surface fractions README</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr><tr><td>S30R Mask2Former water surface fractions</td><td>CSV</td><td style='color:#9a6700;font-weight:600'>maybe</td><td>OGR CSV</td><td class='muted'>only if it has geometry/coordinate columns</td></tr><tr><td>S30R YOLO water surface fractions</td><td>CSV</td><td style='color:#9a6700;font-weight:600'>maybe</td><td>OGR CSV</td><td class='muted'>only if it has geometry/coordinate columns</td></tr><tr><td>Label data README</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr><tr><td>File-level metadata table</td><td>CSV</td><td style='color:#9a6700;font-weight:600'>maybe</td><td>OGR CSV</td><td class='muted'>only if it has geometry/coordinate columns</td></tr></tbody></table></details>
+<details><summary>generated CKAN package</summary><pre>{
+  &quot;name&quot;: &quot;yakama-river-game-camera-data&quot;,
+  &quot;title&quot;: &quot;Yakama River Game Camera Stream Inundation Data&quot;,
+  &quot;notes&quot;: &quot;This dataset contains game camera data related to the Yakama River, including water surface fractions and labeled wildlife images collected using methods like Mask2Former and YOLO.&quot;,
+  &quot;url&quot;: null,
+  &quot;license_id&quot;: null,
+  &quot;version&quot;: null,
+  &quot;type&quot;: &quot;dataset&quot;,
+  &quot;spatial&quot;: &quot;null&quot;,
+  &quot;temporal_coverage_start&quot;: null,
+  &quot;temporal_coverage_end&quot;: null,
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;Yakama River&quot;
+    },
+    {
+      &quot;name&quot;: &quot;game camera&quot;
+    },
+    {
+      &quot;name&quot;: &quot;inundation&quot;
+    },
+    {
+      &quot;name&quot;: &quot;water surface fractions&quot;
+    },
+    {
+      &quot;name&quot;: &quot;wildlife&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Mask2Former&quot;
+    },
+    {
+      &quot;name&quot;: &quot;YOLO&quot;
+    }
+  ],
+  &quot;extras&quot;: [],
+  &quot;resources&quot;: [
+    {
+      &quot;name&quot;: &quot;Water surface fractions README&quot;,
+      &quot;description&quot;: &quot;Plain-text readme describing the modeled water surface fraction CSV outputs.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/readme.txt&quot;
+    },
+    {
+      &quot;name&quot;: &quot;S30R Mask2Former water surface fractions&quot;,
+      &quot;description&quot;: &quot;CSV output containing modeled water surface fractions for site S30R using the Mask2Former workflow.&quot;,
+      &quot;format&quot;: &quot;CSV&quot;,
+      &quot;mimetype&quot;: &quot;text/csv&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_M2F_all.csv&quot;
+    },
+    {
+      &quot;name&quot;: &quot;S30R YOLO water surface fractions&quot;,
+      &quot;description&quot;: &quot;CSV output containing modeled water surface fractions for site S30R using the YOLO workflow.&quot;,
+      &quot;format&quot;: &quot;CSV&quot;,
+      &quot;mimetype&quot;: &quot;text/csv&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/water_surface_fractions/S30R_YOLO_all.csv&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Label data README&quot;,
+      &quot;description&quot;: &quot;Plain-text readme for the labeled wildlife camera image data used for model training and evaluation.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/Bao_2025_GameCamera_Manuscript_Data_Package/label_data/readme.txt&quot;
+    },
+    {
+      &quot;name&quot;: &quot;File-level metadata table&quot;,
+      &quot;description&quot;: &quot;ESS-DIVE file-level metadata table for the game camera manuscript data package.&quot;,
+      &quot;format&quot;: &quot;CSV&quot;,
+      &quot;mimetype&quot;: &quot;text/csv&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2319247/data/RMP_Bao_2025_GameCamera_flmd.csv&quot;
+    }
+  ]
+}</pre></details>
+<h2>ess-dive-3013287-warming-snow-loss-groundwater-colorado-headwater</h2>
+<div class='scores'><div><div class='score' style='color:#0969da'>87%</div><div class='muted'>derivable metadata</div></div><div><div class='score'>84%</div><div class='muted'>catalog completeness</div></div><div><div class='score' style='color:#1a7f37'>0</div><div class='muted'>fidelity errors</div></div></div>
+<p class='muted'>judge: title 4/5 · notes 4/5 · tags 4/5 · faithful True — Generated title and notes are concise and capture the dataset&#x27;s meaning, but lack specificity compared to the reference title and notes. Tags are reasonable and faithful, but miss some main subjects like &#x27;ess-dive&#x27; and &#x27;nature-geoscience&#x27;.</p>
+<table><thead><tr><th>Field</th><th>Availability</th><th>Status</th><th>Score</th><th>Proposed (agent)</th><th>Standard (gold)</th><th>Note</th></tr></thead><tbody><tr><td><code>name</code></td><td>inferable</td><td style='color:#9a6700;font-weight:600'>partial</td><td class='num'>0.50</td><td><span title='warming-snow-loss-groundwater-colorado'>warming-snow-loss-groundwater-colorado</span></td><td class='muted'><span title='ess-dive-3013287-warming-snow-loss-groundwater-colorado-headwater'>ess-dive-3013287-warming-snow-loss-groundwater-colorado-headwater</span></td><td class='muted' title='valid relation to title/source but not the gold slug'>valid relation to title/source but not the gold slug</td></tr><tr><td><code>title</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='Warming and Snow Loss Impacts on Groundwater in Colorado Headwater'>Warming and Snow Loss Impacts on Groundwater in Colorado Headwater</span></td><td class='muted'><span title='Data From: Warming and Snow Loss Increase Reliance on Old Groundwater in a Colorado River Headwater'>Data From: Warming and Snow Loss Increase Reliance on Old Groundwater in a Colorado River Headwater</span></td><td class='muted' title='judge title_score=4'>judge title_score=4</td></tr><tr><td><code>notes</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='This dataset contains information related to the impact of warming and snow loss on groundwater in Colorado headwater areas, including watershed elevation data and analysis scripts.'>This dataset contains information related to the impact of warming and snow loss on groundwater in Colorado headwater areas, including watershed elevation data and analysis scripts…</span></td><td class='muted'><span title='ESS-DIVE data and code archive associated with a Nature Geoscience paper on warming, snow loss, and groundwater contributions in a Colorado River headwater. This package is useful for testing CKAN records with nested scientific code directories, model-input folders, notebook resources, geospatial/snow data processing scripts, observational CSVs, Excel sheets, and license/readme files.'>ESS-DIVE data and code archive associated with a Nature Geoscience paper on warming, snow loss, and groundwater contributions in a Colorado River headwater. This package is useful …</span></td><td class='muted' title='judge notes_score=4'>judge notes_score=4</td></tr><tr><td><code>type</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='dataset'>dataset</span></td><td class='muted'><span title='dataset'>dataset</span></td><td class='muted' title=''></td></tr><tr><td><code>url</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='https://data.ess-dive.lbl.gov/view/doi:10.15485/3013287'>https://data.ess-dive.lbl.gov/view/doi:10.15485/3013287</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>license_id</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='cc-by-4.0'>cc-by-4.0</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>version</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='1'>1</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_start</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2014-10-01'>2014-10-01</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_end</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2023-09-30'>2023-09-30</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>spatial</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-107.2,38.7],[-107.2,39.2],[-106.6,39.2],[-106.6,38.7],[-107.2,38.7]]]}'>{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-107.2,38.7],[-107.2,39.2],[-106.6,39.2],[-106.6,38.7],[-107.2,38.7]]]}</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>tags</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='groundwater, colorado, warming, snow loss, headwater'>groundwater, colorado, warming, snow loss, headwater</span></td><td class='muted'><span title='ess-dive, groundwater, snow-hydrology, colorado-river, parflow, nature-geoscience'>ess-dive, groundwater, snow-hydrology, colorado-river, parflow, nature-geoscience</span></td><td class='muted' title='judge tags_score=4; F1=0.182 (P=0.20 R=0.17); missing=[&#x27;colorado-river&#x27;, &#x27;ess-dive&#x27;, &#x27;nature-geoscience&#x27;, &#x27;parflow&#x27;, &#x27;snow-hydrology&#x27;]; extra=[&#x27;colorado&#x27;, &#x27;headwater&#x27;, &#x27;snow loss&#x27;, &#x27;warming&#x27;]'>judge tags_score=4; F1=0.182 (P=0.20 R=0.17); missing=[&#x27;colorado-river</td></tr><tr><td><code>extras</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal'>repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>resources</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='6 resource(s)'>6 resource(s)</span></td><td class='muted'><span title='6 resource(s)'>6 resource(s)</span></td><td class='muted' title='count 6/6, urls 1.0, names 1.0, formats 1.0'>count 6/6, urls 1.0, names 1.0, formats 1.0</td></tr></tbody></table>
+<details><summary>GDAL pullability (0 pullable)</summary><table><thead><tr><th>Resource</th><th>Format</th><th>Pullable</th><th>Driver</th><th>Note</th></tr></thead><tbody><tr><td>Repository README</td><td>Markdown</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.md is not a GDAL/OGR format</td></tr><tr><td>License file</td><td>Markdown</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.md is not a GDAL/OGR format</td></tr><tr><td>ASO comparison worksheet</td><td>XLSX</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.xlsx is not a GDAL/OGR format</td></tr><tr><td>ASO plot and comparison script</td><td>Python</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.py is not a GDAL/OGR format</td></tr><tr><td>Watershed elevation notebook</td><td>IPYNB</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.ipynb is not a GDAL/OGR format</td></tr><tr><td>Watershed altitude table</td><td>CSV</td><td style='color:#9a6700;font-weight:600'>maybe</td><td>OGR CSV</td><td class='muted'>only if it has geometry/coordinate columns</td></tr></tbody></table></details>
+<details><summary>generated CKAN package</summary><pre>{
+  &quot;name&quot;: &quot;warming-snow-loss-groundwater-colorado&quot;,
+  &quot;title&quot;: &quot;Warming and Snow Loss Impacts on Groundwater in Colorado Headwater&quot;,
+  &quot;notes&quot;: &quot;This dataset contains information related to the impact of warming and snow loss on groundwater in Colorado headwater areas, including watershed elevation data and analysis scripts.&quot;,
+  &quot;url&quot;: null,
+  &quot;license_id&quot;: null,
+  &quot;version&quot;: null,
+  &quot;type&quot;: &quot;dataset&quot;,
+  &quot;spatial&quot;: null,
+  &quot;temporal_coverage_start&quot;: null,
+  &quot;temporal_coverage_end&quot;: null,
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;groundwater&quot;
+    },
+    {
+      &quot;name&quot;: &quot;colorado&quot;
+    },
+    {
+      &quot;name&quot;: &quot;warming&quot;
+    },
+    {
+      &quot;name&quot;: &quot;snow loss&quot;
+    },
+    {
+      &quot;name&quot;: &quot;headwater&quot;
+    }
+  ],
+  &quot;extras&quot;: [],
+  &quot;resources&quot;: [
+    {
+      &quot;name&quot;: &quot;Repository README&quot;,
+      &quot;description&quot;: &quot;Markdown readme describing the data and code archive, directory structure, manuscript reference, and usage notes.&quot;,
+      &quot;format&quot;: &quot;Markdown&quot;,
+      &quot;mimetype&quot;: &quot;text/markdown&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/README.md&quot;
+    },
+    {
+      &quot;name&quot;: &quot;License file&quot;,
+      &quot;description&quot;: &quot;Creative Commons Attribution 4.0 license text for the data and code archive.&quot;,
+      &quot;format&quot;: &quot;Markdown&quot;,
+      &quot;mimetype&quot;: &quot;text/markdown&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/LICENSE.md&quot;
+    },
+    {
+      &quot;name&quot;: &quot;ASO comparison worksheet&quot;,
+      &quot;description&quot;: &quot;Excel workbook used for Airborne Snow Observatory comparison calculations for supplementary figures.&quot;,
+      &quot;format&quot;: &quot;XLSX&quot;,
+      &quot;mimetype&quot;: &quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/wksht_ASO_comparison.xlsx&quot;
+    },
+    {
+      &quot;name&quot;: &quot;ASO plot and comparison script&quot;,
+      &quot;description&quot;: &quot;Python script used to visualize and analyze regridded Airborne Snow Observatory data.&quot;,
+      &quot;format&quot;: &quot;Python&quot;,
+      &quot;mimetype&quot;: &quot;text/x-python&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/ASO/plot_and_compare.py&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Watershed elevation notebook&quot;,
+      &quot;description&quot;: &quot;Jupyter notebook used to determine outlet elevations for watersheds from Jasechko et al. inputs.&quot;,
+      &quot;format&quot;: &quot;IPYNB&quot;,
+      &quot;mimetype&quot;: &quot;application/x-ipynb+json&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Extract_Elevation.ipynb&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Watershed altitude table&quot;,
+      &quot;description&quot;: &quot;CSV table of watershed outlet elevation information used in the associated manuscript analysis.&quot;,
+      &quot;format&quot;: &quot;CSV&quot;,
+      &quot;mimetype&quot;: &quot;text/csv&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3013287/data/Jasechko%20et%20al./Table_S1_Watersheds_alt.csv&quot;
+    }
+  ]
+}</pre></details>
+<h2>ess-dive-2575224-port-arthur-aerial-processed-model-data-2025</h2>
+<div class='scores'><div><div class='score' style='color:#0969da'>30%</div><div class='muted'>derivable metadata</div></div><div><div class='score'>15%</div><div class='muted'>catalog completeness</div></div><div><div class='score' style='color:#1a7f37'>0</div><div class='muted'>fidelity errors</div></div></div>
+<p class='muted'>judge: title 1/5 · notes 1/5 · tags 1/5 · faithful True — No generated metadata provided</p>
+<p class='gate'>gates: invalid/incomplete JSON -&gt; cap 0.40</p>
+<table><thead><tr><th>Field</th><th>Availability</th><th>Status</th><th>Score</th><th>Proposed (agent)</th><th>Standard (gold)</th><th>Note</th></tr></thead><tbody><tr><td><code>name</code></td><td>inferable</td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>0.00</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='ess-dive-2575224-port-arthur-aerial-processed-model-data-2025'>ess-dive-2575224-port-arthur-aerial-processed-model-data-2025</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>title</code></td><td>provided</td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>0.00</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='Aerial and Processed Model Data from Port Arthur, May 2025'>Aerial and Processed Model Data from Port Arthur, May 2025</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>notes</code></td><td>inferable</td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>0.00</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='ESS-DIVE SETx-UIFL dataset containing aerial imagery and processed model data from Port Arthur, Texas. It is useful for testing CKAN registration of high-volume unstructured drone imagery, processed model folders, video resources, geospatial field-data provenance, and links to disaster-debris and aerial photogrammetry publications.'>ESS-DIVE SETx-UIFL dataset containing aerial imagery and processed model data from Port Arthur, Texas. It is useful for testing CKAN registration of high-volume unstructured drone …</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>type</code></td><td>inferable</td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>0.00</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='dataset'>dataset</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>url</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='https://data.ess-dive.lbl.gov/view/doi:10.15485/2575224'>https://data.ess-dive.lbl.gov/view/doi:10.15485/2575224</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>license_id</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='cc-by-4.0'>cc-by-4.0</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>version</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='1'>1</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_start</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2025-05-01'>2025-05-01</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_end</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2025-05-31'>2025-05-31</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>spatial</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-94.05,29.78],[-94.05,30.02],[-93.82,30.02],[-93.82,29.78],[-94.05,29.78]]]}'>{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-94.05,29.78],[-94.05,30.02],[-93.82,30.02],[-93.82,29.78],[-94.05,29.78]]]}</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>tags</code></td><td>inferable</td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>0.00</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='ess-dive, setx-uifl, drone-imagery, photogrammetry, port-arthur, disaster-debris'>ess-dive, setx-uifl, drone-imagery, photogrammetry, port-arthur, disaster-debris</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>extras</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note'>repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>resources</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='3 resource(s)'>3 resource(s)</span></td><td class='muted'><span title='3 resource(s)'>3 resource(s)</span></td><td class='muted' title='count 3/3, urls 1.0, names 1.0, formats 1.0'>count 3/3, urls 1.0, names 1.0, formats 1.0</td></tr></tbody></table>
+<details><summary>GDAL pullability (0 pullable)</summary><table><thead><tr><th>Resource</th><th>Format</th><th>Pullable</th><th>Driver</th><th>Note</th></tr></thead><tbody><tr><td>ESS-DIVE content list</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr><tr><td>Manifest with MD5 checksums</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr><tr><td>Project flyover video</td><td>MP4</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.mp4 is not a GDAL/OGR format</td></tr></tbody></table></details>
+<details><summary>generated CKAN package</summary><pre>{
+  &quot;name&quot;: null,
+  &quot;title&quot;: null,
+  &quot;notes&quot;: null,
+  &quot;url&quot;: null,
+  &quot;license_id&quot;: null,
+  &quot;version&quot;: null,
+  &quot;type&quot;: null,
+  &quot;spatial&quot;: null,
+  &quot;temporal_coverage_start&quot;: null,
+  &quot;temporal_coverage_end&quot;: null,
+  &quot;tags&quot;: [],
+  &quot;extras&quot;: [],
+  &quot;resources&quot;: [
+    {
+      &quot;name&quot;: &quot;ESS-DIVE content list&quot;,
+      &quot;description&quot;: &quot;Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/ESS-DIVE-content-list.txt&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Manifest with MD5 checksums&quot;,
+      &quot;description&quot;: &quot;Plain-text manifest listing data files and MD5 checksums for integrity validation.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/manifest-md5.txt&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Project flyover video&quot;,
+      &quot;description&quot;: &quot;MP4 flyover video from the Port Arthur aerial survey and model documentation package.&quot;,
+      &quot;format&quot;: &quot;MP4&quot;,
+      &quot;mimetype&quot;: &quot;video/mp4&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2575224/data/Project_Flyover.MP4&quot;
+    }
+  ]
+}</pre></details>
+<h2>ess-dive-2447557-port-arthur-rtk-drone-data-2024</h2>
+<div class='scores'><div><div class='score' style='color:#0969da'>86%</div><div class='muted'>derivable metadata</div></div><div><div class='score'>83%</div><div class='muted'>catalog completeness</div></div><div><div class='score' style='color:#1a7f37'>0</div><div class='muted'>fidelity errors</div></div></div>
+<p class='muted'>judge: title 4/5 · notes 5/5 · tags 4/5 · faithful True — Generated title and notes are concise and accurate, but title could be more specific about the dataset&#x27;s content and context. Tags are reasonable but miss some main subjects like &#x27;ess-dive&#x27; and &#x27;photogrammetry&#x27;.</p>
+<table><thead><tr><th>Field</th><th>Availability</th><th>Status</th><th>Score</th><th>Proposed (agent)</th><th>Standard (gold)</th><th>Note</th></tr></thead><tbody><tr><td><code>name</code></td><td>inferable</td><td style='color:#cf222e;font-weight:600'>differ</td><td class='num'>0.25</td><td><span title='port-arthur-neighborhood'>port-arthur-neighborhood</span></td><td class='muted'><span title='ess-dive-2447557-port-arthur-rtk-drone-data-2024'>ess-dive-2447557-port-arthur-rtk-drone-data-2024</span></td><td class='muted' title='slug unrelated to gold/title'>slug unrelated to gold/title</td></tr><tr><td><code>title</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='Port Arthur Neighborhood RTK Drone Flight Images'>Port Arthur Neighborhood RTK Drone Flight Images</span></td><td class='muted'><span title='Real-Time Kinematic Drone-Collected Data and Processed Models of Port Arthur Coastal Neighborhood and Pleasure Island Golf Course, June 2024'>Real-Time Kinematic Drone-Collected Data and Processed Models of Port Arthur Coastal Neighborhood and Pleasure Island Golf Course, June 2024</span></td><td class='muted' title='judge title_score=4'>judge title_score=4</td></tr><tr><td><code>notes</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='This dataset contains images and associated files from an RTK drone flight over the Port Arthur neighborhood, including visible and multispectral images, as well as GNSS/PPK observation and timestamp files.'>This dataset contains images and associated files from an RTK drone flight over the Port Arthur neighborhood, including visible and multispectral images, as well as GNSS/PPK observ…</span></td><td class='muted'><span title='ESS-DIVE SETx-UIFL dataset containing RTK drone-captured data and processed model assets for Port Arthur, Texas and Pleasure Island Golf Course. This package is useful for testing CKAN registration of nested drone-photo directories, multispectral TIFF imagery, raw GNSS/PPK files, image metadata, and geospatial field campaign data.'>ESS-DIVE SETx-UIFL dataset containing RTK drone-captured data and processed model assets for Port Arthur, Texas and Pleasure Island Golf Course. This package is useful for testing …</span></td><td class='muted' title='judge notes_score=5'>judge notes_score=5</td></tr><tr><td><code>type</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='Dataset'>Dataset</span></td><td class='muted'><span title='dataset'>dataset</span></td><td class='muted' title=''></td></tr><tr><td><code>url</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='https://data.ess-dive.lbl.gov/view/doi:10.15485/2447557'>https://data.ess-dive.lbl.gov/view/doi:10.15485/2447557</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>license_id</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='cc-by-4.0'>cc-by-4.0</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>version</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='1'>1</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_start</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2024-06-01'>2024-06-01</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_end</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2024-06-30'>2024-06-30</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>spatial</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-94.05,29.78],[-94.05,30.05],[-93.80,30.05],[-93.80,29.78],[-94.05,29.78]]]}'>{&quot;type&quot;:&quot;Polygon&quot;,&quot;coordinates&quot;:[[[-94.05,29.78],[-94.05,30.05],[-93.80,30.05],[-93.80,29.78],[-94.05,29.78]]]}</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>tags</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='RTK drone, Port Arthur neighborhood, aerial imagery, multispectral imaging'>RTK drone, Port Arthur neighborhood, aerial imagery, multispectral imaging</span></td><td class='muted'><span title='ess-dive, setx-uifl, rtk-drone, multispectral-imagery, port-arthur, photogrammetry'>ess-dive, setx-uifl, rtk-drone, multispectral-imagery, port-arthur, photogrammetry</span></td><td class='muted' title='judge tags_score=4; F1=0.0 (P=0.00 R=0.00); missing=[&#x27;ess-dive&#x27;, &#x27;multispectral-imagery&#x27;, &#x27;photogrammetry&#x27;, &#x27;port-arthur&#x27;, &#x27;rtk-drone&#x27;, &#x27;setx-uifl&#x27;]; extra=[&#x27;aerial imagery&#x27;, &#x27;multispectral imaging&#x27;, &#x27;port arthur neighborhood&#x27;, &#x27;rtk drone&#x27;]'>judge tags_score=4; F1=0.0 (P=0.00 R=0.00); missing=[&#x27;ess-dive&#x27;, &#x27;mult</td></tr><tr><td><code>extras</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note'>repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>resources</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='4 resource(s)'>4 resource(s)</span></td><td class='muted'><span title='4 resource(s)'>4 resource(s)</span></td><td class='muted' title='count 4/4, urls 1.0, names 1.0, formats 1.0'>count 4/4, urls 1.0, names 1.0, formats 1.0</td></tr></tbody></table>
+<details><summary>GDAL pullability (1 pullable)</summary><table><thead><tr><th>Resource</th><th>Format</th><th>Pullable</th><th>Driver</th><th>Note</th></tr></thead><tbody><tr><td>Port Arthur visible image sample</td><td>JPG</td><td style='color:#9a6700;font-weight:600'>maybe</td><td>GDAL image</td><td class='muted'>readable as raster, likely not georeferenced</td></tr><tr><td>Port Arthur multispectral green-band TIFF sample</td><td>TIFF</td><td style='color:#1a7f37;font-weight:600'>yes</td><td>GDAL raster</td><td class='muted'>.tif is a GDAL raster format</td></tr><tr><td>Port Arthur PPK observation file sample</td><td>OBS</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.obs is not a GDAL/OGR format</td></tr><tr><td>Port Arthur timestamp file sample</td><td>MRK</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.mrk is not a GDAL/OGR format</td></tr></tbody></table></details>
+<details><summary>generated CKAN package</summary><pre>{
+  &quot;name&quot;: &quot;port-arthur-neighborhood&quot;,
+  &quot;title&quot;: &quot;Port Arthur Neighborhood RTK Drone Flight Images&quot;,
+  &quot;notes&quot;: &quot;This dataset contains images and associated files from an RTK drone flight over the Port Arthur neighborhood, including visible and multispectral images, as well as GNSS/PPK observation and timestamp files.&quot;,
+  &quot;url&quot;: null,
+  &quot;license_id&quot;: null,
+  &quot;version&quot;: null,
+  &quot;type&quot;: &quot;Dataset&quot;,
+  &quot;spatial&quot;: null,
+  &quot;temporal_coverage_start&quot;: null,
+  &quot;temporal_coverage_end&quot;: null,
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;RTK drone&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Port Arthur neighborhood&quot;
+    },
+    {
+      &quot;name&quot;: &quot;aerial imagery&quot;
+    },
+    {
+      &quot;name&quot;: &quot;multispectral imaging&quot;
+    }
+  ],
+  &quot;extras&quot;: [],
+  &quot;resources&quot;: [
+    {
+      &quot;name&quot;: &quot;Port Arthur visible image sample&quot;,
+      &quot;description&quot;: &quot;JPEG image from the RTK drone collection for Port Arthur neighborhood flight 12.&quot;,
+      &quot;format&quot;: &quot;JPG&quot;,
+      &quot;mimetype&quot;: &quot;image/jpeg&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_D.JPG&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Port Arthur multispectral green-band TIFF sample&quot;,
+      &quot;description&quot;: &quot;Multispectral green-band TIFF image from the RTK drone collection for Port Arthur neighborhood flight 12.&quot;,
+      &quot;format&quot;: &quot;TIFF&quot;,
+      &quot;mimetype&quot;: &quot;image/tiff&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_20240618112235_0001_MS_G.TIF&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Port Arthur PPK observation file sample&quot;,
+      &quot;description&quot;: &quot;GNSS/PPK observation file associated with the RTK drone flight image set.&quot;,
+      &quot;format&quot;: &quot;OBS&quot;,
+      &quot;mimetype&quot;: &quot;application/octet-stream&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_PPKOBS.obs&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Port Arthur timestamp file sample&quot;,
+      &quot;description&quot;: &quot;DJI timestamp MRK file associated with the RTK drone flight image set.&quot;,
+      &quot;format&quot;: &quot;MRK&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-2447557/data/Images%20from%20RTK%20Drone/Port%20Arthur%20Neighborhood/Port%20arthur%20neighborhood_12/DJI_202406181119_013_port-arthur-neighborhood_Timestamp.MRK&quot;
+    }
+  ]
+}</pre></details>
+<h2>ess-dive-3000569-crocus-forward-scatter-disdrometer-argonne-prairie</h2>
+<div class='scores'><div><div class='score' style='color:#0969da'>87%</div><div class='muted'>derivable metadata</div></div><div><div class='score'>84%</div><div class='muted'>catalog completeness</div></div><div><div class='score' style='color:#1a7f37'>0</div><div class='muted'>fidelity errors</div></div></div>
+<p class='muted'>judge: title 5/5 · notes 4/5 · tags 3/5 · faithful True — Generated notes lack context about urban field laboratory project and atmospheric instrument metadata</p>
+<table><thead><tr><th>Field</th><th>Availability</th><th>Status</th><th>Score</th><th>Proposed (agent)</th><th>Standard (gold)</th><th>Note</th></tr></thead><tbody><tr><td><code>name</code></td><td>inferable</td><td style='color:#9a6700;font-weight:600'>partial</td><td class='num'>0.50</td><td><span title='crocus-forward-scatter-disdrometer-argonne-prairie'>crocus-forward-scatter-disdrometer-argonne-prairie</span></td><td class='muted'><span title='ess-dive-3000569-crocus-forward-scatter-disdrometer-argonne-prairie'>ess-dive-3000569-crocus-forward-scatter-disdrometer-argonne-prairie</span></td><td class='muted' title='valid relation to title/source but not the gold slug'>valid relation to title/source but not the gold slug</td></tr><tr><td><code>title</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site'>CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site</span></td><td class='muted'><span title='CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site'>CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site</span></td><td class='muted' title='judge title_score=5'>judge title_score=5</td></tr><tr><td><code>notes</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>0.80</td><td><span title='This dataset contains CROCUS forward scatter disdrometer observations for the Argonne National Laboratory Prairie Site. The data is provided in NetCDF format and includes daily files for various dates. The dataset also includes a manifest file with MD5 checksums for integrity validation.'>This dataset contains CROCUS forward scatter disdrometer observations for the Argonne National Laboratory Prairie Site. The data is provided in NetCDF format and includes daily fil…</span></td><td class='muted'><span title='ESS-DIVE CROCUS UIFL dataset containing time-indexed atmospheric disdrometer NetCDF files from the Argonne National Laboratory Prairie Site. This package is useful for testing CKAN registration of large collections of daily NetCDF resources, atmospheric instrument metadata, urban field laboratory project metadata, and file manifests.'>ESS-DIVE CROCUS UIFL dataset containing time-indexed atmospheric disdrometer NetCDF files from the Argonne National Laboratory Prairie Site. This package is useful for testing CKAN…</span></td><td class='muted' title='judge notes_score=4'>judge notes_score=4</td></tr><tr><td><code>type</code></td><td>inferable</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='dataset'>dataset</span></td><td class='muted'><span title='dataset'>dataset</span></td><td class='muted' title=''></td></tr><tr><td><code>url</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='https://data.ess-dive.lbl.gov/view/doi:10.15485/3000569'>https://data.ess-dive.lbl.gov/view/doi:10.15485/3000569</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>license_id</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='cc-by-4.0'>cc-by-4.0</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>version</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='1'>1</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_start</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2023-01-31'>2023-01-31</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>temporal_coverage_end</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='2024-12-31'>2024-12-31</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>spatial</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='{&quot;type&quot;:&quot;Point&quot;,&quot;coordinates&quot;:[-87.98,41.72]}'>{&quot;type&quot;:&quot;Point&quot;,&quot;coordinates&quot;:[-87.98,41.72]}</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>tags</code></td><td>inferable</td><td style='color:#9a6700;font-weight:600'>partial</td><td class='num'>0.60</td><td><span title='CROCUS, forward scatter disdrometer, Argonne National Laboratory, Prairie Site'>CROCUS, forward scatter disdrometer, Argonne National Laboratory, Prairie Site</span></td><td class='muted'><span title='ess-dive, crocus, disdrometer, netcdf, urban-climate, atmospheric-measurements'>ess-dive, crocus, disdrometer, netcdf, urban-climate, atmospheric-measurements</span></td><td class='muted' title='judge tags_score=3; F1=0.2 (P=0.25 R=0.17); missing=[&#x27;atmospheric-measurements&#x27;, &#x27;disdrometer&#x27;, &#x27;ess-dive&#x27;, &#x27;netcdf&#x27;, &#x27;urban-climate&#x27;]; extra=[&#x27;argonne national laboratory&#x27;, &#x27;forward scatter disdrometer&#x27;, &#x27;prairie site&#x27;]'>judge tags_score=3; F1=0.2 (P=0.25 R=0.17); missing=[&#x27;atmospheric-meas</td></tr><tr><td><code>extras</code></td><td><i class='muted'>excluded</i></td><td style='color:#cf222e;font-weight:600'>missing</td><td class='num'>&ndash;</td><td><span class='muted'>&ndash;</span></td><td class='muted'><span title='repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note'>repository, dataset_doi, associated_paper_url, associated_paper_title, paper_journal, source_note</span></td><td class='muted' title='agent left field empty'>agent left field empty</td></tr><tr><td><code>resources</code></td><td>provided</td><td style='color:#1a7f37;font-weight:600'>match</td><td class='num'>1.00</td><td><span title='4 resource(s)'>4 resource(s)</span></td><td class='muted'><span title='4 resource(s)'>4 resource(s)</span></td><td class='muted' title='count 4/4, urls 1.0, names 1.0, formats 1.0'>count 4/4, urls 1.0, names 1.0, formats 1.0</td></tr></tbody></table>
+<details><summary>GDAL pullability (2 pullable)</summary><table><thead><tr><th>Resource</th><th>Format</th><th>Pullable</th><th>Driver</th><th>Note</th></tr></thead><tbody><tr><td>ESS-DIVE content list</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr><tr><td>Disdrometer NetCDF sample 2023-01-31</td><td>NetCDF</td><td style='color:#1a7f37;font-weight:600'>yes</td><td>GDAL raster</td><td class='muted'>.nc is a GDAL raster format</td></tr><tr><td>Disdrometer NetCDF sample 2023-02-01</td><td>NetCDF</td><td style='color:#1a7f37;font-weight:600'>yes</td><td>GDAL raster</td><td class='muted'>.nc is a GDAL raster format</td></tr><tr><td>Manifest with MD5 checksums</td><td>TXT</td><td style='color:#656d76;font-weight:600'>no</td><td></td><td class='muted'>.txt is not a GDAL/OGR format</td></tr></tbody></table></details>
+<details><summary>generated CKAN package</summary><pre>{
+  &quot;name&quot;: &quot;crocus-forward-scatter-disdrometer-argonne-prairie&quot;,
+  &quot;title&quot;: &quot;CROCUS Forward Scatter Disdrometer Data at Argonne National Laboratory Prairie Site&quot;,
+  &quot;notes&quot;: &quot;This dataset contains CROCUS forward scatter disdrometer observations for the Argonne National Laboratory Prairie Site. The data is provided in NetCDF format and includes daily files for various dates. The dataset also includes a manifest file with MD5 checksums for integrity validation.&quot;,
+  &quot;url&quot;: null,
+  &quot;license_id&quot;: null,
+  &quot;version&quot;: null,
+  &quot;type&quot;: &quot;dataset&quot;,
+  &quot;spatial&quot;: null,
+  &quot;temporal_coverage_start&quot;: null,
+  &quot;temporal_coverage_end&quot;: null,
+  &quot;tags&quot;: [
+    {
+      &quot;name&quot;: &quot;CROCUS&quot;
+    },
+    {
+      &quot;name&quot;: &quot;forward scatter disdrometer&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Argonne National Laboratory&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Prairie Site&quot;
+    }
+  ],
+  &quot;extras&quot;: [],
+  &quot;resources&quot;: [
+    {
+      &quot;name&quot;: &quot;ESS-DIVE content list&quot;,
+      &quot;description&quot;: &quot;Plain-text dataset-level content list with citation, DOI, and Tier 2 directory contents.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/ESS-DIVE-content-list.txt&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Disdrometer NetCDF sample 2023-01-31&quot;,
+      &quot;description&quot;: &quot;Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-01-31.&quot;,
+      &quot;format&quot;: &quot;NetCDF&quot;,
+      &quot;mimetype&quot;: &quot;application/x-netcdf&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230131.nc&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Disdrometer NetCDF sample 2023-02-01&quot;,
+      &quot;description&quot;: &quot;Daily NetCDF file containing CROCUS forward scatter disdrometer observations for 2023-02-01.&quot;,
+      &quot;format&quot;: &quot;NetCDF&quot;,
+      &quot;mimetype&quot;: &quot;application/x-netcdf&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/data/crocus_ATMOS_fd70_a1_20230201.nc&quot;
+    },
+    {
+      &quot;name&quot;: &quot;Manifest with MD5 checksums&quot;,
+      &quot;description&quot;: &quot;Plain-text manifest listing data files and MD5 checksums for integrity validation.&quot;,
+      &quot;format&quot;: &quot;TXT&quot;,
+      &quot;mimetype&quot;: &quot;text/plain&quot;,
+      &quot;url&quot;: &quot;https://tier2.ess-dive.lbl.gov/doi-10-15485-3000569/manifest-md5.txt&quot;
+    }
+  ]
+}</pre></details>
+</body></html>

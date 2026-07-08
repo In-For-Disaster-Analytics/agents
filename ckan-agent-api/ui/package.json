@@ -1,0 +1,21 @@
+{
+  "name": "ckan-agent-ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Light chat UI for the CKAN registration agent (upload files/zips + chat).",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-markdown": "^10.1.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.0"
+  }
+}

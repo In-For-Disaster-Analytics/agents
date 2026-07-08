@@ -1,0 +1,64 @@
+{
+  "_comment": [
+    "Tapis v3 LINUX storage system definition template for register-by-reference mode.",
+    "Replace every <PLACEHOLDER> with the actual value for your environment.",
+    "Submit via: tapis systems create -F tapis-system-definition.template.json",
+    "Or:         curl -X POST https://<TAPIS_TENANT>/v3/systems ...",
+    "",
+    "Required fields are marked REQUIRED; optional fields may be omitted.",
+    "",
+    "After creating the system, grant Files READ permission to the user whose",
+    "JWT will be used for postit minting:",
+    "  tapis systems perms grant -s <SYSTEM_ID> -u <USERNAME> READ"
+  ],
+
+  "id": "<SYSTEM_ID>",
+  "_comment_id": "REQUIRED. Unique system identifier within your tenant, e.g. 'corral-gam'.",
+
+  "description": "Corral GAM collection storage system for TWDB GAM CKAN register-by-reference registration.",
+
+  "systemType": "LINUX",
+  "_comment_systemType": "REQUIRED. Must be LINUX for Corral/TACC storage.",
+
+  "host": "<STORAGE_HOST>",
+  "_comment_host": "REQUIRED. Hostname or IP of the Corral storage node, e.g. 'data.tacc.utexas.edu'. Ask your TACC admin.",
+
+  "rootDir": "<ABSOLUTE_ROOT_DIR_ON_HOST>",
+  "_comment_rootDir": "REQUIRED. Absolute path on the storage host that becomes the Tapis filesystem root. All Tapis file paths are relative to this. Must match TAPIS_SYSTEM_ROOTDIR in your .env.",
+
+  "defaultAuthnMethod": "PASSWORD",
+  "_comment_defaultAuthnMethod": "REQUIRED. Authentication method for the storage host. Typically PASSWORD or PKI_KEYS.",
+
+  "effectiveUserId": "<OS_USERNAME_ON_HOST>",
+  "_comment_effectiveUserId": "REQUIRED. The OS user on the storage host under which Tapis will read files. Usually your TACC username.",
+
+  "authnCredential": {
+    "_comment": "Provide credentials matching defaultAuthnMethod. Remove fields that do not apply.",
+    "authnMethod": "PASSWORD",
+    "loginUser": "<OS_USERNAME_ON_HOST>",
+    "password": "<PASSWORD_OR_USE_tapis_systems_credential_update>"
+  },
+
+  "port": 22,
+  "_comment_port": "OPTIONAL. Default SSH port. Change if the storage host uses a non-standard port.",
+
+  "useProxy": false,
+  "_comment_useProxy": "OPTIONAL. Set true if the storage host requires a proxy jump.",
+
+  "proxyHost": "",
+  "_comment_proxyHost": "OPTIONAL. Proxy hostname if useProxy=true.",
+
+  "proxyPort": 22,
+  "_comment_proxyPort": "OPTIONAL. Proxy port if useProxy=true.",
+
+  "canExec": false,
+  "_comment_canExec": "Set false for a storage-only system (no job execution).",
+
+  "tags": ["corral", "gam", "groundwater", "tacc"],
+
+  "notes": {
+    "project": "TWDB GAM CKAN registration",
+    "rootDirNote": "Set TAPIS_SYSTEM_ROOTDIR in your .env to match rootDir above.",
+    "postit_note": "Used by tapis_links.mint_postit_url to generate redeemable download URLs for CKAN url-type resources."
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "_note": "Curated map of GAM package_id to aquifer(s). aquifer_kind values of 'major'/'minor' are best-effort derivations from TWDB boundary_match source_id and model titles; they MUST be verified against the official TWDB major/minor aquifer designations (https://www.twdb.texas.gov/groundwater/aquifer/index.asp) before relying on them for production lookups. Where aquifer_kind is listed as 'verify', the classification is uncertain and requires manual review.",
+  "blossom-aquifer-gam": {
+    "aquifer_name": "Blossom",
+    "aquifer_kind": "minor"
+  },
+  "bone-spring-victorio-peak-aquifer-gam": {
+    "aquifer_name": "Bone Spring-Victorio Peak",
+    "aquifer_kind": "minor"
+  },
+  "capitan-reef-complex-aquifer-gam": {
+    "aquifer_name": "Capitan Reef Complex",
+    "aquifer_kind": "minor"
+  },
+  "carrizo-wilcox-aquifer-central-portion-gam-version-3-02": {
+    "aquifer_name": "Carrizo-Wilcox",
+    "aquifer_kind": "major"
+  },
+  "edwards-trinity-plateau-and-pecos-valley-aquifers-gam": {
+    "aquifer_name": ["Edwards-Trinity (Plateau)", "Pecos Valley"],
+    "aquifer_kind": "major",
+    "_note": "Spans Edwards-Trinity Plateau (major) and Pecos Valley (major). Both names should be tried against the major-aquifers layer. Verify both are present in AQU_NAME field."
+  },
+  "edwards-bfz-aquifer-barton-springs-segment-gam": {
+    "aquifer_name": "Edwards-BFZ",
+    "aquifer_kind": "major",
+    "_note": "Edwards BFZ (Balcones Fault Zone) is classified as a major aquifer. The AQU_NAME field value may differ from the title; verify against FeatureServer."
+  },
+  "gma-16-groundwater-flow-model": {
+    "aquifer_name": null,
+    "aquifer_kind": "verify",
+    "_note": "GMA 16 is a Groundwater Management Area model, not named after a single aquifer. The original manifest used 'model_area_approx' source. No reliable AQU_NAME lookup available; this model will fall through to failed_no_spatial unless a manual bbox is provided via gam_manifest_overrides.json."
+  },
+  "gulf-coast-aquifer-system-northern-portion-gam": {
+    "aquifer_name": "Gulf Coast",
+    "aquifer_kind": "major"
+  },
+  "gulf-coast-aquifer-system-northern-portion-gam-version-4-1": {
+    "aquifer_name": "Gulf Coast",
+    "aquifer_kind": "major"
+  },
+  "high-plains-aquifer-system-gam": {
+    "aquifer_name": "High Plains",
+    "aquifer_kind": "major"
+  },
+  "hueco-bolsons-aquifer-gam": {
+    "aquifer_name": "Hueco-Mesilla Bolson",
+    "aquifer_kind": "minor",
+    "_note": "Hueco Bolson is often combined with Mesilla Bolson as 'Hueco-Mesilla Bolson' in TWDB minor aquifer layer. Verify AQU_NAME value."
+  },
+  "igneous-and-west-texas-bolsons-wild-horse-flat-michigan-flat-ryan-flat-and-lobo-flat-aquifers-gam": {
+    "aquifer_name": [
+      "Igneous",
+      "Wild Horse Flat",
+      "Michigan Flat",
+      "Ryan Flat",
+      "Lobo Flat"
+    ],
+    "aquifer_kind": "minor",
+    "_note": "Multi-aquifer GAM spanning several West Texas minor bolson aquifers. AQU_NAME values need verification — some may be combined or named differently in the TWDB layer."
+  },
+  "kinney-county-model": {
+    "aquifer_name": null,
+    "aquifer_kind": "verify",
+    "_note": "Kinney County model covers the Brackettville area / Kinney County. The relevant aquifer may be Edwards-Trinity (Plateau) but this model's scope is sub-county. Original manifest used 'model_area_approx'. Consider adding manual bbox via gam_manifest_overrides.json."
+  },
+  "lipan-aquifer-gam": {
+    "aquifer_name": "Lipan",
+    "aquifer_kind": "minor"
+  },
+  "llano-uplift-aquifer-system-gam": {
+    "aquifer_name": "Llano Uplift",
+    "aquifer_kind": "minor",
+    "_note": "Llano Uplift aquifer system. Verify AQU_NAME value in the minor-aquifers layer."
+  },
+  "lower-rio-grande-valley-transport-model": {
+    "aquifer_name": null,
+    "aquifer_kind": "verify",
+    "_note": "Lower Rio Grande Valley transport model — covers a regional alluvial area rather than a named TWDB aquifer. Original manifest used 'model_area_approx'. Consider adding manual bbox via gam_manifest_overrides.json."
+  },
+  "mesilla-bolsons-aquifer-gam": {
+    "aquifer_name": "Hueco-Mesilla Bolson",
+    "aquifer_kind": "minor",
+    "_note": "Mesilla Bolson is often combined with Hueco as 'Hueco-Mesilla Bolson' in the TWDB minor-aquifers layer. Verify AQU_NAME value."
+  },
+  "nacatoch-aquifer-gam": {
+    "aquifer_name": "Nacatoch",
+    "aquifer_kind": "minor"
+  },
+  "seymour-aquifer-in-haskell-knox-and-baylor-counties-gam": {
+    "aquifer_name": "Seymour",
+    "aquifer_kind": "minor"
+  },
+  "seymour-and-blaine-aquifers-gam": {
+    "aquifer_name": ["Seymour", "Blaine"],
+    "aquifer_kind": "minor",
+    "_note": "Spans both Seymour and Blaine minor aquifers; fallback bbox will union both extents."
+  },
+  "trinity-aquifer-hill-country-gam": {
+    "aquifer_name": "Trinity",
+    "aquifer_kind": "major"
+  },
+  "west-texas-bolsons-red-light-green-river-and-eagle-flat-aquifer-gam": {
+    "aquifer_name": [
+      "Red Light Draw",
+      "Green River Valley",
+      "Eagle Flat"
+    ],
+    "aquifer_kind": "minor",
+    "_note": "Multi-aquifer GAM spanning West Texas minor bolson aquifers. AQU_NAME values need verification — TWDB may use different naming conventions."
+  },
+  "yegua-jackson-aquifer-gam": {
+    "aquifer_name": "Yegua-Jackson",
+    "aquifer_kind": "minor"
+  }
+}

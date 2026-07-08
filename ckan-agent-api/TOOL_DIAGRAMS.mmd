@@ -1,0 +1,131 @@
+%% CKAN Agent tools registered in app/agents/ckan_registration/tools.py
+flowchart TD
+    caller["OpenAI tool call or API client"]
+    endpoint["POST /v1/ckan-registration/tools/{tool_name}"]
+    lookup{"tool_name in TOOL_SPECS?"}
+    mergeHeaders["Merge secret request headers"]
+    validate["Validate arguments with tool Pydantic model"]
+    executor["ToolExecutor.invoke"]
+    command{"Mapped legacy command"}
+    worker["LegacyCkanWorker.run"]
+    result["Return worker result"]
+    notFound["404 unknown CKAN registration tool"]
+
+    caller --> endpoint --> lookup
+    lookup -- "no" --> notFound
+    lookup -- "yes" --> mergeHeaders --> validate --> executor --> command
+    worker --> result
+
+    command -- "analyze" --> analyzeStart
+    command -- "revise" --> reviseStart
+    command -- "dry-run" --> dryRunStart
+    command -- "apply" --> applyStart
+    command -- "show" --> showStart
+
+    subgraph analyzeTool["ckan_analyze"]
+        analyzeStart["CkanAnalyzeInput"]
+        analyzeSources{"Data source supplied?"}
+        analyzeMetadataOnly{"allow_metadata_only?"}
+        analyzeNeedsInput["Return needs_input guidance"]
+        analyzeLlm{"LLM enabled and OPENAI_API_KEY set?"}
+        analyzeDeterministic["Create deterministic metadata guess"]
+        analyzeGuided["Request LLM metadata proposal"]
+        analyzeMerge["Merge grounded metadata and resource plan"]
+        analyzeSave["Save registration state"]
+        analyzeReport["Return metadata report, thread_id, next steps"]
+
+        analyzeStart --> analyzeSources
+        analyzeSources -- "files, upload_dir, source_url, or existing entry" --> analyzeLlm
+        analyzeSources -- "no" --> analyzeMetadataOnly
+        analyzeMetadataOnly -- "no" --> analyzeNeedsInput
+        analyzeMetadataOnly -- "yes" --> analyzeLlm
+        analyzeLlm -- "yes" --> analyzeGuided --> analyzeMerge
+        analyzeLlm -- "no" --> analyzeDeterministic --> analyzeMerge
+        analyzeMerge --> analyzeSave --> analyzeReport
+    end
+
+    subgraph reviseTool["ckan_revise"]
+        reviseStart["CkanReviseInput"]
+        reviseState{"Saved session state found?"}
+        reviseLoad["Load existing proposal"]
+        reviseChanges["Apply dataset updates and exclude_resources"]
+        reviseRecompute["Recompute proposed package and resource plan"]
+        reviseSave["Save revised state"]
+        reviseReport["Return revised metadata report"]
+        reviseMissing["Return missing state error"]
+
+        reviseStart --> reviseState
+        reviseState -- "no" --> reviseMissing
+        reviseState -- "yes" --> reviseLoad --> reviseChanges --> reviseRecompute --> reviseSave --> reviseReport
+    end
+
+    subgraph dryRunTool["ckan_dry_run"]
+        dryRunStart["CkanDryRunInput"]
+        dryRunState{"Saved proposal found?"}
+        dryRunTarget{"Target CKAN dataset known?"}
+        dryRunResolve["Resolve CKAN URL, owner org, and dataset name"]
+        dryRunFetch["Fetch current CKAN package/resources"]
+        dryRunDiff["Compare proposed package and resources"]
+        dryRunSave["Save dry-run state"]
+        dryRunReport["Return CKAN dry-run report"]
+        dryRunMissing["Return missing state or target guidance"]
+
+        dryRunStart --> dryRunState
+        dryRunState -- "no" --> dryRunMissing
+        dryRunState -- "yes" --> dryRunTarget
+        dryRunTarget -- "no" --> dryRunMissing
+        dryRunTarget -- "yes" --> dryRunResolve --> dryRunFetch --> dryRunDiff --> dryRunSave --> dryRunReport
+    end
+
+    subgraph applyTool["ckan_apply"]
+        applyStart["CkanApplyInput"]
+        applyApproval{"approval == REGISTER?"}
+        applyState{"Saved dry-run/proposal state found?"}
+        applyAuth{"CKAN credentials available?"}
+        applyStale{"remove_stale_resources?"}
+        applyStaleApproval{"delete_approval == DELETE_STALE_RESOURCES?"}
+        applyPackageWrite["Create or patch CKAN package"]
+        applyResources["Upload or update resources when enabled"]
+        applyDeleteStale["Delete stale CKAN resources"]
+        applySave["Save apply result state"]
+        applyReport["Return registration result"]
+        applyBlocked["Return guardrail error"]
+
+        applyStart --> applyApproval
+        applyApproval -- "no" --> applyBlocked
+        applyApproval -- "yes" --> applyState
+        applyState -- "no" --> applyBlocked
+        applyState -- "yes" --> applyAuth
+        applyAuth -- "no" --> applyBlocked
+        applyAuth -- "yes" --> applyStale
+        applyStale -- "no" --> applyPackageWrite
+        applyStale -- "yes" --> applyStaleApproval
+        applyStaleApproval -- "no" --> applyPackageWrite
+        applyStaleApproval -- "yes" --> applyDeleteStale --> applyPackageWrite
+        applyPackageWrite --> applyResources --> applySave --> applyReport
+    end
+
+    subgraph showTool["ckan_show"]
+        showStart["CkanShowInput"]
+        showLocator{"session_id or state_path supplied?"}
+        showLoad["Load saved state JSON"]
+        showSanitize["Keep request headers and secrets out of persisted state"]
+        showReport["Return saved session state"]
+        showMissing["Return missing state guidance"]
+
+        showStart --> showLocator
+        showLocator -- "no" --> showMissing
+        showLocator -- "yes" --> showLoad
+        showLoad --> showSanitize --> showReport
+    end
+
+    analyzeReport --> worker
+    analyzeNeedsInput --> worker
+    reviseReport --> worker
+    reviseMissing --> worker
+    dryRunReport --> worker
+    dryRunMissing --> worker
+    applyReport --> worker
+    applyBlocked --> worker
+    showReport --> worker
+    showMissing --> worker
