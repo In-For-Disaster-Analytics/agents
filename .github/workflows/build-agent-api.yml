@@ -101,16 +101,26 @@ jobs:
           set -euo pipefail
 
           # ── 1. Get Tapis token ─────────────────────────────────────────────
-          TOKEN_JSON=$(curl -sf -X POST "${TAPIS_BASE}/v3/oauth2/tokens" \
+          TOKEN_JSON=$(curl -s -w '\n%{http_code}' -X POST "${TAPIS_BASE}/v3/oauth2/tokens" \
             -H "Content-Type: application/json" \
             -d "$(jq -n \
               --arg u "$TAPIS_USERNAME" \
               --arg p "$TAPIS_PASSWORD" \
               '{grant_type:"password",username:$u,password:$p}')")
 
-          TAPIS_TOKEN=$(echo "$TOKEN_JSON" | jq -r '.result.access_token')
-          if [ -z "$TAPIS_TOKEN" ] || [ "$TAPIS_TOKEN" = "null" ]; then
-            echo "::error::Failed to obtain Tapis token"
+          TOKEN_HTTP=$(echo "$TOKEN_JSON" | tail -1)
+          TOKEN_BODY=$(echo "$TOKEN_JSON" | head -n -1)
+          echo "Tapis token HTTP status: ${TOKEN_HTTP}"
+          if [ "$TOKEN_HTTP" != "200" ]; then
+            echo "::error::Tapis token request failed (HTTP ${TOKEN_HTTP})"
+            echo "Response: $TOKEN_BODY"
+            exit 1
+          fi
+
+          TAPIS_TOKEN=$(echo "$TOKEN_BODY" | jq -r '.result.access_token // empty')
+          if [ -z "$TAPIS_TOKEN" ]; then
+            echo "::error::Tapis token request succeeded but access_token was empty"
+            echo "Response: $TOKEN_BODY"
             exit 1
           fi
 
