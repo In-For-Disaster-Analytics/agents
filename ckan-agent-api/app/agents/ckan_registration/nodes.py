@@ -327,8 +327,11 @@ def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     if resource_plan:
         lines += ["", f"### Resources ({len(resource_plan)})"]
         for res in resource_plan:
-            size = _human_bytes(res.get("size_bytes"))
-            lines.append(f"- `{res.get('resource_name')}` ({res.get('format')}, {size})")
+            if res.get("resource_url"):
+                lines.append(f"- `{res.get('resource_name')}` ({res.get('format')}, link → {res.get('resource_url')})")
+            else:
+                size = _human_bytes(res.get("size_bytes"))
+                lines.append(f"- `{res.get('resource_name')}` ({res.get('format')}, {size})")
     lines.append("")
     if valid:
         lines.append("Dry-run passed. Send `REGISTER` to create this dataset and upload resources.")
@@ -462,13 +465,17 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     ckan_url_base = (saved_state.get("ckan") or {}).get("url") or settings.ckan_url
     dataset_url = f"{ckan_url_base.rstrip('/')}/dataset/{dataset_name}"
 
-    # Create resources (one MCP call per file in resource_plan).
+    # Create resources — one MCP call per entry in resource_plan.
+    # Entries with ``local_path`` are uploaded as files (multipart).
+    # Entries with ``resource_url`` (no local_path) are registered as CKAN
+    # link resources — no bytes transferred, URL stored in CKAN metadata.
     created: list[str] = []
     failed: list[str] = []
 
     for res in resource_plan:
         local_path = res.get("local_path")
-        if not local_path:
+        resource_url = res.get("resource_url")
+        if not local_path and not resource_url:
             continue
         resource_meta: dict[str, Any] = {
             "name": res.get("resource_name") or "",
@@ -476,17 +483,20 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
             "format": res.get("format") or "",
             "mimetype": res.get("mimetype") or "",
         }
+        if resource_url:
+            resource_meta["url"] = resource_url
         res_args: dict[str, Any] = {
             "package_id": package_id,
             "resource_metadata": resource_meta,
-            "upload_file": local_path,
             "dry_run": False,
             **_tok,
         }
+        if local_path:
+            res_args["upload_file"] = local_path
         try:
             res_result = client.call_tool("schema_create_resource", res_args)
             if isinstance(res_result, dict) and res_result.get("success"):
-                created.append(res.get("resource_name") or local_path)
+                created.append(res.get("resource_name") or local_path or resource_url)
             else:
                 err = (res_result.get("message") or res_result.get("error") or "failed") \
                     if isinstance(res_result, dict) else "unknown"
@@ -1938,6 +1948,59 @@ def _resource_plan_from_reports(
     return plan
 
 
+def _remote_resource_plan_entries(request: dict[str, Any]) -> list[dict[str, Any]]:
+    """Build resource plan entries for pre-specified remote URL assets.
+
+    These bypass local file analysis entirely — the caller supplies the URLs and
+    optional metadata directly (e.g. WebODM passing orthophoto/DSM/LAZ URLs after
+    a processing task). Each entry gets a ``resource_url`` key instead of
+    ``local_path`` so the apply node registers them as CKAN link resources
+    (no file download or upload).
+    """
+    raw = request.get("remote_resources") or []
+    entries: list[dict[str, Any]] = []
+    used_names: set[str] = set()
+
+    for item in raw:
+        if isinstance(item, str):
+            url, name, fmt, desc = item.strip(), "", "", ""
+        elif isinstance(item, dict):
+            url = str(item.get("url") or "").strip()
+            name = str(item.get("name") or "").strip()
+            fmt = str(item.get("format") or "").strip().upper()
+            desc = str(item.get("description") or "").strip()
+        else:
+            continue
+        if not url:
+            continue
+
+        bare_url = url.split("?")[0]
+        if not name:
+            name = Path(bare_url).name or url
+        if not fmt:
+            suffix = Path(bare_url).suffix.lstrip(".").upper()
+            fmt = suffix or "URL"
+
+        mimetype = mimetypes.guess_type(bare_url)[0] or "application/octet-stream"
+        base_slug = _slugify(Path(name).stem or name, "resource")
+        slug = base_slug
+        counter = 2
+        while slug in used_names:
+            slug = f"{base_slug}-{counter}"
+            counter += 1
+        used_names.add(slug)
+
+        entries.append({
+            "resource_name": slug,
+            "resource_title": _title_from_text(Path(name).stem or name, "Resource"),
+            "resource_description": desc or f"Remote asset: {name}",
+            "resource_url": url,
+            "format": fmt,
+            "mimetype": mimetype,
+        })
+    return entries
+
+
 def _metadata_needs_user_input(prompt_metadata: dict[str, Any] | None) -> list[dict[str, Any]]:
     if not isinstance(prompt_metadata, dict):
         return []
@@ -1965,6 +2028,7 @@ def _save_metadata_registration_state(
 ) -> tuple[str, dict[str, Any], list[dict[str, Any]]]:
     session_id = str(request.get("session_id") or uuid.uuid4().hex)
     resource_plan = _resource_plan_from_reports(file_reports, metadata_guess)
+    resource_plan += _remote_resource_plan_entries(request)
     desired_payload = _desired_payload_from_guess(request, settings, metadata_guess)
     ckan_url = _clean_metadata_value(_ckan_override(request, "url") or settings.ckan_url)
     owner_org_label = _clean_metadata_value(desired_payload.get("owner_org"))

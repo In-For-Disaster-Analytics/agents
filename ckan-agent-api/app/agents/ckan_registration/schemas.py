@@ -16,6 +16,15 @@ class FileReference(BaseModel):
     description: str | None = Field(default=None, description="Optional description or notes for the resource.")
 
 
+class RemoteResource(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+    url: str = Field(..., description="Public URL of the remote asset to register as a CKAN link resource.")
+    name: str | None = Field(default=None, description="Display name for the resource (inferred from URL if omitted).")
+    format: str | None = Field(default=None, description="File format label, e.g. GTiff, LAZ, GeoJSON (inferred from URL extension if omitted).")
+    description: str | None = Field(default=None, description="Optional description shown in CKAN.")
+
+
 class CkanConnectionOverride(BaseModel):
     model_config = ConfigDict(extra="allow")
 
@@ -56,6 +65,15 @@ class CkanRegistrationBaseInput(BaseModel):
     files: list[FileReference | str] | None = Field(default=None, description="Specific files to register.")
     source_url: str | None = Field(default=None, description="Primary source metadata URL.")
     source_urls: list[str] | None = Field(default=None, description="Source metadata URLs.")
+    remote_resources: list[RemoteResource] | None = Field(
+        default=None,
+        description=(
+            "Pre-specified remote asset URLs to register as CKAN link resources. "
+            "Each entry becomes a URL-type CKAN resource (no file download or upload). "
+            "Use this when the caller already knows the asset URLs and their metadata — "
+            "e.g. WebODM publishing orthophoto, point cloud, and DSM URLs after a processing task."
+        ),
+    )
     existing_ckan_entry: str | None = Field(default=None, description="Existing CKAN dataset name, id, or URL to update.")
     dataset: CkanDatasetOverride | None = Field(default=None, description="Dataset field overrides.")
     ckan: CkanConnectionOverride | None = Field(default=None, description="CKAN connection overrides.")
