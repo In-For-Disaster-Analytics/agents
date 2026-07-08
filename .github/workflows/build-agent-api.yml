@@ -30,6 +30,7 @@ on:
       - "ckan-agent-api/**"
       - "ckan-registration/**"
       - ".github/workflows/build-agent-api.yml"
+      - ".github/scripts/**"
     tags:
       - "v*"
   pull_request:
@@ -37,6 +38,7 @@ on:
       - "Dockerfile"
       - "ckan-agent-api/**"
       - "ckan-registration/**"
+      - ".github/scripts/**"
       - ".github/workflows/build-agent-api.yml"
   workflow_dispatch:
 
