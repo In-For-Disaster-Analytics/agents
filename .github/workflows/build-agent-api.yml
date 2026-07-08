@@ -117,7 +117,7 @@ jobs:
             exit 1
           fi
 
-          TAPIS_TOKEN=$(echo "$TOKEN_BODY" | jq -r '.result.access_token // empty')
+          TAPIS_TOKEN=$(echo "$TOKEN_BODY" | jq -r '.result.access_token.access_token // empty')
           if [ -z "$TAPIS_TOKEN" ]; then
             echo "::error::Tapis token request succeeded but access_token was empty"
             echo "Response: $TOKEN_BODY"
