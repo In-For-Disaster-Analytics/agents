@@ -22,6 +22,7 @@ on:
   push:
     branches: [main]
     paths:
+      - "Dockerfile"
       - "ckan-agent-api/**"
       - "ckan-registration/**"
       - ".github/workflows/build-agent-api.yml"
@@ -29,6 +30,7 @@ on:
       - "v*"
   pull_request:
     paths:
+      - "Dockerfile"
       - "ckan-agent-api/**"
       - "ckan-registration/**"
       - ".github/workflows/build-agent-api.yml"
@@ -76,7 +78,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: ckan-agent-api/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
