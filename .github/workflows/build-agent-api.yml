@@ -94,79 +94,59 @@ jobs:
         env:
           TAPIS_USERNAME: ${{ secrets.TAPIS_USERNAME }}
           TAPIS_PASSWORD: ${{ secrets.TAPIS_PASSWORD }}
-          # Add optional pod env-var secrets below and reference them in POD_BODY
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CKAN_URL: ${{ secrets.CKAN_PORTAL_URL }}
         run: |
-          set -euo pipefail
+          pip install --quiet tapipy
+          python3 - <<'PYEOF'
+import os, sys
+from tapipy.tapis import Tapis
 
-          # ── 1. Get Tapis token ─────────────────────────────────────────────
-          TOKEN_JSON=$(curl -s -w '\n%{http_code}' -X POST "${TAPIS_BASE}/v3/oauth2/tokens" \
-            -H "Content-Type: application/json" \
-            -d "$(jq -n \
-              --arg u "$TAPIS_USERNAME" \
-              --arg p "$TAPIS_PASSWORD" \
-              '{grant_type:"password",username:$u,password:$p}')")
+base_url   = "https://portals.tapis.io"
+username   = os.environ["TAPIS_USERNAME"]
+password   = os.environ["TAPIS_PASSWORD"]
+pod_id     = os.environ["POD_ID"]
+image      = os.environ["IMAGE"].lower() + ":latest"
+openai_key = os.environ.get("OPENAI_API_KEY", "")
+ckan_url   = os.environ.get("CKAN_URL", "")
 
-          TOKEN_HTTP=$(echo "$TOKEN_JSON" | tail -1)
-          TOKEN_BODY=$(echo "$TOKEN_JSON" | head -n -1)
-          echo "Tapis token HTTP status: ${TOKEN_HTTP}"
-          if [ "$TOKEN_HTTP" != "200" ]; then
-            echo "::error::Tapis token request failed (HTTP ${TOKEN_HTTP})"
-            echo "Response: $TOKEN_BODY"
-            exit 1
-          fi
+print(f"Authenticating to {base_url} as {username}")
+t = Tapis(base_url=base_url, username=username, password=password)
+t.get_tokens()
+print("Token obtained.")
 
-          TAPIS_TOKEN=$(echo "$TOKEN_BODY" | jq -r '.result.access_token.access_token // empty')
-          if [ -z "$TAPIS_TOKEN" ]; then
-            echo "::error::Tapis token request succeeded but access_token was empty"
-            echo "Response: $TOKEN_BODY"
-            exit 1
-          fi
+pod_exists = False
+try:
+    t.pods.getPod(pod_id=pod_id)
+    pod_exists = True
+except Exception as e:
+    status = getattr(getattr(e, "response", None), "status_code", None)
+    if status == 404:
+        pod_exists = False
+    else:
+        print(f"Error checking pod: {e}", file=sys.stderr)
+        sys.exit(1)
 
-          # ── 2. Check whether pod already exists ───────────────────────────
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -H "Authorization: Bearer $TAPIS_TOKEN" \
-            "${TAPIS_BASE}/v3/pods/${POD_ID}")
-
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "Pod ${POD_ID} exists — restarting to pick up new image"
-            curl -sf -X POST \
-              -H "Authorization: Bearer $TAPIS_TOKEN" \
-              "${TAPIS_BASE}/v3/pods/${POD_ID}/restart_pod"
-            echo "Restart requested."
-          else
-            echo "Pod ${POD_ID} not found (HTTP ${HTTP_STATUS}) — creating"
-
-            POD_BODY=$(jq -n \
-              --arg pod_id     "$POD_ID" \
-              --arg image      "${{ env.IMAGE }}:latest" \
-              --arg openai_key "$OPENAI_API_KEY" \
-              --arg ckan_url   "$CKAN_URL" \
-              '{
-                pod_id: $pod_id,
-                image: $image,
-                description: "CKAN Agent API (FastAPI + LangGraph)",
-                environment_variables: {
-                  CKAN_AGENT_API_HOST: "0.0.0.0",
-                  CKAN_AGENT_API_PORT: "8787",
-                  OPENAI_API_KEY:      $openai_key,
-                  CKAN_URL:            $ckan_url
-                },
-                networking: {
-                  protocol: "http",
-                  port: 8787
-                }
-              }')
-
-            curl -sf -X POST \
-              -H "Authorization: Bearer $TAPIS_TOKEN" \
-              -H "Content-Type: application/json" \
-              "${TAPIS_BASE}/v3/pods" \
-              -d "$POD_BODY"
-
-            echo "Pod ${POD_ID} created."
-          fi
+if pod_exists:
+    print(f"Pod {pod_id} exists — restarting to pick up new image")
+    t.pods.restartPod(pod_id=pod_id)
+    print("Restart requested.")
+else:
+    print(f"Pod {pod_id} not found — creating")
+    t.pods.createPod(
+        pod_id=pod_id,
+        image=image,
+        description="CKAN Agent API (FastAPI + LangGraph)",
+        environment_variables={
+            "CKAN_AGENT_API_HOST": "0.0.0.0",
+            "CKAN_AGENT_API_PORT": "8787",
+            "OPENAI_API_KEY": openai_key,
+            "CKAN_URL": ckan_url,
+        },
+        networking={"protocol": "http", "port": 8787},
+    )
+    print(f"Pod {pod_id} created.")
+PYEOF
 
       - name: Summary
         if: github.event_name != 'pull_request'
