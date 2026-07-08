@@ -54,6 +54,6 @@ else:
             "OPENAI_API_KEY": openai_key,
             "CKAN_URL": ckan_url,
         },
-        networking={"protocol": "http", "port": 8787},
+        networking={"default": {"protocol": "http", "port": 8787}},
     )
     print(f"Pod {pod_id} created.")
