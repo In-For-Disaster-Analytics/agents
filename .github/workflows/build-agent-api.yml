@@ -10,7 +10,11 @@ name: build-agent-api
 # Optional pod env-var secrets (add as needed):
 #   OPENAI_API_KEY    — OpenAI API key for LangGraph agents
 #   CKAN_PORTAL_URL   — CKAN portal base URL
-#   CKAN_AUTH_TOKEN   — CKAN API token
+#
+# NOTE: CKAN auth tokens are Tapis JWTs (6-hour TTL) and cannot be stored
+# as static secrets. The pod exposes /v1/auth/login — clients exchange their
+# Tapis username/password for a short-lived JWT and pass it as
+# Authorization: Bearer <token> on every request.
 #
 # The GHCR package must be set to PUBLIC so Tapis pods can pull it
 # without image-pull credentials. Set this once via:
@@ -92,7 +96,6 @@ jobs:
           # Add optional pod env-var secrets below and reference them in POD_BODY
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CKAN_PORTAL_URL: ${{ secrets.CKAN_PORTAL_URL }}
-          CKAN_AUTH_TOKEN: ${{ secrets.CKAN_AUTH_TOKEN }}
         run: |
           set -euo pipefail
 
@@ -125,11 +128,10 @@ jobs:
             echo "Pod ${POD_ID} not found (HTTP ${HTTP_STATUS}) — creating"
 
             POD_BODY=$(jq -n \
-              --arg pod_id      "$POD_ID" \
-              --arg image       "${{ env.IMAGE }}:latest" \
-              --arg openai_key  "$OPENAI_API_KEY" \
-              --arg ckan_url    "$CKAN_PORTAL_URL" \
-              --arg ckan_token  "$CKAN_AUTH_TOKEN" \
+              --arg pod_id     "$POD_ID" \
+              --arg image      "${{ env.IMAGE }}:latest" \
+              --arg openai_key "$OPENAI_API_KEY" \
+              --arg ckan_url   "$CKAN_PORTAL_URL" \
               '{
                 pod_id: $pod_id,
                 image: $image,
@@ -138,8 +140,7 @@ jobs:
                   CKAN_AGENT_API_HOST: "0.0.0.0",
                   CKAN_AGENT_API_PORT: "8787",
                   OPENAI_API_KEY:      $openai_key,
-                  CKAN_PORTAL_URL:     $ckan_url,
-                  CKAN_AUTH_TOKEN:     $ckan_token
+                  CKAN_PORTAL_URL:     $ckan_url
                 },
                 networking: {
                   protocol: "http",
