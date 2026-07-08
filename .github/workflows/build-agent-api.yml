@@ -48,7 +48,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: tapis config
+    environment: Tapis Configure
     permissions:
       contents: read
       packages: write
