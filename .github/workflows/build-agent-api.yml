@@ -44,7 +44,7 @@ on:
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}/dso-agent-api
-  POD_ID: dso-agent-api
+  POD_ID: dsoagentapi
   TAPIS_BASE: https://portals.tapis.io
 
 jobs:
