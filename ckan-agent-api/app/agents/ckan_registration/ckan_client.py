@@ -75,6 +75,24 @@ class CkanClient:
         result = self.action_get("organization_list", {"all_fields": True})
         return result if isinstance(result, list) else []
 
+    def organization_list_for_user(self, user_id: str = "current") -> list[dict[str, Any]] | None:
+        """Return organizations the authenticated user belongs to.
+
+        Returns None when the request fails (network error, CKAN unavailable, or
+        the action is not permitted), allowing callers to degrade gracefully.
+        Returns an empty list when the call succeeds but the user has no memberships.
+        HTTP 401 is treated as empty (invalid/expired JWT → no access).
+        """
+        try:
+            result = self.action_get("organization_list_for_user", {"id": user_id, "permission": "read"})
+            return result if isinstance(result, list) else []
+        except requests.HTTPError as exc:
+            if exc.response is not None and exc.response.status_code == 401:
+                return []  # invalid or expired token — definitely no access
+            return None  # 403 (action restricted), 404, or other HTTP error — uncertain
+        except Exception:
+            return None  # network error or CKAN unavailable — uncertain
+
     def resolve_organization_id(self, organization: str) -> dict[str, str]:
         query = str(organization or "").strip()
         if not query:

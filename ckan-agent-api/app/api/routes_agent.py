@@ -23,14 +23,42 @@ from app.agents.ckan_registration.schemas import (
     ModelListResponse,
     ToolInvokeRequest,
 )
+from app.agents.ckan_registration.ckan_client import CkanClient
 from app.agents.ckan_registration.tools import TOOL_SPECS, ToolExecutor
 from app.api.security import merge_secret_headers
-from app.auth_context import bind_request_ckan_auth
+from app.auth_context import bind_request_ckan_auth, get_request_ckan_auth
 from app.settings import Settings, get_settings
 
 # bind_request_ckan_auth captures the request's Authorization: Bearer <jwt> into a contextvar
 # for the duration of every agent call, so CKAN reads/writes authenticate as the chat user.
 router = APIRouter(tags=["ckan-registration"], dependencies=[Depends(bind_request_ckan_auth)])
+
+
+def require_ckan_org_access(settings: Settings = Depends(get_settings)) -> None:
+    """FastAPI dependency: reject callers who are not members of any CKAN organization.
+
+    Reads the per-request JWT already bound by bind_request_ckan_auth and calls
+    organization_list_for_user on the CKAN portal. HTTP 401 from CKAN (invalid/expired
+    token) is treated as no access and raises 403. Network failures or unreachable CKAN
+    are treated as uncertain and allow the request through — the agent itself will surface
+    a clear error if CKAN is actually down.
+    """
+    auth = get_request_ckan_auth()
+    if not auth:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required — supply your Tapis JWT as 'Authorization: Bearer <token>'.",
+        )
+    client = CkanClient(base_url=settings.ckan_url, authorization_header=auth, timeout=15)
+    orgs = client.organization_list_for_user()
+    if orgs is not None and not orgs:
+        raise HTTPException(
+            status_code=403,
+            detail=(
+                "You must belong to at least one CKAN organization to use this agent. "
+                "Contact your CKAN administrator to request access."
+            ),
+        )
 
 WORKFLOW_HINT_RE = re.compile(
     r"\b("
@@ -67,6 +95,7 @@ def create_ckan_registration_run(
     payload: CkanRunRequest,
     request: Request,
     runner: CkanRegistrationRunner = Depends(get_runner),
+    _org_check: None = Depends(require_ckan_org_access),
 ) -> AgentRunResponse:
     return runner.invoke(_with_request_headers(payload, request))
 
@@ -81,6 +110,7 @@ def resume_ckan_registration_run(
     payload: CkanResumeRequest,
     request: Request,
     runner: CkanRegistrationRunner = Depends(get_runner),
+    _org_check: None = Depends(require_ckan_org_access),
 ) -> AgentRunResponse:
     return runner.resume(thread_id, _with_resume_headers(payload, request))
 
@@ -108,6 +138,7 @@ def invoke_ckan_registration_tool(
     payload: ToolInvokeRequest,
     request: Request,
     settings: Settings = Depends(get_settings),
+    _org_check: None = Depends(require_ckan_org_access),
 ) -> dict[str, Any]:
     if tool_name not in TOOL_SPECS:
         raise HTTPException(status_code=404, detail=f"Unknown CKAN registration tool: {tool_name}")
@@ -544,6 +575,7 @@ def create_chat_completion(
     payload: ChatCompletionRequest,
     request: Request,
     runner: CkanRegistrationRunner = Depends(get_runner),
+    _org_check: None = Depends(require_ckan_org_access),
 ) -> dict[str, Any] | StreamingResponse:
     print("🔴 ENDPOINT HANDLER CALLED", flush=True)
     logger.info("🔴 ENDPOINT HANDLER CALLED")
