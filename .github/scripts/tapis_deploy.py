@@ -19,6 +19,7 @@ pod_id     = os.environ["POD_ID"]
 image      = os.environ["IMAGE"].lower() + ":latest"
 openai_key = os.environ.get("OPENAI_API_KEY", "")
 ckan_url   = os.environ.get("CKAN_URL", "")
+ckan_mcp_url = os.environ.get("CKAN_MCP_URL", "https://dsomcp.pods.portals.tapis.io/mcp")
 
 print(f"Authenticating to {base_url} as {username}")
 t = Tapis(base_url=base_url, username=username, password=password)
@@ -39,9 +40,19 @@ except Exception as e:
         sys.exit(1)
 
 if pod_exists:
-    print(f"Pod {pod_id} exists — restarting to pick up new image")
+    print(f"Pod {pod_id} exists — updating env vars then restarting")
+    t.pods.update_pod(
+        pod_id=pod_id,
+        environment_variables={
+            "CKAN_AGENT_API_HOST": "0.0.0.0",
+            "CKAN_AGENT_API_PORT": "8787",
+            "OPENAI_API_KEY": openai_key,
+            "CKAN_URL": ckan_url,
+            "CKAN_MCP_URL": ckan_mcp_url,
+        },
+    )
     t.pods.restart_pod(pod_id=pod_id)
-    print("Restart requested.")
+    print("Update and restart requested.")
 else:
     print(f"Pod {pod_id} not found — creating")
     t.pods.create_pod(
@@ -53,6 +64,7 @@ else:
             "CKAN_AGENT_API_PORT": "8787",
             "OPENAI_API_KEY": openai_key,
             "CKAN_URL": ckan_url,
+            "CKAN_MCP_URL": ckan_mcp_url,
         },
         networking={"default": {"protocol": "http", "port": 8787}},
     )
