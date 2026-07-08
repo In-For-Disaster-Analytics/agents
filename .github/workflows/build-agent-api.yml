@@ -95,7 +95,7 @@ jobs:
           TAPIS_PASSWORD: ${{ secrets.TAPIS_PASSWORD }}
           # Add optional pod env-var secrets below and reference them in POD_BODY
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          CKAN_PORTAL_URL: ${{ secrets.CKAN_PORTAL_URL }}
+          CKAN_URL: ${{ secrets.CKAN_PORTAL_URL }}
         run: |
           set -euo pipefail
 
@@ -131,7 +131,7 @@ jobs:
               --arg pod_id     "$POD_ID" \
               --arg image      "${{ env.IMAGE }}:latest" \
               --arg openai_key "$OPENAI_API_KEY" \
-              --arg ckan_url   "$CKAN_PORTAL_URL" \
+              --arg ckan_url   "$CKAN_URL" \
               '{
                 pod_id: $pod_id,
                 image: $image,
@@ -140,7 +140,7 @@ jobs:
                   CKAN_AGENT_API_HOST: "0.0.0.0",
                   CKAN_AGENT_API_PORT: "8787",
                   OPENAI_API_KEY:      $openai_key,
-                  CKAN_PORTAL_URL:     $ckan_url
+                  CKAN_URL:            $ckan_url
                 },
                 networking: {
                   protocol: "http",
