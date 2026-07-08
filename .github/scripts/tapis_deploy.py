@@ -27,7 +27,7 @@ print("Token obtained.")
 
 pod_exists = False
 try:
-    t.pods.getPod(pod_id=pod_id)
+    t.pods.get_pod(pod_id=pod_id)
     pod_exists = True
 except Exception as e:
     status = getattr(getattr(e, "response", None), "status_code", None)
@@ -39,11 +39,11 @@ except Exception as e:
 
 if pod_exists:
     print(f"Pod {pod_id} exists — restarting to pick up new image")
-    t.pods.restartPod(pod_id=pod_id)
+    t.pods.restart_pod(pod_id=pod_id)
     print("Restart requested.")
 else:
     print(f"Pod {pod_id} not found — creating")
-    t.pods.createPod(
+    t.pods.create_pod(
         pod_id=pod_id,
         image=image,
         description="CKAN Agent API (FastAPI + LangGraph)",
