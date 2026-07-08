@@ -220,7 +220,12 @@ def _effective_tapis_token(settings: Settings) -> str:
 
 
 def _mcp_get_client(settings: Settings) -> Any:
-    """Return the CKAN MCP client if enabled and instantiable, else None."""
+    """Return the CKAN MCP client if enabled and instantiable, else None.
+
+    The JWT is injected per-call as a ``tapis_token`` tool argument (not in the
+    transport headers) so that every call carries the current request's fresh token
+    rather than whatever was baked into the shared connection at startup.
+    """
     if not settings.mcp_enabled:
         return None
     try:
@@ -229,7 +234,6 @@ def _mcp_get_client(settings: Settings) -> Any:
         return get_shared_client(
             settings.mcp_server_url,
             shared_secret=settings.mcp_shared_secret or None,
-            tapis_token=_effective_tapis_token(settings) or None,
             timeout=settings.mcp_timeout,
         )
     except Exception as exc:  # noqa: BLE001
@@ -289,11 +293,13 @@ def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
             "review_markdown": f"## Dry-Run Failed\n\n{msg}",
         }
 
+    _token = _effective_tapis_token(settings) or None
     try:
         pkg_result = client.call_tool("schema_create_package", {
             "dataset_type": dataset_type,
             "metadata": metadata,
             "dry_run": True,
+            **({"tapis_token": _token} if _token else {}),
         })
     except Exception as exc:  # noqa: BLE001
         msg = f"MCP call failed: {exc}"
@@ -372,16 +378,17 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
                 "error": "MCP server unavailable.",
                 "review_markdown": "## Registration Failed\n\nMCP server is not enabled or reachable."}
 
-    # Token: not injected as a tool argument — the MCP server uses its own CKAN_API_TOKEN env var.
-    # Passing a per-request JWT here would override the server's fresh static token with a
-    # potentially-expired chat-session JWT, causing 401s. The MCP server's CKAN_API_TOKEN is
-    # the authoritative credential for writes; update it when it expires.
+    # All CKAN auth goes through Tapis JWTs (no static CKAN API key). Inject the
+    # current request's JWT per-call so writes never use a stale cached token.
+    _token = _effective_tapis_token(settings) or None
+    _tok: dict[str, Any] = {"tapis_token": _token} if _token else {}
 
     # Create package (live write, approved by human gate before this node runs).
     pkg_args: dict[str, Any] = {
         "dataset_type": dataset_type,
         "metadata": metadata,
         "dry_run": False,
+        **_tok,
     }
 
     def _is_name_conflict(text: str) -> bool:
@@ -395,6 +402,7 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
             "id": metadata.get("name"),
             "metadata_updates": metadata,
             "dry_run": False,
+            **_tok,
         }
         try:
             return client.call_tool("schema_update_package", upsert_args)
@@ -416,6 +424,7 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
             "id": metadata.get("name"),
             "metadata_updates": metadata,
             "dry_run": False,
+            **_tok,
         }
         try:
             pkg_result = client.call_tool("schema_update_package", update_args)
@@ -472,6 +481,7 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
             "resource_metadata": resource_meta,
             "upload_file": local_path,
             "dry_run": False,
+            **_tok,
         }
         try:
             res_result = client.call_tool("schema_create_resource", res_args)

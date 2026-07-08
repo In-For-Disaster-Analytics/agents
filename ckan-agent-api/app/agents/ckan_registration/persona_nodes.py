@@ -494,20 +494,26 @@ def _mcp_executor_and_schemas(
     mcp_tools: dict[str, Any] = {}
     schemas: list[dict[str, Any]] = list(registry.to_openai_tools(names=[n for n in allow if n in in_process_names]))
 
-    # ── CKAN MCP server (header auth) ────────────────────────────────────────
+    # ── CKAN MCP server (arg-token injection, same pattern as geo) ───────────
+    # The JWT is a Tapis token that expires every 6 h — it cannot live in the
+    # shared transport headers. Inject it per-call via token_arg so every tool
+    # invocation carries the current request's fresh token.
     if settings.mcp_enabled:
         ckan = _try_mcp_client(
             "CKAN",
             settings.mcp_server_url,
             shared_secret=settings.mcp_shared_secret or None,
-            tapis_token=_effective_tapis_token(settings) or None,
             timeout=settings.mcp_timeout,
         )
         if ckan is not None:
             ckan_names = set(ckan.tool_names())
             _assert_no_overlap(all_names, ckan_names, "CKAN")
             all_names |= ckan_names
-            ckan_exec = MCPToolExecutor(ckan)
+            ckan_exec = MCPToolExecutor(
+                ckan,
+                token_arg="tapis_token",
+                token_value=_effective_tapis_token(settings) or None,
+            )
             for n in ckan_names:
                 mcp_tools[n] = ckan_exec
             ckan_allow = [n for n in allow if n in ckan_names and n not in PERSONA_BLOCKED_TOOLS]
