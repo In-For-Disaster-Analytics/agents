@@ -11,15 +11,24 @@ logger = logging.getLogger("ckan_registration.workflow")
 
 def setup_workflow_logging() -> logging.Logger:
     """Configure workflow logger with detailed formatting."""
+    handler = logging.StreamHandler()
+    formatter = logging.Formatter(
+        fmt='[%(asctime)s] %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S'
+    )
+    handler.setFormatter(formatter)
+
     if not logger.handlers:
-        handler = logging.StreamHandler()
-        formatter = logging.Formatter(
-            fmt='[%(asctime)s] %(name)s - %(levelname)s - %(message)s',
-            datefmt='%Y-%m-%d %H:%M:%S'
-        )
-        handler.setFormatter(formatter)
         logger.addHandler(handler)
         logger.setLevel(logging.DEBUG)
+
+    # Also capture all app.* loggers (engine.py, persona_nodes.py, etc.) at INFO.
+    app_logger = logging.getLogger("app")
+    if not app_logger.handlers:
+        app_logger.addHandler(handler)
+        app_logger.setLevel(logging.INFO)
+        app_logger.propagate = False
+
     return logger
 
 

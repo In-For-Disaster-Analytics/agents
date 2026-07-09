@@ -109,6 +109,10 @@ class Settings:
     ckan_temporal_coverage_start: str = ""
     ckan_temporal_coverage_end: str = ""
 
+    # Set CKAN_AUTH_BYPASS=1 in .env to skip the per-request CKAN org check for local dev.
+    # Never set this in production — it allows unauthenticated access to the agent API.
+    auth_bypass: bool = False
+
     openai_base_url: str = "https://ai.tejas.tacc.utexas.edu"
     openai_api_key: str = ""
     ckan_llm_model: str = "Meta-Llama-3.3-70B-Instruct"
@@ -181,6 +185,7 @@ class Settings:
             ckan_dataset_spatial=_clean(os.getenv("CKAN_DATASET_SPATIAL")),
             ckan_temporal_coverage_start=_clean(os.getenv("CKAN_TEMPORAL_COVERAGE_START")),
             ckan_temporal_coverage_end=_clean(os.getenv("CKAN_TEMPORAL_COVERAGE_END")),
+            auth_bypass=_clean(os.getenv("CKAN_AUTH_BYPASS")).lower() in {"1", "true", "yes", "on"},
             openai_base_url=_clean(os.getenv("OPENAI_BASE_URL")) or "https://ai.tejas.tacc.utexas.edu",
             openai_api_key=os.getenv("OPENAI_API_KEY") or "",
             ckan_llm_model=_clean(os.getenv("CKAN_LLM_MODEL")) or "Meta-Llama-3.3-70B-Instruct",

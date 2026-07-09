@@ -189,94 +189,127 @@ def _resource_plan_from_heads(file_heads: list[dict[str, Any]]) -> list[dict[str
 _BOUNDS_KEYWORDS = frozenset({"bounds", "boundary", "extent", "bbox", "envelope"})
 
 
-def _bbox_geojson_from_heads(file_heads: list[dict[str, Any]]) -> str | None:
-    """Read the first bounds/boundary GeoJSON file from file_heads and return its JSON string."""
-    for head in file_heads:
-        ext = str(head.get("extension") or "").lower()
+def _is_wgs84_coord(lon: float, lat: float) -> bool:
+    """Return True when (lon, lat) look like valid WGS84 degrees."""
+    return -180.0 <= lon <= 180.0 and -90.0 <= lat <= 90.0
+
+
+def _collect_wgs84_coords(geo: dict[str, Any]) -> list[tuple[float, float]]:
+    """Recursively extract all (lon, lat) pairs from a GeoJSON object that are in WGS84 range."""
+    pts: list[tuple[float, float]] = []
+
+    def _from_coord(c: Any) -> None:
+        if isinstance(c, (list, tuple)) and len(c) >= 2:
+            try:
+                lon, lat = float(c[0]), float(c[1])
+                if _is_wgs84_coord(lon, lat):
+                    pts.append((lon, lat))
+            except (TypeError, ValueError):
+                pass
+
+    def _from_geom(geom: dict[str, Any]) -> None:
+        gtype = geom.get("type", "")
+        coords = geom.get("coordinates") or []
+        if gtype == "Point":
+            _from_coord(coords)
+        elif gtype in ("LineString", "MultiPoint"):
+            for c in coords:
+                _from_coord(c)
+        elif gtype in ("Polygon", "MultiLineString"):
+            for ring in coords:
+                for c in ring:
+                    _from_coord(c)
+        elif gtype == "MultiPolygon":
+            for poly in coords:
+                for ring in poly:
+                    for c in ring:
+                        _from_coord(c)
+        elif gtype == "GeometryCollection":
+            for g in geom.get("geometries") or []:
+                _from_geom(g)
+
+    gtype = geo.get("type", "")
+    if gtype == "FeatureCollection":
+        for feat in geo.get("features") or []:
+            _from_geom(feat.get("geometry") or {})
+    elif gtype == "Feature":
+        _from_geom(geo.get("geometry") or {})
+    else:
+        _from_geom(geo)
+
+    return pts
+
+
+def _wgs84_bbox_and_centroid_from_geojson(
+    geojson_str: str,
+) -> tuple[str, tuple[float, float]] | None:
+    """Parse a GeoJSON string; return (bbox_polygon_str, (lat, lon)) if it contains WGS84
+    coordinates, or None when the file is in a projected CRS or has no usable coordinates."""
+    try:
+        geo = json.loads(geojson_str)
+    except Exception:  # noqa: BLE001
+        return None
+    pts = _collect_wgs84_coords(geo)
+    if len(pts) < 2:
+        return None
+    lons = [p[0] for p in pts]
+    lats = [p[1] for p in pts]
+    w, e = min(lons), max(lons)
+    s, n = min(lats), max(lats)
+    centroid_lat = (s + n) / 2
+    centroid_lon = (w + e) / 2
+    bbox = {
+        "type": "Polygon",
+        "coordinates": [[[w, s], [e, s], [e, n], [w, n], [w, s]]],
+    }
+    return json.dumps(bbox), (centroid_lat, centroid_lon)
+
+
+# GeoJSON files whose names suggest they contain dataset bounds or shot positions —
+# preferred sources for the WGS84 bbox / location hint.
+_SPATIAL_KEYWORDS = frozenset({
+    "bounds", "boundary", "extent", "bbox", "envelope", "shots", "footprint",
+})
+
+
+def _wgs84_spatial_from_heads(
+    file_heads: list[dict[str, Any]],
+) -> tuple[str, tuple[float, float]] | None:
+    """Scan file_heads for any GeoJSON file with WGS84 coordinates.
+
+    Prefers files whose name matches _SPATIAL_KEYWORDS (bounds, shots, …) but
+    falls back to any .geojson file. Returns (bbox_polygon_str, (lat, lon)) for the
+    first file that yields usable WGS84 coords, or None.
+    """
+    def _score(head: dict[str, Any]) -> int:
         name = str(head.get("name") or "").lower()
+        ext = str(head.get("extension") or "").lower()
+        if ext not in (".geojson", ".json"):
+            return -1
+        return 1 if any(kw in name for kw in _SPATIAL_KEYWORDS) else 0
+
+    candidates = sorted(
+        (h for h in file_heads if _score(h) >= 0),
+        key=_score,
+        reverse=True,
+    )
+    for head in candidates:
         path_str = str(head.get("path") or "")
-        if ext not in (".geojson", ".json") or not path_str:
-            continue
-        if not any(kw in name for kw in _BOUNDS_KEYWORDS):
+        if not path_str:
             continue
         try:
             with open(path_str, encoding="utf-8") as fp:
-                content = json.load(fp)
-            return json.dumps(content)
+                raw = fp.read()
         except Exception:  # noqa: BLE001
             continue
-    return None
-
-
-def _to_bbox_polygon(geojson_str: str) -> str:
-    """Convert any GeoJSON polygon/feature to an axis-aligned bounding-box rectangle.
-
-    ODM and other tools often emit convex hulls or triangular bounds files. CKAN's
-    spatial field should be a proper rectangle so the map preview makes sense.
-    Returns the original string unchanged on any parse error.
-    """
-    try:
-        geo = json.loads(geojson_str)
-        all_coords: list[list[float]] = []
-
-        def _collect(geom: dict) -> None:
-            if geom.get("type") == "Polygon":
-                for ring in geom.get("coordinates") or []:
-                    all_coords.extend(ring)
-            elif geom.get("type") in ("MultiPolygon",):
-                for poly in geom.get("coordinates") or []:
-                    for ring in poly:
-                        all_coords.extend(ring)
-
-        gtype = geo.get("type")
-        if gtype in ("Polygon", "MultiPolygon"):
-            _collect(geo)
-        elif gtype == "Feature":
-            _collect(geo.get("geometry") or {})
-        elif gtype == "FeatureCollection":
-            for feat in (geo.get("features") or []):
-                _collect((feat.get("geometry") or {}))
-
-        if len(all_coords) < 2:
-            return geojson_str
-
-        lons = [c[0] for c in all_coords]
-        lats = [c[1] for c in all_coords]
-        w, e = min(lons), max(lons)
-        s, n = min(lats), max(lats)
-        bbox = {
-            "type": "Polygon",
-            "coordinates": [[[w, s], [e, s], [e, n], [w, n], [w, s]]],
-        }
-        return json.dumps(bbox)
-    except Exception:  # noqa: BLE001
-        return geojson_str
-
-
-def _centroid_from_geojson_str(geojson_str: str) -> tuple[float, float] | None:
-    """Extract (lat, lon) centroid from a GeoJSON polygon string."""
-    try:
-        geo = json.loads(geojson_str)
-        gtype = geo.get("type")
-        coords: list[Any] = []
-        if gtype == "Polygon":
-            coords = geo.get("coordinates", [[]])[0]
-        elif gtype == "Feature":
-            geom = geo.get("geometry") or {}
-            if geom.get("type") == "Polygon":
-                coords = (geom.get("coordinates") or [[]])[0]
-        elif gtype == "FeatureCollection":
-            for feat in (geo.get("features") or []):
-                geom = (feat.get("geometry") or {})
-                if geom.get("type") == "Polygon":
-                    coords = (geom.get("coordinates") or [[]])[0]
-                    break
-        if len(coords) >= 3:
-            lon = sum(c[0] for c in coords) / len(coords)
-            lat = sum(c[1] for c in coords) / len(coords)
-            return lat, lon
-    except Exception:  # noqa: BLE001
-        pass
+        result = _wgs84_bbox_and_centroid_from_geojson(raw)
+        if result is not None:
+            logger.info(
+                "[geo] WGS84 bbox+centroid from %s | centroid=%.4f,%.4f",
+                head.get("name"), result[1][0], result[1][1],
+            )
+            return result
+    logger.warning("[geo] no WGS84 GeoJSON found in file_heads — bbox and location_hint unavailable")
     return None
 
 
@@ -340,7 +373,8 @@ def _reverse_geocode(lat: float, lon: float, timeout: float = 5.0) -> str | None
                 parts = [addr[key]]
                 if state:
                     parts.append(state)
-                if cc:
+                # Only append country code for non-US addresses (state alone implies US).
+                if cc and cc != "US":
                     parts.append(cc)
                 return ", ".join(parts)
         # Named feature as a fallback before county/state — but only when it's a settlement
@@ -376,6 +410,98 @@ def _reverse_geocode(lat: float, lon: float, timeout: float = 5.0) -> str | None
     return result if result else None
 
 
+# Matches DJI-style and common sensor filenames: DJI_YYYYMMDDHHMMSS_…
+# Also matches bare YYYYMMDD_HHMMSS and YYYYMMDDHHMMSS patterns in filenames.
+_FILENAME_DATETIME_RE = re.compile(
+    r"(?:^|[_\-])(\d{4})(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])"  # YYYY MM DD
+    r"(?:[_T]?(\d{2})(\d{2})(\d{2}))?",                           # optional HHMMSS
+)
+
+
+def _parse_filename_datetime(name: str) -> str | None:
+    """Extract the earliest ISO 8601 datetime embedded in an image filename, or None."""
+    m = _FILENAME_DATETIME_RE.search(name)
+    if not m:
+        return None
+    year, month, day = m.group(1), m.group(2), m.group(3)
+    if m.group(4):
+        return f"{year}-{month}-{day}T{m.group(4)}:{m.group(5)}:{m.group(6)}"
+    return f"{year}-{month}-{day}"
+
+
+def _temporal_hint_from_heads(
+    file_heads: list[dict[str, Any]],
+) -> dict[str, str] | None:
+    """Extract image-capture timestamps from the file inventory.
+
+    Priority:
+    1. ``images.json`` utc_time fields (Unix ms from EXIF — most authoritative).
+    2. Filename datetime regex on image files present in file_heads.
+    3. Filename datetime regex on ``filename`` fields inside images.json.
+
+    Returns {"start": ISO, "end": ISO} or None.
+    """
+    from datetime import datetime, timezone
+
+    # 1. images.json → utc_time (Unix ms, authoritative EXIF capture time)
+    for head in file_heads:
+        if str(head.get("name") or "").lower() == "images.json":
+            path_str = str(head.get("path") or "")
+            if not path_str:
+                continue
+            try:
+                with open(path_str, encoding="utf-8") as fp:
+                    records = json.load(fp)
+                if not isinstance(records, list):
+                    continue
+                timestamps: list[str] = []
+                for rec in records:
+                    utc_ms = rec.get("utc_time")
+                    if utc_ms is not None:
+                        try:
+                            dt = datetime.fromtimestamp(float(utc_ms) / 1000.0, tz=timezone.utc)
+                            timestamps.append(dt.strftime("%Y-%m-%dT%H:%M:%S"))
+                        except (ValueError, OverflowError, OSError):
+                            pass
+                if timestamps:
+                    timestamps.sort()
+                    result = {"start": timestamps[0], "end": timestamps[-1]}
+                    logger.info("[temporal] extracted from images.json utc_time | start=%s end=%s", result["start"], result["end"])
+                    return result
+                # utc_time absent — fall through to filename parsing below
+                for rec in records:
+                    fn = str(rec.get("filename") or "")
+                    dt_str = _parse_filename_datetime(fn)
+                    if dt_str:
+                        timestamps.append(dt_str)
+                if timestamps:
+                    timestamps.sort()
+                    result = {"start": timestamps[0], "end": timestamps[-1]}
+                    logger.info("[temporal] extracted from images.json filenames | start=%s end=%s", result["start"], result["end"])
+                    return result
+            except Exception:  # noqa: BLE001
+                pass
+            break
+
+    # 2. Filename regex on image files in the file_heads inventory.
+    image_exts = {".jpg", ".jpeg", ".tif", ".tiff", ".png", ".dng", ".raw"}
+    dates: list[str] = []
+    for head in file_heads:
+        ext = str(head.get("extension") or "").lower()
+        name = str(head.get("name") or "")
+        if ext in image_exts:
+            dt_str = _parse_filename_datetime(name)
+            if dt_str:
+                dates.append(dt_str)
+    if dates:
+        dates.sort()
+        result = {"start": dates[0], "end": dates[-1]}
+        logger.info("[temporal] extracted from image filenames | start=%s end=%s", result["start"], result["end"])
+        return result
+
+    return None
+
+
 def _gather_evidence(request: dict[str, Any], settings: Settings) -> tuple[dict[str, Any], dict[str, Any]]:
     """Build the author's evidence: message/overrides/URLs + analyzed file reports.
 
@@ -402,17 +528,21 @@ def _gather_evidence(request: dict[str, Any], settings: Settings) -> tuple[dict[
         "file_warnings": evidence["file_warnings"],
     }
 
-    # Read any bounds/boundary GeoJSON file and try to reverse-geocode it so the author
-    # can name the dataset from the real place name rather than a generic "of a Location".
-    bbox_str = _bbox_geojson_from_heads(evidence["file_heads"])
-    if bbox_str:
-        bbox_str = _to_bbox_polygon(bbox_str)  # normalize triangle/hull → proper rectangle
+    # Find a GeoJSON file with WGS84 coordinates to build the CKAN spatial field and
+    # reverse-geocode a place name for the dataset title.
+    spatial = _wgs84_spatial_from_heads(evidence["file_heads"])
+    if spatial is not None:
+        bbox_str, centroid = spatial
         consolidated["bbox_geojson_str"] = bbox_str
-        centroid = _centroid_from_geojson_str(bbox_str)
-        if centroid is not None:
-            hint = _reverse_geocode(centroid[0], centroid[1])
-            if hint:
-                consolidated["location_hint"] = hint
+        hint = _reverse_geocode(centroid[0], centroid[1])
+        if hint:
+            consolidated["location_hint"] = hint
+
+    # Extract temporal coverage from image filenames so the LLM gets authoritative
+    # ISO 8601 dates rather than guessing from ambiguous filename formats.
+    temporal = _temporal_hint_from_heads(evidence["file_heads"])
+    if temporal:
+        consolidated["temporal_hint"] = temporal
 
     return consolidated, build_file_inventory(evidence["file_heads"])
 
@@ -492,13 +622,19 @@ def _mcp_executor_and_schemas(
     in_process_names = {s.name for s in registry.load_all()}
     all_names = set(in_process_names)
     mcp_tools: dict[str, Any] = {}
-    schemas: list[dict[str, Any]] = list(registry.to_openai_tools(names=[n for n in allow if n in in_process_names]))
+    in_process_allow = [n for n in allow if n in in_process_names]
+    schemas: list[dict[str, Any]] = list(registry.to_openai_tools(names=in_process_allow))
+    logger.info(
+        "[persona_tools] in-process tools available=%s | allow-listed=%s | offered=%s",
+        sorted(in_process_names), allow, in_process_allow,
+    )
 
     # ── CKAN MCP server (arg-token injection, same pattern as geo) ───────────
     # The JWT is a Tapis token that expires every 6 h — it cannot live in the
     # shared transport headers. Inject it per-call via token_arg so every tool
     # invocation carries the current request's fresh token.
     if settings.mcp_enabled:
+        logger.info("[persona_tools] CKAN MCP enabled — connecting to %s", settings.mcp_server_url)
         ckan = _try_mcp_client(
             "CKAN",
             settings.mcp_server_url,
@@ -507,6 +643,7 @@ def _mcp_executor_and_schemas(
         )
         if ckan is not None:
             ckan_names = set(ckan.tool_names())
+            logger.info("[persona_tools] CKAN MCP connected | tools available: %s", sorted(ckan_names))
             _assert_no_overlap(all_names, ckan_names, "CKAN")
             all_names |= ckan_names
             ckan_exec = MCPToolExecutor(
@@ -518,9 +655,15 @@ def _mcp_executor_and_schemas(
                 mcp_tools[n] = ckan_exec
             ckan_allow = [n for n in allow if n in ckan_names and n not in PERSONA_BLOCKED_TOOLS]
             schemas += ckan.to_openai_tools(names=ckan_allow)
+            logger.info("[persona_tools] CKAN tools offered to author: %s", ckan_allow)
+        else:
+            logger.warning("[persona_tools] CKAN MCP unreachable — no CKAN tools offered")
+    else:
+        logger.info("[persona_tools] CKAN MCP disabled (CKAN_MCP_ENABLED not set)")
 
     # ── Geo MCP server (arg-token injection; metadata via sync wrapper) ──────
     if settings.geo_mcp_enabled:
+        logger.info("[persona_tools] geo MCP enabled — connecting to %s", settings.geo_mcp_url)
         geo = _try_mcp_client(
             "geo",
             settings.geo_mcp_url,
@@ -529,6 +672,7 @@ def _mcp_executor_and_schemas(
         )
         if geo is not None:
             geo_names = set(geo.tool_names())
+            logger.info("[persona_tools] geo MCP connected | tools available: %s", sorted(geo_names))
             _assert_no_overlap(all_names, geo_names, "geo")
             all_names |= geo_names
             token = _effective_tapis_token(settings) or settings.geo_mcp_tapis_token or None
@@ -540,10 +684,17 @@ def _mcp_executor_and_schemas(
                 mcp_tools[n] = sync if n in GEO_PERSONA_METADATA_TOOLS else plain
             geo_allow = [n for n in allow if n in geo_names and n in GEO_PERSONA_METADATA_TOOLS]
             schemas += geo.to_openai_tools(names=geo_allow)
+            logger.info("[persona_tools] geo tools offered to author: %s", geo_allow)
+        else:
+            logger.warning("[persona_tools] geo MCP unreachable — no geo tools offered")
+    else:
+        logger.info("[persona_tools] geo MCP disabled (GEO_MCP_ENABLED not set)")
 
     if not mcp_tools:
+        logger.warning("[persona_tools] no MCP tools available — falling back to in-process only")
         return None
     executor = CompositeToolExecutor(InProcessToolExecutor(registry), mcp_tools)
+    logger.info("[persona_tools] composite executor ready | total schemas offered: %d", len(schemas))
     return executor, schemas
 
 
@@ -561,8 +712,13 @@ def _tool_kwargs(settings: Settings, author: Persona) -> dict[str, Any]:
     file tools stay in-process (composite). Otherwise the in-repo CKAN read tools are the
     fallback (Fork B). Write tools are never advertised to the author (Fork A): MCPToolExecutor
     hard-blocks live writes and the write-tool schemas are dry-run-only/token-scrubbed."""
-    if not settings.persona_tools_enabled or not author.tools:
+    if not settings.persona_tools_enabled:
+        logger.info("[persona_tools] CKAN_PERSONA_TOOLS not enabled — tool-calling skipped")
         return {}
+    if not author.tools:
+        logger.info("[persona_tools] author persona %r has no tools allow-list — tool-calling skipped", author.name)
+        return {}
+    logger.info("[persona_tools] author=%r allow-list=%s max_tool_calls=%d", author.name, list(author.tools), settings.max_tool_calls)
     registry = ToolRegistry(settings.tools_dir)
     allow = list(author.tools)
 
@@ -573,6 +729,7 @@ def _tool_kwargs(settings: Settings, author: Persona) -> dict[str, Any]:
         executor = InProcessToolExecutor(registry)
         author_tool_specs = registry.to_openai_tools(names=allow)
     if not author_tool_specs:
+        logger.warning("[persona_tools] no tool schemas resolved — tool-calling unavailable for this run")
         return {}
 
     def tool_chat(messages: list[dict[str, Any]], tools: list[dict[str, Any]] | None) -> dict[str, Any]:
@@ -726,19 +883,32 @@ def _ground_owner_org_field(settings: Settings, state: CkanRegistrationState, or
 
     resolved, ambiguous, options = resolve_owner_org_choice(orgs, settings.ckan_owner_org)
     if ambiguous:
-        lines = ["Which CKAN organization should own this dataset? Reply with the name.", ""]
-        lines += [f"- **{o['name']}**" + (f" — {o['title']}" if o["title"] else "") for o in options]
-        reply = interrupt(
-            {
-                "type": "owner_org_selection_required",
-                "message": "\n".join(lines),
-                "options": [o["name"] for o in options],
-                "thread_id": state.get("thread_id"),
-            }
-        )
-        org_meta["owner_org"] = _match_owner_org(
-            _reply_text(reply), {o["name"] for o in options}, settings.ckan_owner_org
-        )
+        option_names = {o["name"] for o in options}
+        option_lines = [f"- **{o['name']}**" + (f" — {o['title']}" if o["title"] else "") for o in options]
+        preamble = ""
+        while True:
+            lines: list[str] = []
+            if preamble:
+                lines += [preamble, ""]
+            lines += ["Which CKAN organization should own this dataset? Reply with the name.", ""]
+            lines += option_lines
+            reply = interrupt(
+                {
+                    "type": "owner_org_selection_required",
+                    "message": "\n".join(lines),
+                    "options": sorted(option_names),
+                    "thread_id": state.get("thread_id"),
+                }
+            )
+            reply_text = _reply_text(reply)
+            if _is_meta_question(reply_text):
+                preamble = "Here are your available organizations:"
+                continue
+            chosen = _match_owner_org(reply_text, option_names, settings.ckan_owner_org)
+            if chosen in option_names:
+                org_meta["owner_org"] = chosen
+                break
+            preamble = f"'{reply_text[:50]}' didn't match — please choose from the list below."
     elif resolved and resolved != settings.ckan_owner_org:
         logger.info("[schema_select] grounded owner_org %r → %r (live CKAN org)", settings.ckan_owner_org, resolved)
         org_meta["owner_org"] = resolved

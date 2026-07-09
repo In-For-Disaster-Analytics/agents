@@ -210,29 +210,63 @@ def _author_tool_loop(
     tool messages. Capped at ``max_tool_calls`` total calls, after which one final tool-free
     turn is requested so the author always returns metadata JSON.
     """
+    tool_names = [t.get("function", {}).get("name") or t.get("name", "?") for t in (tools or [])]
+    logger.info("[tool_loop] starting | budget=%d tools offered=%s", max_tool_calls, tool_names)
+
     messages: list[dict[str, Any]] = [
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
     ]
     calls_made = 0
+    # Dedup cache: (tool_name, canonical_args) → result_str. Prevents invoking the same
+    # tool twice (e.g. pdf_summarize 6× on the same file) but still counts each LLM-requested
+    # call against the budget so the loop always terminates.
+    _call_cache: dict[tuple[str, str], str] = {}
     while True:
         offer_tools = tools if calls_made < max_tool_calls else None
+        logger.debug("[tool_loop] LLM call #%d | offering tools=%s", calls_made + 1, bool(offer_tools))
         resp = tool_chat(messages, offer_tools)
         tool_calls = resp.get("tool_calls") or []
         if not tool_calls:
-            return resp.get("content") or ""
+            content = resp.get("content") or ""
+            logger.info("[tool_loop] done | total calls=%d | draft length=%d chars", calls_made, len(content))
+            return content
         messages.append(resp.get("raw_message") or {"role": "assistant", "content": resp.get("content") or ""})
         for call in tool_calls:
-            result = executor.invoke(call.get("name", ""), call.get("arguments") or {})
+            tool_name = call.get("name", "")
+            args = call.get("arguments") or {}
+            cache_key = (tool_name, json.dumps(args, sort_keys=True))
+            args_preview = {k: (str(v)[:120] if isinstance(v, str) else v) for k, v in args.items()}
+            calls_made += 1
+            if cache_key in _call_cache:
+                # Return cached result; still counts against budget to keep the loop finite.
+                result_str = _call_cache[cache_key]
+                logger.info(
+                    "[tool_loop] call #%d → %s(%s) [CACHED — skipping re-invoke]",
+                    calls_made, tool_name, args_preview,
+                )
+            else:
+                logger.info("[tool_loop] call #%d → %s(%s)", calls_made, tool_name, args_preview)
+                result = executor.invoke(tool_name, args)
+                result_str = json.dumps(result, default=str)
+                _call_cache[cache_key] = result_str
+                logger.info(
+                    "[tool_loop] result #%d ← %s | ok=%s | len=%d",
+                    calls_made,
+                    tool_name,
+                    result.get("success", "?") if isinstance(result, dict) else "?",
+                    len(result_str),
+                )
+                logger.debug("[tool_loop] result_preview ← %s", result_str[:600])
             messages.append(
                 {
                     "role": "tool",
                     "tool_call_id": call.get("id", ""),
-                    "content": json.dumps(result, default=str)[:8000],
+                    "content": result_str[:8000],
                 }
             )
-            calls_made += 1
         if calls_made >= max_tool_calls:
+            logger.info("[tool_loop] budget exhausted after %d calls — requesting final JSON", calls_made)
             messages.append(
                 {"role": "user", "content": "Tool budget reached. Return ONLY the final metadata JSON now."}
             )
@@ -295,11 +329,30 @@ def run_persona_metadata_loop(
     resolved_gaps: dict[str, str] = {}
     last_candidate: dict[str, Any] = {}
 
+    tools_active = tool_executor is not None and bool(author_tool_specs) and tool_chat_fn is not None
+    evaluator_names = [n for n, _ in evaluator_systems]
+    file_count = len(consolidated_inputs.get("file_heads") or [])
+    logger.info(
+        "[persona_engine] starting | schema=%s | files=%d | tools_active=%s | max_rounds=%d | evaluators=%s",
+        schema_profile.name, file_count, tools_active, max_rounds, evaluator_names,
+    )
+    if tools_active:
+        spec_names = [s.get("function", {}).get("name") or s.get("name", "?") for s in (author_tool_specs or [])]
+        logger.info("[persona_engine] author tool specs: %s", spec_names)
+    if bbox_geojson:
+        logger.info("[persona_engine] bbox_geojson present (%d chars)", len(bbox_geojson))
+    if consolidated_inputs.get("location_hint"):
+        logger.info("[persona_engine] location_hint: %s", consolidated_inputs["location_hint"])
+    if consolidated_inputs.get("temporal_hint"):
+        th = consolidated_inputs["temporal_hint"]
+        logger.info("[persona_engine] temporal_hint: start=%s end=%s", th.get("start"), th.get("end"))
+
     def _sleep() -> None:
         if delay_seconds and delay_seconds > 0:
             time.sleep(delay_seconds)
 
     for round_num in range(1, max_rounds + 1):
+        logger.info("[persona_engine] === round %d/%d ===", round_num, max_rounds)
         payload = _author_payload(
             consolidated_inputs=consolidated_inputs,
             schema_profile=schema_profile,
@@ -321,8 +374,16 @@ def run_persona_metadata_loop(
                     max_tool_calls=max_tool_calls,
                 )
             else:
+                logger.info("[persona_engine] no tool executor — plain LLM call")
                 author_content = chat(author_system, payload)
             candidate = llm.parse_json_response(author_content)
+            logger.info(
+                "[persona_engine] round %d draft | title=%r | notes_len=%d | gaps=%s",
+                round_num,
+                candidate.get("title"),
+                len(str(candidate.get("notes") or "")),
+                [k for k in candidate if k.startswith("_gap_")],
+            )
         except Exception as exc:  # noqa: BLE001 - engine never raises
             logger.error("[persona_engine] author LLM failure round=%d: %s", round_num, exc)
             return _finish(
@@ -344,7 +405,17 @@ def run_persona_metadata_loop(
         try:
             for name, system in evaluator_systems:
                 content = chat(system, {"candidate_metadata": candidate, "resolved_gaps_do_not_reraise": resolved_gaps})
-                verdicts.append(_parse_verdict(content, name))
+                v = _parse_verdict(content, name)
+                verdicts.append(v)
+                logger.info(
+                    "[persona_engine] evaluator %s | verdict=%s | questions=%d | recommendations=%d",
+                    name, v.verdict, len(v.questions), len(v.recommendations),
+                )
+                for q in v.questions:
+                    logger.debug(
+                        "[persona_engine]   question field=%s requires_human=%s: %s",
+                        q.get("field"), q.get("requires_human"), q.get("question", "")[:120],
+                    )
                 _sleep()
         except Exception as exc:  # noqa: BLE001
             logger.error("[persona_engine] evaluator LLM failure round=%d: %s", round_num, exc)

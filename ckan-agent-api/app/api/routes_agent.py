@@ -42,7 +42,11 @@ def require_ckan_org_access(settings: Settings = Depends(get_settings)) -> None:
     token) is treated as no access and raises 403. Network failures or unreachable CKAN
     are treated as uncertain and allow the request through — the agent itself will surface
     a clear error if CKAN is actually down.
+
+    Set CKAN_AUTH_BYPASS=1 in .env to skip this check for local development.
     """
+    if settings.auth_bypass:
+        return
     auth = get_request_ckan_auth()
     if not auth:
         raise HTTPException(

@@ -122,8 +122,14 @@ the information is derivable — are not acceptable.
    spatial coverage truly is that broad (e.g. a statewide survey). When `location_hint` is
    absent, omit the PLACE element rather than guessing — never fabricate a place name.
 
-3. TIME — year or date range of collection, survey, or model period. Derive from filenames
-   (e.g. `survey_2023.zip`), temporal metadata, or document content. Omit when unknown.
+3. TIME — year or date range of collection, survey, or model period. When
+   `consolidated_inputs.temporal_hint` is present it contains pre-parsed ISO 8601 dates
+   extracted server-side from image capture timestamps (`{"start": "YYYY-MM-DDTHH:MM:SS",
+   "end": "YYYY-MM-DDTHH:MM:SS"}`). Use these values verbatim for `temporal_coverage_start`
+   and `temporal_coverage_end` — do NOT re-derive dates from filenames yourself, as image
+   filename date formats are ambiguous and you will misread them. When `temporal_hint` is
+   absent, derive from other sources (e.g. a four-digit year in a filename like
+   `survey_2023.zip`, or document content). Omit when unknown.
 
 Combine all available elements into one specific, discovery-ready title:
   GOOD: "Bastrop County Orthophoto and 3D Model (2023)"

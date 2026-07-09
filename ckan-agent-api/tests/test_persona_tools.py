@@ -73,13 +73,18 @@ def test_author_tool_loop_executes_tool_then_finalizes():
 def test_tool_loop_respects_max_tool_calls_cap():
     author, evaluators = _personas()
     executor = _CountingExec()
+    call_counter = {"n": 0}
 
     def tool_chat(messages, tools):
         if tools is None:  # forced final turn after budget exhausted
             return {"content": FINAL_JSON, "tool_calls": []}
+        # Use a distinct path each turn so dedup cache never fires — this isolates
+        # the budget-cap behaviour from the duplicate-suppression behaviour.
+        call_counter["n"] += 1
         return {
             "content": None,
-            "tool_calls": [{"id": "c", "name": "file_profile_csv", "arguments": {}}],
+            "tool_calls": [{"id": "c", "name": "file_profile_csv",
+                            "arguments": {"path": f"/x{call_counter['n']}.csv"}}],
             "raw_message": {"role": "assistant", "content": None},
         }
 
@@ -95,7 +100,7 @@ def test_tool_loop_respects_max_tool_calls_cap():
         max_tool_calls=2,
     )
     assert result.converged is True
-    assert len(executor.calls) == 2  # capped
+    assert len(executor.calls) == 2  # capped at max_tool_calls
 
 
 def test_no_tool_params_keeps_simple_author_path():

@@ -99,6 +99,34 @@ def test_ground_ambiguous_interrupts_and_uses_choice(monkeypatch):
     assert _ground(settings, {"thread_id": "t"}) == {"owner_org": "twdb-gam"}
 
 
+def test_ground_empty_configured_single_org(monkeypatch):
+    """When CKAN_OWNER_ORG is unset, single live org auto-resolves without prompting."""
+    settings = replace(Settings(), ckan_owner_org="")
+    monkeypatch.setattr("app.agents.ckan_registration.org_grounding.fetch_orgs", lambda s: [TWDB])
+    assert _ground(settings, {"thread_id": "t"}) == {"owner_org": "twdb-gam"}
+
+
+def test_ground_empty_configured_multiple_orgs_interrupts(monkeypatch):
+    """When CKAN_OWNER_ORG is unset and multiple orgs exist, user must choose."""
+    settings = replace(Settings(), ckan_owner_org="")
+    monkeypatch.setattr(
+        "app.agents.ckan_registration.org_grounding.fetch_orgs", lambda s: [TWDB, DSO]
+    )
+    monkeypatch.setattr(persona_nodes, "interrupt", lambda payload: {"message": "dso-institute"})
+    assert _ground(settings, {"thread_id": "t"}) == {"owner_org": "dso-institute"}
+
+
+def test_ground_ambiguous_meta_question_then_valid_choice(monkeypatch):
+    """When user asks a meta-question ('what are my options?'), loop re-prompts then accepts the org."""
+    settings = replace(Settings(), ckan_owner_org="not-a-real-org")
+    monkeypatch.setattr(
+        "app.agents.ckan_registration.org_grounding.fetch_orgs", lambda s: [TWDB, DSO]
+    )
+    replies = iter(["what are my options?", "twdb-gam"])
+    monkeypatch.setattr(persona_nodes, "interrupt", lambda payload: {"message": next(replies)})
+    assert _ground(settings, {"thread_id": "t"}) == {"owner_org": "twdb-gam"}
+
+
 # ── license_id grounding ─────────────────────────────────────────────────────
 
 LICENSES = [
