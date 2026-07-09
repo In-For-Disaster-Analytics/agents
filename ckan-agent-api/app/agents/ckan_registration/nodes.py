@@ -101,6 +101,8 @@ def normalize_action(value: object | None) -> str:
         "transform": "geo-transform",
         "geo-transform": "geo-transform",
         "transform-status": "transform-status",
+        "revise_field": "revise-field",
+        "revise-field": "revise-field",
     }
     return aliases.get(text, text)
 
@@ -175,44 +177,195 @@ def llm_classify_action(
     return "analyze"  # Safe default
 
 
-def make_intake_node() -> Any:
+_ROUTER_TOOLS = [
+    {
+        "type": "function",
+        "function": {
+            "name": "analyze",
+            "description": (
+                "Analyze uploaded files and generate initial CKAN dataset metadata. "
+                "Use when new files are present, there is no prior session, or the user wants to start over."
+            ),
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "revise",
+            "description": (
+                "Regenerate the full metadata proposal based on user feedback. "
+                "Use for general corrections like 'redo the description', 'this looks wrong', "
+                "'use a different style'. Do NOT use for targeted single-field edits."
+            ),
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "revise_field",
+            "description": (
+                "Update one specific metadata field based on the user's instruction. "
+                "Use when the user clearly targets a single field: 'make the title shorter', "
+                "'zoom in with the title', 'fix the author email', 'update the tags'."
+            ),
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": "The CKAN metadata field to update (e.g. title, notes, author, tags, license_id)",
+                    },
+                    "instruction": {
+                        "type": "string",
+                        "description": "What the user wants to change about that field",
+                    },
+                },
+                "required": ["field", "instruction"],
+            },
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "dry_run",
+            "description": (
+                "Validate current metadata against CKAN without creating anything. "
+                "Use for: 'validate', 'dry run', 'preview', 'check before registering'."
+            ),
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "apply",
+            "description": (
+                "Register the dataset in CKAN. "
+                "Only use when the user explicitly says REGISTER or gives clear registration approval."
+            ),
+        },
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "show",
+            "description": (
+                "Return the current session state without changes. "
+                "Use for: 'show me what we have', 'status', 'what is the current metadata'."
+            ),
+        },
+    },
+]
+
+_ROUTER_ACTION_MAP = {
+    "analyze": "analyze",
+    "revise": "revise",
+    "revise_field": "revise_field",
+    "dry_run": "dry-run",
+    "apply": "apply",
+    "show": "show",
+}
+
+
+def llm_route_action(
+    settings: Settings,
+    request: dict[str, Any],
+    prior_status: str,
+) -> tuple[str, dict[str, Any]]:
+    """Use LLM tool-calling to route a natural-language message to an action.
+
+    Returns (action, extra_args). For revise_field, extra_args carries
+    {"field": ..., "instruction": ...}. Falls back to "analyze" when the LLM
+    is unavailable or returns no tool call.
+    """
+    if not settings.openai_api_key:
+        return "analyze", {}
+
+    message = str(request.get("message") or "").strip()
+    if not message:
+        return "analyze", {}
+
+    context = "\n".join([
+        f"User message: {message[:500]}",
+        f"Active session: {bool(request.get('session_id'))}",
+        f"Has uploaded files: {bool(request.get('files') or request.get('upload_dir') or request.get('upload_dirs') or request.get('source_url') or request.get('source_urls'))}",
+        f"Prior status: {prior_status or 'none'}",
+    ])
+
+    from app import llm as _llm
+    try:
+        result = _llm.invoke_chat_tools(
+            [{"role": "user", "content": context}],
+            _ROUTER_TOOLS,
+            model=settings.ckan_llm_model,
+            api_key=settings.openai_api_key,
+            base_url=settings.openai_base_url or "",
+            max_tokens=100,
+            tool_choice="required",
+        )
+        calls = result.get("tool_calls") or []
+        if calls:
+            name = calls[0]["name"]
+            args = calls[0].get("arguments") or {}
+            action = _ROUTER_ACTION_MAP.get(name)
+            if action:
+                return action, args
+    except Exception as exc:
+        logger.warning("[intake] LLM routing failed: %s; defaulting to analyze", exc)
+
+    return "analyze", {}
+
+
+def make_intake_node(settings: Settings) -> Any:
     def intake(state: CkanRegistrationState) -> dict[str, Any]:
         log_node_entry("intake", state, reason="Parse and normalize incoming request")
         try:
             request = dict(state.get("request") or {})
             thread_id = state_thread_id(request, state.get("thread_id") or uuid.uuid4().hex)
             request["session_id"] = thread_id
+            prior_status = str(state.get("status") or "")
+
+            # --- Fast path: explicit action from structured API call ---
             raw_action = state.get("action") or request.get("action") or request.get("command")
             action = normalize_action(raw_action)
+
+            extra_args: dict[str, Any] = {}
+
             if not action:
-                # If the previous turn asked "new dataset or update?" (the dry-run dataset-intent
-                # prompt), the user's reply IS that answer — resume the dry-run carrying the intent
-                # rather than misclassifying "new dataset" as a fresh analyze.
-                prior_status = str(state.get("status") or "")
+                # --- Fast path: explicit REGISTER signal ---
+                _msg = str(request.get("message") or "").strip()
+                if request.get("approval") or _msg.upper() == APPLY_APPROVAL:
+                    action = "apply"
+                    if _msg.upper() == APPLY_APPROVAL:
+                        request["approval"] = APPLY_APPROVAL
+
+            if not action and prior_status == "needs_dataset_intent":
+                # --- Fast path: reply to the "new or update?" dataset-intent prompt ---
                 intent = _registration_intent_from_request(request)
-                if prior_status == "needs_dataset_intent" and intent:
+                if intent:
                     request["dataset_intent"] = intent
                     action = "dry-run"
-                else:
-                    action = infer_action(request)
-                    # After a successful analysis, ambiguous messages (action still defaulted
-                    # to "analyze") are most likely revision requests, not fresh re-analyses.
-                    # Guard: explicit "start fresh" phrases keep the analyze action.
-                    if action == "analyze" and prior_status in {"analyzed", "needs_clarification"}:
-                        _msg_lower = str(request.get("message") or "").lower()
-                        _start_fresh = re.search(
-                            r"\b(new\s+dataset|start\s+over|fresh\s+start|restart|re[-\s]?analyze)\b",
-                            _msg_lower,
-                        )
-                        if not _start_fresh:
-                            action = "revise"
+
+            if not action:
+                # --- LLM routing for natural language messages ---
+                action, extra_args = llm_route_action(settings, request, prior_status)
+                action = normalize_action(action)
+
             if action == "apply" and not request.get("approval"):
-                message = str(request.get("message") or "").strip()
-                if message.upper() == APPLY_APPROVAL:
+                _msg = str(request.get("message") or "").strip()
+                if _msg.upper() == APPLY_APPROVAL:
                     request["approval"] = APPLY_APPROVAL
+
             request["action"] = action
-            result = {"thread_id": thread_id, "request": request, "action": action, "status": "routed"}
-            log_node_exit("intake", result, next_node="plan")
+            result: dict[str, Any] = {
+                "thread_id": thread_id,
+                "request": request,
+                "action": action,
+                "status": "routed",
+            }
+            if action == "revise-field" and extra_args:
+                result["revise_field_target"] = extra_args
+
+            log_node_exit("intake", result, next_node="route")
             return result
         except Exception as e:
             log_error("intake", str(e), state)
@@ -2775,8 +2928,132 @@ def make_geo_apply_node(settings: Settings) -> Any:
     return geo_apply
 
 
+def _update_field_with_llm(
+    settings: Settings,
+    field: str,
+    current_value: Any,
+    instruction: str,
+    context: dict[str, Any],
+) -> Any:
+    """Run a targeted LLM call to update a single CKAN metadata field."""
+    if not settings.openai_api_key:
+        return current_value
+
+    context_summary = "\n".join([
+        f"Dataset title: {context.get('title', '')}",
+        f"Dataset notes: {str(context.get('notes', ''))[:200]}",
+    ])
+
+    if field == "tags":
+        current_display = ", ".join(
+            t.get("name") if isinstance(t, dict) else str(t)
+            for t in (current_value or [])
+        )
+        prompt = (
+            f"Update the CKAN tags for this dataset.\n"
+            f"Context:\n{context_summary}\n\n"
+            f"Current tags: {current_display}\n"
+            f"Instruction: {instruction}\n\n"
+            f"Reply with ONLY a comma-separated list of tag names. "
+            f"Tags must be lowercase with hyphens only (no spaces or special characters)."
+        )
+    else:
+        prompt = (
+            f"Update the CKAN metadata field '{field}' for this dataset.\n"
+            f"Context:\n{context_summary}\n\n"
+            f"Current value: {current_value}\n"
+            f"Instruction: {instruction}\n\n"
+            f"Reply with ONLY the new value for '{field}', nothing else."
+        )
+
+    try:
+        response = _invoke_openai_chat(
+            settings,
+            [{"role": "user", "content": prompt}],
+            temperature=0.2,
+            max_tokens=500,
+            timeout=30,
+        )
+        text = response.strip()
+        if field == "tags":
+            parts = [_slugify(t.strip(), "") for t in text.split(",") if t.strip()]
+            return [{"name": p} for p in parts if p]
+        if field == "name":
+            return _slugify(text)
+        return text
+    except Exception as exc:
+        logger.warning("[revise_field] LLM update failed for field %r: %s", field, exc)
+        return current_value
+
+
+def make_revise_field_node(settings: Settings) -> Any:
+    def revise_field_node(state: CkanRegistrationState) -> dict[str, Any]:
+        log_node_entry("revise-field", state, reason="Update a single metadata field per user instruction")
+        request = dict(state.get("request") or {})
+        target = state.get("revise_field_target") or {}
+        field = str(target.get("field") or "").strip()
+        instruction = str(target.get("instruction") or "").strip()
+        session_id = str(request.get("session_id") or state.get("thread_id") or "")
+
+        if not field or not instruction:
+            msg = "revise_field called without field or instruction"
+            log_node_exit("revise-field", {"error": msg}, next_node="END")
+            return {"result": {"ok": False, "error": msg, "command": "revise_field"}, "status": "error", "error": msg}
+
+        path = _state_path(settings, session_id)
+        if not path.exists():
+            msg = f"No saved state for session `{session_id}`. Analyze files first."
+            return {"result": {"ok": False, "error": msg, "command": "revise_field", "review_markdown": msg}, "status": "needs_metadata", "error": msg}
+
+        try:
+            saved = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            return {"result": {"ok": False, "error": str(exc), "command": "revise_field"}, "status": "error", "error": str(exc)}
+
+        desired = dict(saved.get("desired_dataset_payload") or {})
+        current_value = desired.get(field)
+        new_value = _update_field_with_llm(settings, field, current_value, instruction, desired)
+        desired[field] = new_value
+
+        origins = dict(saved.get("field_origins") or {})
+        origins[field] = "user-supplied"
+        saved["desired_dataset_payload"] = desired
+        saved["field_origins"] = origins
+        if saved.get("status") not in {"dry_run", "analyzed"}:
+            saved["status"] = "analyzed"
+        _save_existing_state(path, saved)
+
+        if field == "tags" and isinstance(new_value, list):
+            display = ", ".join(t.get("name") if isinstance(t, dict) else str(t) for t in new_value)
+        else:
+            display = str(new_value or "")
+
+        review_lines = [
+            f"## Updated: `{field}`",
+            "",
+            f"- **{field}** (`user-supplied`): {display}",
+            "",
+            "Make more changes, ask for a `dry run` to validate, or send `REGISTER` when ready.",
+        ]
+        result = {
+            "ok": True,
+            "command": "revise_field",
+            "status": "analyzed",
+            "session_id": session_id,
+            "field_updated": field,
+            "review_markdown": "\n".join(review_lines),
+        }
+        log_node_exit("revise-field", {"field_updated": field}, next_node="END")
+        return {"result": result, "status": "analyzed", "error": ""}
+
+    return revise_field_node
+
+
 def route_from_intake(state: CkanRegistrationState) -> str:
     action = normalize_action(state.get("action"))
+    if action == "revise-field":
+        log_routing_decision("intake", "User requested targeted field revision", "revise-field", {"action": action})
+        return "revise-field"
     if action == "dry-run":
         log_routing_decision("intake", "User requested CKAN dry-run", "dry-run", {"action": action})
         return "dry-run"

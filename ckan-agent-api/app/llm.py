@@ -172,6 +172,7 @@ def invoke_chat_tools(
     temperature: float = 0.1,
     max_tokens: int = 1500,
     timeout: int = 90,
+    tool_choice: str = "auto",
 ) -> dict[str, Any]:
     """One tool-calling chat turn (OpenAI tools API).
 
@@ -191,7 +192,7 @@ def invoke_chat_tools(
     }
     if tools:
         kwargs["tools"] = tools
-        kwargs["tool_choice"] = "auto"
+        kwargs["tool_choice"] = tool_choice
     message = _gated_call(
         lambda: client.chat.completions.create(**kwargs), model=model, kind="chat+tools"
     ).choices[0].message

@@ -40,3 +40,7 @@ class CkanRegistrationState(TypedDict, total=False):
     transform_request: dict[str, Any]
     transform_execution_id: str
     transforms_submitted: int
+
+    # LLM-routed targeted field edit. Set by intake when the router picks revise_field;
+    # consumed by the revise-field node. Carries {"field": str, "instruction": str}.
+    revise_field_target: dict[str, Any]

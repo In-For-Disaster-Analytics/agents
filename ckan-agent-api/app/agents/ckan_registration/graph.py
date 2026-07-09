@@ -17,6 +17,7 @@ from app.agents.ckan_registration.nodes import (
     make_geo_approval_node,
     make_intake_node,
     make_legacy_command_node,
+    make_revise_field_node,
     make_safe_apply_node,
     route_from_intake,
 )
@@ -35,7 +36,7 @@ from app.settings import Settings, get_settings
 
 def build_graph(settings: Settings):
     builder = StateGraph(CkanRegistrationState)
-    builder.add_node("intake", make_intake_node())
+    builder.add_node("intake", make_intake_node(settings))
     builder.add_node("dry-run", make_legacy_command_node(settings, "dry-run"))
     builder.add_node("approval", make_approval_node())
     builder.add_node("apply", make_safe_apply_node(settings))
@@ -43,6 +44,7 @@ def build_graph(settings: Settings):
     # Gated geo transform path: persona proposes → human approves → run on Abaco.
     builder.add_node("geo-approval", make_geo_approval_node())
     builder.add_node("geo-apply", make_geo_apply_node(settings))
+    builder.add_node("revise-field", make_revise_field_node(settings))
 
     # `analyze`/`revise` route to "metadata" from route_from_intake. Behind the
     # CKAN_PERSONA_CHAT flag those actions run the persona-chat subgraph (author →
@@ -75,6 +77,7 @@ def build_graph(settings: Settings):
             "apply": "approval",
             "geo-transform": "geo-approval",
             "show": "show",
+            "revise-field": "revise-field",
         },
     )
     builder.add_edge("approval", "apply")
@@ -83,6 +86,7 @@ def build_graph(settings: Settings):
     builder.add_edge("apply", END)
     builder.add_edge("geo-apply", END)
     builder.add_edge("show", END)
+    builder.add_edge("revise-field", END)
     return builder.compile(checkpointer=make_checkpointer(settings))
 
 
