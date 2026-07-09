@@ -448,6 +448,26 @@ def test_new_dataset_reply_without_prior_intent_prompt_is_analyze() -> None:
     assert out["action"] == "analyze"
 
 
+def test_ambiguous_post_analysis_message_is_revise() -> None:
+    """After analysis, messages like 'zoom in to the title' should be revise, not re-analyze."""
+    intake = nodes.make_intake_node()
+    for msg in [
+        "can we zoom in to the location in the title?",
+        "the title should be more specific",
+        "willy style",
+        "change the location to street level",
+    ]:
+        out = intake(
+            {
+                "thread_id": "t-revise",
+                "action": "",
+                "status": "analyzed",
+                "request": {"session_id": "t-revise", "message": msg},
+            }
+        )
+        assert out["action"] == "revise", f"expected revise for {msg!r}, got {out['action']!r}"
+
+
 def test_validate_without_new_or_update_choice_asks_for_dataset_intent(monkeypatch: Any, tmp_path: Path) -> None:
     class FakeCkanClient:
         def __init__(self, **kwargs: Any) -> None:

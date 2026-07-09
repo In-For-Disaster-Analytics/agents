@@ -195,6 +195,17 @@ def make_intake_node() -> Any:
                     action = "dry-run"
                 else:
                     action = infer_action(request)
+                    # After a successful analysis, ambiguous messages (action still defaulted
+                    # to "analyze") are most likely revision requests, not fresh re-analyses.
+                    # Guard: explicit "start fresh" phrases keep the analyze action.
+                    if action == "analyze" and prior_status in {"analyzed", "needs_clarification"}:
+                        _msg_lower = str(request.get("message") or "").lower()
+                        _start_fresh = re.search(
+                            r"\b(new\s+dataset|start\s+over|fresh\s+start|restart|re[-\s]?analyze)\b",
+                            _msg_lower,
+                        )
+                        if not _start_fresh:
+                            action = "revise"
             if action == "apply" and not request.get("approval"):
                 message = str(request.get("message") or "").strip()
                 if message.upper() == APPLY_APPROVAL:
