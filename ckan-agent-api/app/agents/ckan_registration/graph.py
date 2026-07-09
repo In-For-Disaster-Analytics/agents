@@ -19,6 +19,7 @@ from app.agents.ckan_registration.nodes import (
     make_legacy_command_node,
     make_revise_field_node,
     make_safe_apply_node,
+    make_show_node,
     route_from_intake,
 )
 from app.agents.ckan_registration.persona_nodes import (
@@ -40,7 +41,7 @@ def build_graph(settings: Settings):
     builder.add_node("dry-run", make_legacy_command_node(settings, "dry-run"))
     builder.add_node("approval", make_approval_node())
     builder.add_node("apply", make_safe_apply_node(settings))
-    builder.add_node("show", make_legacy_command_node(settings, "show"))
+    builder.add_node("show", make_show_node(settings))
     # Gated geo transform path: persona proposes → human approves → run on Abaco.
     builder.add_node("geo-approval", make_geo_approval_node())
     builder.add_node("geo-apply", make_geo_apply_node(settings))

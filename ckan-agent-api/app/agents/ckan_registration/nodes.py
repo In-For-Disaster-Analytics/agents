@@ -477,8 +477,27 @@ def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
                 "review_markdown": f"## Dry-Run Failed\n\n{msg}"}
 
     valid = bool(pkg_result.get("valid")) if isinstance(pkg_result, dict) else False
-    errors = list(pkg_result.get("errors") or []) if isinstance(pkg_result, dict) else []
-    warnings_out = list(pkg_result.get("warnings") or []) if isinstance(pkg_result, dict) else []
+    raw_errors = pkg_result.get("errors") if isinstance(pkg_result, dict) else None
+    raw_warnings = pkg_result.get("warnings") if isinstance(pkg_result, dict) else None
+    # CKAN returns errors as either a list of strings or a dict {field: [msgs]}.
+    errors: list[str] = []
+    if isinstance(raw_errors, list):
+        errors = [str(e) for e in raw_errors]
+    elif isinstance(raw_errors, dict):
+        for field_name, msgs in raw_errors.items():
+            if isinstance(msgs, list):
+                errors += [f"**{field_name}**: {m}" for m in msgs]
+            else:
+                errors.append(f"**{field_name}**: {msgs}")
+    warnings_out: list[str] = []
+    if isinstance(raw_warnings, list):
+        warnings_out = [str(w) for w in raw_warnings]
+    elif isinstance(raw_warnings, dict):
+        for field_name, msgs in raw_warnings.items():
+            if isinstance(msgs, list):
+                warnings_out += [f"**{field_name}**: {m}" for m in msgs]
+            else:
+                warnings_out.append(f"**{field_name}**: {msgs}")
 
     lines = ["## CKAN Dry-Run Preview", ""]
     lines += [
@@ -491,6 +510,10 @@ def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     if errors:
         lines += ["", "### Errors"]
         lines += [f"- {e}" for e in errors]
+    elif not valid and not errors:
+        # Surface the raw MCP response so the user can diagnose
+        lines += ["", "### Validation details"]
+        lines.append(f"```json\n{json.dumps(pkg_result, indent=2)}\n```")
     if warnings_out:
         lines += ["", "### Warnings"]
         lines += [f"- {w}" for w in warnings_out]
@@ -3052,6 +3075,80 @@ def make_revise_field_node(settings: Settings) -> Any:
         return {"result": result, "status": "analyzed", "error": ""}
 
     return revise_field_node
+
+
+def make_show_node(settings: Settings) -> Any:
+    """Return current metadata from saved state without touching the legacy worker."""
+
+    def show_node(state: CkanRegistrationState) -> dict[str, Any]:
+        log_node_entry("show", state, reason="Return current session metadata")
+        request = dict(state.get("request") or {})
+        session_id = str(request.get("session_id") or state.get("thread_id") or "")
+
+        path = _state_path(settings, session_id)
+        if not path.exists():
+            msg = f"No saved state for session `{session_id}`. Analyze files first."
+            out = {"result": {"ok": False, "error": msg, "command": "show", "review_markdown": msg},
+                   "status": "needs_metadata", "error": msg}
+            log_node_exit("show", out, next_node="END")
+            return out
+
+        try:
+            saved = json.loads(path.read_text(encoding="utf-8"))
+        except Exception as exc:
+            msg = f"Could not read saved state: {exc}"
+            out = {"result": {"ok": False, "error": msg, "command": "show"}, "status": "error", "error": msg}
+            log_node_exit("show", out, next_node="END")
+            return out
+
+        desired = dict(saved.get("desired_dataset_payload") or {})
+        origins = dict(saved.get("field_origins") or {})
+        resource_plan = list(saved.get("resource_plan") or [])
+        reviewed_files = list(saved.get("reviewed_files") or [])
+        status = saved.get("status") or "analyzed"
+
+        _SKIP = {"owner_org_label", "owner_org_name", "owner_org_title", "isopen"}
+        lines = ["## Current Metadata"]
+        if reviewed_files:
+            shown = reviewed_files[:12]
+            suffix = f" (+{len(reviewed_files) - 12} more)" if len(reviewed_files) > 12 else ""
+            lines.append(f"\nFiles reviewed ({len(reviewed_files)}): {', '.join(shown)}{suffix}")
+        lines.append("")
+        for k, v in desired.items():
+            if k in _SKIP or v in (None, "", [], {}):
+                continue
+            origin = origins.get(k, "llm-derived")
+            if k == "tags" and isinstance(v, list):
+                display = ", ".join(t.get("name") if isinstance(t, dict) else str(t) for t in v)
+            else:
+                display = str(v)
+            lines.append(f"- **{k}** (`{origin}`): {display}")
+
+        missing = [k for k, v in desired.items() if k not in _SKIP and v in (None, "", [], {})]
+        if missing:
+            lines += ["", "**Not set / needs input**"]
+            lines += [f"- {k}: not set" for k in missing]
+
+        if resource_plan:
+            lines += ["", f"**Resources ({len(resource_plan)})**"]
+            for res in resource_plan:
+                size = _human_bytes(res.get("size_bytes"))
+                lines.append(f"- `{res.get('resource_name')}` ({res.get('format')}, {size})")
+
+        lines += ["", "Make changes, ask for a `dry run` to validate, or send `REGISTER` when ready."]
+
+        result = {
+            "ok": True,
+            "command": "show",
+            "status": status,
+            "session_id": session_id,
+            "review_markdown": "\n".join(lines),
+        }
+        out = {"result": result, "status": status, "error": ""}
+        log_node_exit("show", out, next_node="END")
+        return out
+
+    return show_node
 
 
 def route_from_intake(state: CkanRegistrationState) -> str:
