@@ -183,8 +183,9 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "analyze",
             "description": (
-                "Analyze uploaded files and generate initial CKAN dataset metadata. "
-                "Use when new files are present, there is no prior session, or the user wants to start over."
+                "Run the full metadata analysis pipeline on uploaded files to generate a fresh proposal. "
+                "Use when: new files have been uploaded, there is no existing session, or the user "
+                "explicitly wants to start over from scratch."
             ),
             "parameters": {"type": "object", "properties": {}},
         },
@@ -194,9 +195,10 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "revise",
             "description": (
-                "Regenerate the full metadata proposal based on user feedback. "
-                "Use for general corrections like 'redo the description', 'this looks wrong', "
-                "'use a different style'. Do NOT use for targeted single-field edits."
+                "Re-draft the ENTIRE metadata proposal from scratch, incorporating the user's feedback. "
+                "Use ONLY when the user wants a complete overhaul — e.g. 'the whole thing is wrong', "
+                "'use a completely different style', 'start the description over'. "
+                "Never use this for feedback that targets a single field."
             ),
             "parameters": {"type": "object", "properties": {}},
         },
@@ -206,20 +208,29 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "revise_field",
             "description": (
-                "Update one specific metadata field based on the user's instruction. "
-                "Use when the user clearly targets a single field: 'make the title shorter', "
-                "'zoom in with the title', 'fix the author email', 'update the tags'."
+                "Edit exactly ONE metadata field based on the user's feedback. "
+                "Use this whenever the user's feedback is narrowly about a single aspect of the metadata: "
+                "the title wording or location specificity, the description length or content, "
+                "an author name or email, the tags, the license, the date range, etc. "
+                "This INCLUDES follow-up refinements when context makes the target field obvious — "
+                "e.g. 'zoom in', 'make it shorter', 'more specific', 'actually use X' after a field "
+                "was just discussed or updated. Infer the field from context when not stated explicitly. "
+                "Prefer this over revise unless the user wants everything redone."
             ),
             "parameters": {
                 "type": "object",
                 "properties": {
                     "field": {
                         "type": "string",
-                        "description": "The CKAN metadata field to update (e.g. title, notes, author, tags, license_id)",
+                        "description": (
+                            "The CKAN metadata field to update. Common values: title, notes, author, "
+                            "author_email, tags, license_id, temporal_coverage_start, temporal_coverage_end. "
+                            "Infer from context when the user does not name the field explicitly."
+                        ),
                     },
                     "instruction": {
                         "type": "string",
-                        "description": "What the user wants to change about that field",
+                        "description": "What the user wants changed, in their own words.",
                     },
                 },
                 "required": ["field", "instruction"],
@@ -231,8 +242,8 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "dry_run",
             "description": (
-                "Validate current metadata against CKAN without creating anything. "
-                "Use for: 'validate', 'dry run', 'preview', 'check before registering'."
+                "Validate the current metadata against CKAN without writing anything. "
+                "Use when the user asks to validate, preview, check errors, or run a dry run."
             ),
             "parameters": {"type": "object", "properties": {}},
         },
@@ -242,8 +253,9 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "apply",
             "description": (
-                "Register the dataset in CKAN. "
-                "Only use when the user explicitly says REGISTER or gives clear registration approval."
+                "Register the dataset in CKAN (live write). "
+                "Use ONLY when the user explicitly approves registration — e.g. 'REGISTER', 'go ahead', "
+                "'create it'. Do not use for questions or uncertainty."
             ),
             "parameters": {"type": "object", "properties": {}},
         },
@@ -253,8 +265,8 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "show",
             "description": (
-                "Return the current session state without changes. "
-                "Use for: 'show me what we have', 'status', 'what is the current metadata'."
+                "Display the current metadata state without making any changes. "
+                "Use when the user asks to see, review, or inspect what has been drafted so far."
             ),
             "parameters": {"type": "object", "properties": {}},
         },
@@ -289,22 +301,56 @@ def llm_route_action(
     if not message:
         return "analyze", {}
 
-    context = "\n".join([
+    # Build session context from saved state so the router understands what is currently
+    # in progress — current title, recently edited fields — without needing conversation history.
+    session_context_lines: list[str] = []
+    session_id = str(request.get("session_id") or "")
+    if session_id and prior_status in {"analyzed", "dry_run", "dry_run_failed", "needs_clarification"}:
+        try:
+            path = _state_path(settings, session_id)
+            if path.exists():
+                saved = json.loads(path.read_text(encoding="utf-8"))
+                desired = saved.get("desired_dataset_payload") or {}
+                origins = saved.get("field_origins") or {}
+                if desired.get("title"):
+                    session_context_lines.append(f"Current title: {desired['title'][:120]}")
+                if desired.get("notes"):
+                    session_context_lines.append(f"Current description (excerpt): {str(desired['notes'])[:120]}...")
+                user_fields = [k for k, v in origins.items() if v == "user-supplied"]
+                if user_fields:
+                    session_context_lines.append(f"Fields the user has already edited: {', '.join(user_fields)}")
+        except Exception:
+            pass
+
+    context_parts = [
         f"User message: {message[:500]}",
-        f"Active session: {bool(request.get('session_id'))}",
+        f"Prior workflow status: {prior_status or 'none (first turn)'}",
         f"Has uploaded files: {bool(request.get('files') or request.get('upload_dir') or request.get('upload_dirs') or request.get('source_url') or request.get('source_urls'))}",
-        f"Prior status: {prior_status or 'none'}",
-    ])
+    ]
+    if session_context_lines:
+        context_parts.append("Session state:\n  " + "\n  ".join(session_context_lines))
+    context = "\n".join(context_parts)
+
+    system_msg = (
+        "You are routing a CKAN metadata registration request to the correct action. "
+        "Call the tool that best matches the user's intent given their message and session state. "
+        "Key rule: if the user's feedback targets ONE field (including follow-up refinements "
+        "where the target field is clear from context), call revise_field — not revise. "
+        "Only call revise when the user wants the entire metadata redone."
+    )
 
     from app import llm as _llm
     try:
         result = _llm.invoke_chat_tools(
-            [{"role": "user", "content": context}],
+            [
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": context},
+            ],
             _ROUTER_TOOLS,
             model=settings.ckan_llm_model,
             api_key=settings.openai_api_key,
             base_url=settings.openai_base_url or "",
-            max_tokens=100,
+            max_tokens=200,
             tool_choice="required",
         )
         calls = result.get("tool_calls") or []
