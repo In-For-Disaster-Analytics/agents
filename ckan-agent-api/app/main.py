@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes_agent import router as agent_router
 from app.api.routes_auth import router as auth_router
@@ -14,6 +15,12 @@ def create_app() -> FastAPI:
         title="CKAN Agent API",
         version="0.1.0",
         description="FastAPI and LangGraph service for CKAN registration agents.",
+    )
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
     app.include_router(health_router)
     app.include_router(auth_router)
