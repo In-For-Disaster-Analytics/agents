@@ -20,6 +20,7 @@ image      = os.environ["IMAGE"].lower() + ":latest"
 openai_key = os.environ.get("OPENAI_API_KEY", "")
 ckan_url   = os.environ.get("CKAN_URL", "")
 ckan_mcp_url = os.environ.get("CKAN_MCP_URL", "https://dsomcp.pods.portals.tapis.io/mcp")
+ckan_mcp_shared_secret = os.environ.get("CKAN_MCP_SHARED_SECRET", "")
 
 print(f"Authenticating to {base_url} as {username}")
 t = Tapis(base_url=base_url, username=username, password=password)
@@ -45,6 +46,7 @@ pod_env = {
     "OPENAI_API_KEY": openai_key,
     "CKAN_URL": ckan_url,
     "CKAN_MCP_URL": ckan_mcp_url,
+    "CKAN_MCP_SHARED_SECRET": ckan_mcp_shared_secret,
     "CKAN_MCP_ENABLED": "1",
     "CKAN_PERSONA_CHAT": "1",
     "CKAN_PERSONA_TOOLS": "1",

@@ -98,6 +98,7 @@ jobs:
           TAPIS_PASSWORD: ${{ secrets.TAPIS_PASSWORD }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CKAN_URL: ${{ secrets.CKAN_PORTAL_URL }}
+          CKAN_MCP_SHARED_SECRET: ${{ secrets.CKAN_MCP_SHARED_SECRET }}
         run: |
           pip install --quiet tapipy
           python3 .github/scripts/tapis_deploy.py
