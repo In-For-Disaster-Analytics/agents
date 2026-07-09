@@ -2956,6 +2956,80 @@ def make_geo_apply_node(settings: Settings) -> Any:
     return geo_apply
 
 
+_REVERSE_GEOCODE_TOOL: dict[str, Any] = {
+    "type": "function",
+    "function": {
+        "name": "reverse_geocode",
+        "description": (
+            "Look up the place name at the dataset's centroid coordinates at a given zoom level. "
+            "Use zoom=5 for region/state, zoom=10 for city/town, zoom=14 for suburb/neighbourhood, "
+            "zoom=16 for street. Pick the zoom that matches the specificity the user wants for the title."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "zoom": {
+                    "type": "integer",
+                    "description": (
+                        "Nominatim zoom level: 5=region, 8=county, 10=city, "
+                        "12=town, 14=suburb, 15=neighbourhood, 16=street, 18=building"
+                    ),
+                },
+            },
+            "required": ["zoom"],
+        },
+    },
+}
+
+
+def _centroid_from_spatial(spatial: str | None) -> tuple[float, float] | None:
+    """Extract (lat, lon) centroid from a GeoJSON polygon or bbox string."""
+    if not spatial:
+        return None
+    try:
+        geom = json.loads(spatial)
+        ring = (geom.get("coordinates") or [[]])[0]
+        if ring:
+            lats = [p[1] for p in ring if len(p) >= 2]
+            lons = [p[0] for p in ring if len(p) >= 2]
+            if lats and lons:
+                return sum(lats) / len(lats), sum(lons) / len(lons)
+    except (json.JSONDecodeError, TypeError, KeyError, IndexError):
+        pass
+    import re
+    m = re.search(r"W=([-\d.]+).*?E=([-\d.]+).*?S=([-\d.]+).*?N=([-\d.]+)", spatial)
+    if m:
+        w, e, s, n = map(float, m.groups())
+        return (s + n) / 2, (w + e) / 2
+    return None
+
+
+def _nominatim_fetch_raw(lat: float, lon: float, zoom: int, timeout: float = 6.0) -> dict[str, Any] | None:
+    """Call Nominatim reverse geocode at a specific zoom; returns raw JSON or None on error."""
+    import ssl
+    import urllib.request as urlreq
+
+    url = (
+        f"https://nominatim.openstreetmap.org/reverse"
+        f"?format=json&lat={lat:.6f}&lon={lon:.6f}&zoom={zoom}"
+    )
+    req = urlreq.Request(url, headers={"User-Agent": "ckan-registration-agent/1.0"})
+    for ssl_ctx in (None, "insecure"):
+        try:
+            kw: dict[str, Any] = {"timeout": timeout}
+            if ssl_ctx == "insecure":
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+                kw["context"] = ctx
+            with urlreq.urlopen(req, **kw) as resp:
+                return json.loads(resp.read().decode())
+        except Exception:
+            if ssl_ctx == "insecure":
+                return None
+    return None
+
+
 def _update_field_with_llm(
     settings: Settings,
     field: str,
@@ -2963,7 +3037,12 @@ def _update_field_with_llm(
     instruction: str,
     context: dict[str, Any],
 ) -> Any:
-    """Run a targeted LLM call to update a single CKAN metadata field."""
+    """Run a targeted LLM call to update a single CKAN metadata field.
+
+    For the title field, uses a two-turn tool-calling exchange: the LLM picks
+    a Nominatim zoom level, we call Nominatim with the dataset centroid, then
+    the LLM writes the title using the real place name.
+    """
     if not settings.openai_api_key:
         return current_value
 
@@ -2971,6 +3050,75 @@ def _update_field_with_llm(
         f"Dataset title: {context.get('title', '')}",
         f"Dataset notes: {str(context.get('notes', ''))[:200]}",
     ])
+
+    # --- title: two-turn tool-calling with Nominatim reverse geocode ---
+    if field == "title":
+        centroid = _centroid_from_spatial(context.get("spatial"))
+        if centroid:
+            from app import llm as _llm
+            lat, lon = centroid
+            system_msg = (
+                "You are updating a CKAN dataset title. The dataset has known coordinates. "
+                "Call reverse_geocode with the zoom level that gives the place-name granularity "
+                "matching the user's instruction, then write the new title."
+            )
+            user_msg = (
+                f"Current title: {current_value}\n"
+                f"Instruction: {instruction}\n\n"
+                "Call reverse_geocode now with the appropriate zoom."
+            )
+            messages: list[dict[str, Any]] = [
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": user_msg},
+            ]
+            try:
+                turn1 = _llm.invoke_chat_tools(
+                    messages,
+                    [_REVERSE_GEOCODE_TOOL],
+                    model=settings.ckan_llm_model,
+                    api_key=settings.openai_api_key,
+                    base_url=settings.openai_base_url or "",
+                    max_tokens=60,
+                    tool_choice="required",
+                )
+                calls = turn1.get("tool_calls") or []
+                geo_content = "Geocoding not available — infer from existing title context."
+                if calls:
+                    zoom = max(1, min(18, int(calls[0].get("arguments", {}).get("zoom", 14))))
+                    logger.info("[revise_field] reverse_geocode zoom=%d lat=%.4f lon=%.4f", zoom, lat, lon)
+                    geo_data = _nominatim_fetch_raw(lat, lon, zoom)
+                    if geo_data:
+                        display = geo_data.get("display_name") or ""
+                        addr = geo_data.get("address") or {}
+                        geo_content = f"display_name: {display}\naddress: {addr}"
+                        logger.info("[revise_field] geocoded → %s", display)
+
+                messages_turn2: list[dict[str, Any]] = messages + [turn1["raw_message"]]
+                if calls:
+                    messages_turn2.append({
+                        "role": "tool",
+                        "tool_call_id": calls[0]["id"],
+                        "content": geo_content,
+                    })
+                messages_turn2.append({
+                    "role": "user",
+                    "content": "Write the new dataset title. Reply with ONLY the title string.",
+                })
+                turn2 = _llm.invoke_chat_tools(
+                    messages_turn2,
+                    None,
+                    model=settings.ckan_llm_model,
+                    api_key=settings.openai_api_key,
+                    base_url=settings.openai_base_url or "",
+                    max_tokens=120,
+                    tool_choice="auto",
+                )
+                result = (turn2.get("content") or "").strip()
+                if result:
+                    return result
+            except Exception as exc:
+                logger.warning("[revise_field] geocode title path failed: %s — falling back", exc)
+        # fall through to plain chat when no centroid or geocode fails
 
     if field == "tags":
         current_display = ", ".join(
