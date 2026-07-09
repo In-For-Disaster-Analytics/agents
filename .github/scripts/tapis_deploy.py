@@ -39,18 +39,20 @@ except Exception as e:
         print(f"Error checking pod: {e}", file=sys.stderr)
         sys.exit(1)
 
+pod_env = {
+    "CKAN_AGENT_API_HOST": "0.0.0.0",
+    "CKAN_AGENT_API_PORT": "8787",
+    "OPENAI_API_KEY": openai_key,
+    "CKAN_URL": ckan_url,
+    "CKAN_MCP_URL": ckan_mcp_url,
+    "CKAN_MCP_ENABLED": "1",
+    "CKAN_PERSONA_CHAT": "1",
+    "CKAN_PERSONA_TOOLS": "1",
+}
+
 if pod_exists:
     print(f"Pod {pod_id} exists — updating env vars then restarting")
-    t.pods.update_pod(
-        pod_id=pod_id,
-        environment_variables={
-            "CKAN_AGENT_API_HOST": "0.0.0.0",
-            "CKAN_AGENT_API_PORT": "8787",
-            "OPENAI_API_KEY": openai_key,
-            "CKAN_URL": ckan_url,
-            "CKAN_MCP_URL": ckan_mcp_url,
-        },
-    )
+    t.pods.update_pod(pod_id=pod_id, environment_variables=pod_env)
     t.pods.restart_pod(pod_id=pod_id)
     print("Update and restart requested.")
 else:
@@ -59,13 +61,7 @@ else:
         pod_id=pod_id,
         image=image,
         description="CKAN Agent API (FastAPI + LangGraph)",
-        environment_variables={
-            "CKAN_AGENT_API_HOST": "0.0.0.0",
-            "CKAN_AGENT_API_PORT": "8787",
-            "OPENAI_API_KEY": openai_key,
-            "CKAN_URL": ckan_url,
-            "CKAN_MCP_URL": ckan_mcp_url,
-        },
+        environment_variables=pod_env,
         networking={"default": {"protocol": "http", "port": 8787}},
     )
     print(f"Pod {pod_id} created.")
