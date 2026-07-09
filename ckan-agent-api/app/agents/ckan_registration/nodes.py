@@ -6,6 +6,7 @@ import hashlib
 import json
 import mimetypes
 import re
+import shutil
 import uuid
 import zipfile
 from datetime import UTC, datetime
@@ -1053,20 +1054,34 @@ def _zip_metadata(path: Path) -> dict[str, Any]:
 
 
 def _pdf_metadata(path: Path) -> dict[str, Any]:
+    result: dict[str, Any] = {}
+
+    # Header metadata — fast, no LLM required.
     try:
         from pypdf import PdfReader
-    except ImportError:
-        return {"pdf_note": "pypdf is not installed; skipped PDF metadata parse."}
-
-    reader = PdfReader(str(path))
-    raw_metadata = reader.metadata or {}
-    return {
-        "pdf": {
+        reader = PdfReader(str(path))
+        raw_metadata = reader.metadata or {}
+        result["pdf"] = {
             "page_count": len(reader.pages),
             "title": str(raw_metadata.get("/Title") or "").strip(),
             "author": str(raw_metadata.get("/Author") or "").strip(),
         }
-    }
+    except ImportError:
+        result["pdf_note"] = "pypdf is not installed; skipped PDF header parse."
+    except Exception as exc:
+        result["pdf_note"] = f"PDF header parse failed: {exc}"
+
+    # Rich map-reduce summary — reads the full document section-by-section.
+    # Silently skipped when the LLM API key is not configured.
+    try:
+        from app.tools.handlers.pdf import pdf_summarize
+        summary = pdf_summarize({"path": str(path)})
+        if isinstance(summary, dict) and not summary.get("error"):
+            result["pdf_summary"] = summary
+    except Exception:
+        pass  # LLM unavailable or key not set — header metadata is sufficient fallback
+
+    return result
 
 
 def _analyze_file(path: Path, display_name: str = "", description: str | None = None) -> dict[str, Any]:
@@ -1311,7 +1326,6 @@ def _guess_dataset_metadata(
             formats.add(str(url["format"]).lower())
         if url.get("domain"):
             tags.add(str(url["domain"]).split(":")[0].replace(".", "-"))
-    tags.update(_extract_keywords(message))
     tags = {_slugify(tag, "") for tag in tags if tag}
     tags.discard("")
 
@@ -2228,12 +2242,112 @@ def _format_metadata_report(
     return "\n".join(lines)
 
 
+# Extensions gdalinfo can meaningfully profile via /vsicurl/
+_GEO_MCP_EXTENSIONS = frozenset({
+    ".tif", ".tiff", ".nc", ".img", ".vrt", ".hdf", ".h5", ".laz", ".las", ".gpkg",
+})
+
+
+def _try_geo_mcp_metadata(
+    path: Path,
+    settings: Settings,
+    upload_id: str,
+    display_name: str,
+) -> dict[str, Any] | None:
+    """Submit a gdalinfo_from_url job for one spatial file; return polled result or None.
+
+    Constructs a temp-file URL served by this API, submits to the Geo MCP actor,
+    and polls until complete or poll_timeout is reached.  Never raises.
+    """
+    if not settings.geo_mcp_enabled or not settings.public_base_url:
+        return None
+    rel = display_name.lstrip("/") or path.name
+    url = f"{settings.public_base_url.rstrip('/')}/v1/uploads/{upload_id}/{rel}"
+    try:
+        from app.tools.executor import GeoSyncExecutor
+        from app.tools.mcp_client import get_shared_client
+        client = get_shared_client(
+            settings.geo_mcp_url,
+            shared_secret=settings.geo_mcp_shared_secret or None,
+            timeout=settings.mcp_timeout,
+        )
+        token = settings.geo_mcp_tapis_token or ""
+        sync = GeoSyncExecutor(client, token_value=token, poll_timeout=settings.geo_poll_timeout)
+        envelope = sync.invoke("gdalinfo_from_url", {"url": url, "include_stats": False})
+        if envelope.get("success"):
+            return {"url": url, "result": envelope.get("result")}
+        code = (envelope.get("error") or {}).get("code") if isinstance(envelope.get("error"), dict) else None
+        if code == "geo_not_ready":
+            return {"url": url, "pending": True, "note": "gdalinfo still running; poll execution_id separately"}
+    except Exception as exc:
+        logger.warning("Geo MCP metadata skipped for %s: %s", path.name, exc)
+    return None
+
+
+def _enrich_spatial_via_geo_mcp(
+    file_reports: list[dict[str, Any]],
+    file_refs: list[dict[str, Any]],
+    settings: Settings,
+) -> None:
+    """Mutate file_reports in-place: add geo_mcp key for the first spatial file found."""
+    if not settings.geo_mcp_enabled or not settings.public_base_url:
+        return
+    # Extract upload_id from the first file path that lives under upload_root.
+    upload_id: str | None = None
+    for ref in file_refs:
+        try:
+            rel = ref["path"].relative_to(settings.upload_root)
+            upload_id = rel.parts[0]
+            break
+        except (ValueError, IndexError, KeyError):
+            pass
+    if not upload_id:
+        return
+
+    submitted = 0
+    for report, ref in zip(file_reports, file_refs):
+        if submitted >= 1:  # one job per metadata call — avoid long blocking chains
+            break
+        if not report.get("exists") or report.get("error"):
+            continue
+        ext = Path(str(ref["path"])).suffix.lower()
+        if ext not in _GEO_MCP_EXTENSIONS:
+            continue
+        display = str(ref.get("display_name") or Path(str(ref["path"])).name)
+        geo = _try_geo_mcp_metadata(ref["path"], settings, upload_id, display)
+        if geo is not None:
+            report["geo_mcp"] = geo
+            submitted += 1
+
+
+def _cleanup_upload_dirs_from_plan(resource_plan: list[dict[str, Any]], settings: Settings) -> None:
+    """Remove upload_root subdirs referenced by a resource plan after successful registration."""
+    seen: set[str] = set()
+    for entry in (resource_plan or []):
+        local_path = str(entry.get("local_path") or "")
+        if not local_path:
+            continue
+        try:
+            rel = Path(local_path).relative_to(settings.upload_root)
+            upload_id = rel.parts[0]
+        except (ValueError, IndexError):
+            continue
+        if upload_id in seen:
+            continue
+        seen.add(upload_id)
+        upload_dir = settings.upload_root / upload_id
+        if upload_dir.is_dir():
+            shutil.rmtree(upload_dir, ignore_errors=True)
+            logger.info("Cleanup A: removed upload dir %s after registration", upload_id)
+
+
 def build_file_metadata_report(request: dict[str, Any], settings: Settings) -> dict[str, Any]:
     file_refs, warnings = _request_file_references(request, settings)
     file_reports = [
         _analyze_file(ref["path"], str(ref.get("display_name") or ""), ref.get("description"))
         for ref in file_refs
     ]
+    _enrich_spatial_via_geo_mcp(file_reports, file_refs, settings)
     inline_reports = [_analyze_inline_file(item) for item in _inline_file_items(request)]
     url_reports = _url_reports(request)
     saved_metadata_guess: dict[str, Any] = {}
@@ -2435,6 +2549,9 @@ def make_safe_apply_node(settings: Settings) -> Any:
                 result = worker.run("apply", request)
             if isinstance(result, dict) and not result.get("review_markdown"):
                 result["review_markdown"] = apply_review_markdown(result)
+            if isinstance(result, dict) and result.get("ok"):
+                resource_plan = saved_state.get("resource_plan") or []
+                _cleanup_upload_dirs_from_plan(resource_plan, settings)
             output = {
                 "result": result,
                 "status": result.get("status") or result.get("command") or "apply",

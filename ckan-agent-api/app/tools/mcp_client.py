@@ -44,7 +44,9 @@ PERSONA_BLOCKED_TOOLS: frozenset[str] = WRITE_TOOL_NAMES | GEO_TRANSFORM_TOOLS
 # Geo tools personas MAY use during authoring (v1): single-execution metadata only.
 # gdalinfo_summary (multi-execution fan-out) and get_execution_status (internal to the sync
 # wrapper) are intentionally excluded from the persona surface.
-GEO_PERSONA_METADATA_TOOLS: frozenset[str] = frozenset({"gdalinfo_extract"})
+# gdalinfo_from_url accepts a direct temp-file URL instead of a CKAN resource ID — used
+# by the metadata node to profile rasters uploaded but not yet registered.
+GEO_PERSONA_METADATA_TOOLS: frozenset[str] = frozenset({"gdalinfo_extract", "gdalinfo_from_url"})
 
 # Tool arguments that must never be shown to / set by the model.
 MODEL_HIDDEN_ARGS: frozenset[str] = frozenset({"tapis_token"})

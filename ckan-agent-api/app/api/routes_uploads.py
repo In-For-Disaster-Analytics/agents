@@ -13,12 +13,15 @@ import uuid
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 
 from app.files import ArchiveError, build_head_inventory, safe_extract_zip
 from app.settings import Settings, get_settings
 
 router = APIRouter(tags=["uploads"])
+
+_UPLOAD_ID_RE = re.compile(r"^[0-9a-f]{32}$")
 
 
 def _safe_name(name: str | None) -> str:
@@ -89,3 +92,27 @@ def create_upload(
         "files": inventory,
         "warnings": warnings,
     }
+
+
+@router.get("/v1/uploads/{upload_id}/{path:path}", operation_id="getUploadFile")
+def get_upload_file(
+    upload_id: str,
+    path: str,
+    settings: Settings = Depends(get_settings),
+) -> FileResponse:
+    """Serve a previously uploaded file by upload_id and relative path.
+
+    Auth: the upload_id (UUID hex) is unguessable and acts as a bearer token.
+    Abaco /vsicurl/ reads use this to fetch spatial files without a CKAN round-trip.
+    """
+    if not _UPLOAD_ID_RE.match(upload_id):
+        raise HTTPException(status_code=404, detail="Not found")
+    upload_dir = (settings.upload_root / upload_id).resolve()
+    target = (upload_dir / path).resolve()
+    try:
+        target.relative_to(upload_dir)
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Not found")
+    if not target.is_file():
+        raise HTTPException(status_code=404, detail="Not found")
+    return FileResponse(str(target))

@@ -156,6 +156,7 @@ def test_no_overlap_assertion():
 
 def test_geo_persona_metadata_set_excludes_summary_and_status():
     assert "gdalinfo_extract" in GEO_PERSONA_METADATA_TOOLS
+    assert "gdalinfo_from_url" in GEO_PERSONA_METADATA_TOOLS
     assert "gdalinfo_summary" not in GEO_PERSONA_METADATA_TOOLS
     assert "get_execution_status" not in GEO_PERSONA_METADATA_TOOLS
     # transforms are entirely disjoint from the persona metadata set
