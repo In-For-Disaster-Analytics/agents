@@ -186,6 +186,7 @@ _ROUTER_TOOLS = [
                 "Analyze uploaded files and generate initial CKAN dataset metadata. "
                 "Use when new files are present, there is no prior session, or the user wants to start over."
             ),
+            "parameters": {"type": "object", "properties": {}},
         },
     },
     {
@@ -197,6 +198,7 @@ _ROUTER_TOOLS = [
                 "Use for general corrections like 'redo the description', 'this looks wrong', "
                 "'use a different style'. Do NOT use for targeted single-field edits."
             ),
+            "parameters": {"type": "object", "properties": {}},
         },
     },
     {
@@ -232,6 +234,7 @@ _ROUTER_TOOLS = [
                 "Validate current metadata against CKAN without creating anything. "
                 "Use for: 'validate', 'dry run', 'preview', 'check before registering'."
             ),
+            "parameters": {"type": "object", "properties": {}},
         },
     },
     {
@@ -242,6 +245,7 @@ _ROUTER_TOOLS = [
                 "Register the dataset in CKAN. "
                 "Only use when the user explicitly says REGISTER or gives clear registration approval."
             ),
+            "parameters": {"type": "object", "properties": {}},
         },
     },
     {
@@ -252,6 +256,7 @@ _ROUTER_TOOLS = [
                 "Return the current session state without changes. "
                 "Use for: 'show me what we have', 'status', 'what is the current metadata'."
             ),
+            "parameters": {"type": "object", "properties": {}},
         },
     },
 ]
