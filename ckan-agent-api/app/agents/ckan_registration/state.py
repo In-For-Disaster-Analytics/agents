@@ -44,3 +44,7 @@ class CkanRegistrationState(TypedDict, total=False):
     # LLM-routed targeted field edit. Set by intake when the router picks revise_field;
     # consumed by the revise-field node. Carries {"field": str, "instruction": str}.
     revise_field_target: dict[str, Any]
+
+    # LLM-routed focused show. Set by intake when the router picks show with a specific
+    # field question. Carries {"field": str, "question": str}. Optional — omit for full dump.
+    show_target: dict[str, Any]

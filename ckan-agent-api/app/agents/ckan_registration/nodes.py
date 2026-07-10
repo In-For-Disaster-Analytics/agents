@@ -95,6 +95,8 @@ def normalize_action(value: object | None) -> str:
         "dryrun": "dry-run",
         "dry-run": "dry-run",
         "dry run": "dry-run",
+        "validate": "dry-run",
+        "preview": "dry-run",
         "status": "show",
         "inspect": "show",
         "register": "apply",
@@ -265,10 +267,30 @@ _ROUTER_TOOLS = [
         "function": {
             "name": "show",
             "description": (
-                "Display the current metadata state without making any changes. "
-                "Use when the user asks to see, review, or inspect what has been drafted so far."
+                "Display current metadata without making changes. "
+                "Use when the user asks to see the full metadata, OR asks a factual question "
+                "about a specific field (e.g. 'what's the title?', 'what org is set?', "
+                "'show me the description'). For specific-field questions, set `field` and "
+                "`question` so the response is focused rather than a full dump."
             ),
-            "parameters": {"type": "object", "properties": {}},
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "field": {
+                        "type": "string",
+                        "description": (
+                            "Optional. The specific metadata field the user is asking about "
+                            "(e.g. title, notes, author, tags). Omit to return all fields."
+                        ),
+                    },
+                    "question": {
+                        "type": "string",
+                        "description": (
+                            "Optional. The user's exact question, to frame the focused answer."
+                        ),
+                    },
+                },
+            },
         },
     },
 ]
@@ -415,6 +437,8 @@ def make_intake_node(settings: Settings) -> Any:
             }
             if action == "revise-field" and extra_args:
                 result["revise_field_target"] = extra_args
+            if action == "show" and extra_args:
+                result["show_target"] = extra_args
 
             log_node_exit("intake", result, next_node="route")
             return result
@@ -3300,6 +3324,37 @@ def make_show_node(settings: Settings) -> Any:
         resource_plan = list(saved.get("resource_plan") or [])
         reviewed_files = list(saved.get("reviewed_files") or [])
         status = saved.get("status") or "analyzed"
+
+        # Focused single-field answer when the router detected a specific question.
+        show_target = dict(state.get("show_target") or {})
+        if show_target.get("field"):
+            field_key = show_target["field"]
+            question = show_target.get("question", "")
+            # Try exact match first, then case-insensitive scan.
+            value = desired.get(field_key)
+            if value is None:
+                for k, v in desired.items():
+                    if k.lower() == field_key.lower():
+                        field_key = k
+                        value = v
+                        break
+            origin = origins.get(field_key, "llm-derived")
+            if value in (None, "", [], {}):
+                answer = f"**{field_key}** is not set yet."
+            elif field_key == "tags" and isinstance(value, list):
+                display = ", ".join(t.get("name") if isinstance(t, dict) else str(t) for t in value)
+                answer = f"**{field_key}** (`{origin}`): {display}"
+            else:
+                answer = f"**{field_key}** (`{origin}`): {value}"
+            if question:
+                answer = f"{answer}\n\nTo change it, say something like \"update the {field_key}\"."
+            focused_result = {
+                "ok": True, "command": "show", "status": status,
+                "session_id": session_id, "review_markdown": answer,
+            }
+            out = {"result": focused_result, "status": status, "error": ""}
+            log_node_exit("show", out, next_node="END")
+            return out
 
         _SKIP = {"owner_org_label", "owner_org_name", "owner_org_title", "isopen"}
         lines = ["## Current Metadata"]
