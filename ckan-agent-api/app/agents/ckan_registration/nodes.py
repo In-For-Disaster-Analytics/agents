@@ -309,6 +309,7 @@ def llm_route_action(
     settings: Settings,
     request: dict[str, Any],
     prior_status: str,
+    schema_profile: str = "",
 ) -> tuple[str, dict[str, Any]]:
     """Use LLM tool-calling to route a natural-language message to an action.
 
@@ -368,6 +369,23 @@ def llm_route_action(
         "'go ahead', 'proceed', 'submit', 'approved', 'create it', 'sounds good' — call apply."
     )
 
+    # Build schema-aware tool descriptions so the LLM knows field label synonyms.
+    router_tools = _ROUTER_TOOLS
+    if schema_profile:
+        try:
+            from app.schemas.registry import SchemaRegistry
+            _profile = SchemaRegistry(settings.schemas_dir).get(schema_profile)
+            _hints = _profile.field_label_hints()
+            if _hints:
+                import copy
+                router_tools = copy.deepcopy(_ROUTER_TOOLS)
+                _field_hint_line = f"Schema field reference: {_hints}"
+                for _tool in router_tools:
+                    if _tool["function"]["name"] in {"revise_field", "show"}:
+                        _tool["function"]["description"] += f" {_field_hint_line}"
+        except Exception:
+            pass  # Schema unavailable — fall back to generic tool descriptions
+
     from app import llm as _llm
     try:
         result = _llm.invoke_chat_tools(
@@ -375,7 +393,7 @@ def llm_route_action(
                 {"role": "system", "content": system_msg},
                 {"role": "user", "content": context},
             ],
-            _ROUTER_TOOLS,
+            router_tools,
             model=settings.ckan_llm_model,
             api_key=settings.openai_api_key,
             base_url=settings.openai_base_url or "",
@@ -436,7 +454,10 @@ def make_intake_node(settings: Settings) -> Any:
 
             if not action:
                 # --- LLM routing for natural language messages ---
-                action, extra_args = llm_route_action(settings, request, prior_status)
+                action, extra_args = llm_route_action(
+                    settings, request, prior_status,
+                    schema_profile=str(state.get("schema_profile") or ""),
+                )
                 action = normalize_action(action)
 
             if action == "apply" and not request.get("approval"):
@@ -3350,16 +3371,18 @@ def make_show_node(settings: Settings) -> Any:
         if show_target.get("field"):
             field_key = show_target["field"]
             question = show_target.get("question", "")
-            # Normalize common user-facing synonyms to CKAN field names.
-            _FIELD_ALIASES = {
-                "organization": "owner_org", "org": "owner_org",
-                "description": "notes", "abstract": "notes",
-                "email": "author_email", "contact_email": "data_contact_email",
-                "license": "license_id",
-                "start": "temporal_coverage_start", "begin": "temporal_coverage_start",
-                "end": "temporal_coverage_end",
-            }
-            field_key = _FIELD_ALIASES.get(field_key.lower(), field_key)
+            # Build alias map from the loaded schema so any schema's labels work
+            # without code changes. Falls back to empty dict (exact match still works).
+            _field_aliases: dict[str, str] = {}
+            try:
+                from app.schemas.registry import SchemaRegistry
+                _schema_name = str(state.get("schema_profile") or "")
+                _reg = SchemaRegistry(settings.schemas_dir)
+                _profile = _reg.get(_schema_name) if _schema_name else _reg.default()
+                _field_aliases = _profile.label_map()
+            except Exception:
+                pass
+            field_key = _field_aliases.get(field_key.lower(), field_key)
             # Try exact match first, then case-insensitive scan.
             value = desired.get(field_key)
             if value is None:

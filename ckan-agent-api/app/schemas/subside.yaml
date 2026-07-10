@@ -44,33 +44,33 @@ controlled_vocab:
 fields:
   - {key: title, required: true, guidance: "Descriptive title naming the aquifer/region and model."}
   - {key: name, required: true, guidance: "Lowercase, hyphenated, URL-safe slug. No spaces or special chars."}
-  - {key: notes, required: true, guidance: "2-4 sentences: what the model is, geographic/temporal scope, source org."}
+  - {key: notes, label: [description, abstract, summary], required: true, guidance: "2-4 sentences: what the model is, geographic/temporal scope, source org."}
   - {key: url, required: false, guidance: "Source/landing-page URL (e.g. the TWDB GAM page)."}
   - {key: version, required: false, guidance: null}
   - {key: author, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
-  - {key: author_email, required: false, guidance: null}
+  - {key: author_email, label: email, required: false, guidance: null}
   - {key: maintainer, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
   - {key: maintainer_email, required: false, guidance: null}
-  - {key: license_id, required: false, guidance: "Dataset-specific; do not inherit across unrelated datasets."}
-  - {key: owner_org, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
-  - {key: tag_string, required: false, guidance: "Comma-separated discovery tags, e.g. 'groundwater, aquifer, modflow, texas'."}
-  - {key: temporal_coverage_start, required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
-  - {key: temporal_coverage_end, required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
-  - {key: program_area, required: false, guidance: null}
-  - {key: data_contact_email, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
-  - {key: caveats_usage, required: false, guidance: null}
+  - {key: license_id, label: license, required: false, guidance: "Dataset-specific; do not inherit across unrelated datasets."}
+  - {key: owner_org, label: [organization, org], required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: tag_string, label: [tags, keywords], required: false, guidance: "Comma-separated discovery tags, e.g. 'groundwater, aquifer, modflow, texas'."}
+  - {key: temporal_coverage_start, label: [start, begin, start_date], required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
+  - {key: temporal_coverage_end, label: [end, end_date], required: false, guidance: "ISO-8601 year or date; only if a clear period is in the sources."}
+  - {key: program_area, label: [program, area], required: false, guidance: null}
+  - {key: data_contact_email, label: [contact_email, contact], required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: caveats_usage, label: [caveats, usage_notes, usage], required: false, guidance: null}
   - {key: categories, required: true, guidance: "Controlled vocab; MUST include 'Groundwater' for GAMs."}
   - {key: primary_tags, required: false, guidance: null}
   - {key: secondary_tags, required: false, guidance: null}
-  - {key: collection_method, required: true, guidance: "Controlled vocab; MUST be 'Model Output' for GAMs."}
-  - {key: collection_method_description, required: false, guidance: null}
-  - {key: quality_control_level, required: false, guidance: null}
-  - {key: quality_assurance_description, required: false, guidance: null}
-  - {key: coordinate_system, required: false, guidance: "CRS, often derivable from a geodatabase."}
-  - {key: spatial, required: false, guidance: "GeoJSON string if a bounding box is available."}
-  - {key: update_frequency, required: false, guidance: null}
-  - {key: from_date, required: false, guidance: "ISO-8601."}
-  - {key: to_date, required: false, guidance: "ISO-8601."}
+  - {key: collection_method, label: method, required: true, guidance: "Controlled vocab; MUST be 'Model Output' for GAMs."}
+  - {key: collection_method_description, label: method_description, required: false, guidance: null}
+  - {key: quality_control_level, label: [quality, qc_level], required: false, guidance: null}
+  - {key: quality_assurance_description, label: qa_description, required: false, guidance: null}
+  - {key: coordinate_system, label: [crs, projection, coordinate], required: false, guidance: "CRS, often derivable from a geodatabase."}
+  - {key: spatial, label: [bounding_box, extent, location], required: false, guidance: "GeoJSON string if a bounding box is available."}
+  - {key: update_frequency, label: frequency, required: false, guidance: null}
+  - {key: from_date, label: [from, from_date], required: false, guidance: "ISO-8601."}
+  - {key: to_date, label: [to, to_date], required: false, guidance: "ISO-8601."}
   - {key: disclaimer, required: false, guidance: null}
-  - {key: additional_information, required: false, guidance: null}
-  - {key: supporting_url, required: false, guidance: null}
+  - {key: additional_information, label: additional_info, required: false, guidance: null}
+  - {key: supporting_url, label: [supporting_link, support_url], required: false, guidance: null}

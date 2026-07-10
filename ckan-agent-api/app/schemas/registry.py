@@ -63,6 +63,39 @@ class SchemaProfile:
             "defaults": json.dumps(self.defaults, indent=2, ensure_ascii=False),
         }
 
+    def label_map(self) -> dict[str, str]:
+        """Return {alias -> ckan_key} built from field `label` entries.
+
+        Allows user-facing synonyms (e.g. 'organization', 'description') to resolve
+        to the underlying CKAN field key ('owner_org', 'notes') without hardcoding.
+        """
+        result: dict[str, str] = {}
+        for f in self.fields:
+            key = str(f.get("key") or "")
+            label = f.get("label")
+            if not key or label is None:
+                continue
+            aliases = [label] if isinstance(label, str) else list(label)
+            for alias in aliases:
+                result[str(alias).lower()] = key
+        return result
+
+    def field_label_hints(self) -> str:
+        """Compact string listing each field key with its aliases for LLM tool descriptions."""
+        parts: list[str] = []
+        for f in self.fields:
+            key = str(f.get("key") or "")
+            label = f.get("label")
+            if not key:
+                continue
+            if label is None:
+                parts.append(key)
+            elif isinstance(label, str):
+                parts.append(f"{key} (aka {label})")
+            else:
+                parts.append(f"{key} (aka {'/'.join(str(l) for l in label)})")
+        return ", ".join(parts)
+
 
 class SchemaRegistry:
     def __init__(self, schemas_dir: Path | None = None) -> None:

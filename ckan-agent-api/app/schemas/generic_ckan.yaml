@@ -15,16 +15,16 @@ controlled_vocab: {}
 fields:
   - {key: title, required: true, guidance: "Human-readable dataset title (under 140 chars)."}
   - {key: name, required: true, guidance: "Lowercase, hyphenated, URL-safe slug."}
-  - {key: notes, required: true, guidance: "1-3 sentences describing content, source, and purpose."}
+  - {key: notes, label: [description, abstract, summary], required: true, guidance: "1-3 sentences describing content, source, and purpose."}
   - {key: url, required: false, guidance: "Source/landing-page URL if any."}
   - {key: author, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
-  - {key: author_email, required: false, guidance: null}
+  - {key: author_email, label: email, required: false, guidance: null}
   - {key: maintainer, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
   - {key: maintainer_email, required: false, guidance: null}
-  - {key: license_id, required: false, guidance: "Dataset-specific; do not inherit across unrelated datasets."}
-  - {key: owner_org, required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
-  - {key: tag_string, required: false, guidance: "Comma-separated discovery tags."}
+  - {key: license_id, label: license, required: false, guidance: "Dataset-specific; do not inherit across unrelated datasets."}
+  - {key: owner_org, label: [organization, org], required: false, guidance: "Org-level; reuse a thread-sticky value if provided."}
+  - {key: tag_string, label: [tags, keywords], required: false, guidance: "Comma-separated discovery tags."}
   - {key: version, required: false, guidance: null}
-  - {key: spatial, required: false, guidance: "GeoJSON string if a bounding box is available."}
-  - {key: temporal_coverage_start, required: false, guidance: "ISO-8601; only if a clear period is in the sources."}
-  - {key: temporal_coverage_end, required: false, guidance: "ISO-8601; only if a clear period is in the sources."}
+  - {key: spatial, label: [bounding_box, extent, location], required: false, guidance: "GeoJSON string if a bounding box is available."}
+  - {key: temporal_coverage_start, label: [start, begin, start_date], required: false, guidance: "ISO-8601; only if a clear period is in the sources."}
+  - {key: temporal_coverage_end, label: [end, end_date], required: false, guidance: "ISO-8601; only if a clear period is in the sources."}
