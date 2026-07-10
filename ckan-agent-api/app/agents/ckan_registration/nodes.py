@@ -356,9 +356,16 @@ def llm_route_action(
     system_msg = (
         "You are routing a CKAN metadata registration request to the correct action. "
         "Call the tool that best matches the user's intent given their message and session state. "
-        "Key rule: if the user's feedback targets ONE field (including follow-up refinements "
-        "where the target field is clear from context), call revise_field — not revise. "
-        "Only call revise when the user wants the entire metadata redone."
+        "Rules (in priority order): "
+        "(1) When the user challenges or disputes a value — phrasing like 'how could it be X', "
+        "'that\\'s wrong', 'that\\'s not right', 'that can\\'t be right', 'that\\'s impossible', "
+        "'that date is in the future', 'I\\'m not the maintainer' — call revise_field with "
+        "the field containing the disputed value. Never call show for challenge phrasing. "
+        "(2) If the user's feedback targets ONE field (including follow-up refinements where the "
+        "target field is clear from context), call revise_field — not revise. Only call revise "
+        "when the user wants the entire metadata redone. "
+        "(3) When the prior status is dry_run and the user expresses approval — 'looks good', "
+        "'go ahead', 'proceed', 'submit', 'approved', 'create it', 'sounds good' — call apply."
     )
 
     from app import llm as _llm
@@ -418,6 +425,15 @@ def make_intake_node(settings: Settings) -> Any:
                     request["dataset_intent"] = intent
                     action = "dry-run"
 
+            if not action and prior_status in {"dry_run", "dry_run_failed"}:
+                # --- Fast path: natural affirmation after dry run → apply ---
+                _msg_lower = str(request.get("message") or "").strip().lower()
+                if re.search(
+                    r"\b(looks?\s+good|go\s+ahead|proceed|create\s+it|approved?|confirm|sounds?\s+good|submit)\b",
+                    _msg_lower,
+                ):
+                    action = "apply"
+
             if not action:
                 # --- LLM routing for natural language messages ---
                 action, extra_args = llm_route_action(settings, request, prior_status)
@@ -439,6 +455,10 @@ def make_intake_node(settings: Settings) -> Any:
                 result["revise_field_target"] = extra_args
             if action == "show" and extra_args:
                 result["show_target"] = extra_args
+            elif action == "show":
+                # Explicitly clear any prior focused show so stale show_target
+                # from a previous turn doesn't bleed into a full-dump request.
+                result["show_target"] = {}
 
             log_node_exit("intake", result, next_node="route")
             return result
@@ -3330,6 +3350,16 @@ def make_show_node(settings: Settings) -> Any:
         if show_target.get("field"):
             field_key = show_target["field"]
             question = show_target.get("question", "")
+            # Normalize common user-facing synonyms to CKAN field names.
+            _FIELD_ALIASES = {
+                "organization": "owner_org", "org": "owner_org",
+                "description": "notes", "abstract": "notes",
+                "email": "author_email", "contact_email": "data_contact_email",
+                "license": "license_id",
+                "start": "temporal_coverage_start", "begin": "temporal_coverage_start",
+                "end": "temporal_coverage_end",
+            }
+            field_key = _FIELD_ALIASES.get(field_key.lower(), field_key)
             # Try exact match first, then case-insensitive scan.
             value = desired.get(field_key)
             if value is None:
