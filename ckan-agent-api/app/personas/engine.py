@@ -20,6 +20,7 @@ Design commitments realised here:
 
 from __future__ import annotations
 
+import datetime
 import json
 import logging
 import time
@@ -167,6 +168,7 @@ def _author_payload(
     resolved_gaps: dict[str, str],
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
+        "current_date": datetime.date.today().isoformat(),
         "consolidated_inputs": consolidated_inputs,
         "schema_profile": {"name": schema_profile.name, "dataset_type": schema_profile.dataset_type},
         "resource_plan_summary": [

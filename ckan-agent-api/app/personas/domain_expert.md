@@ -163,6 +163,9 @@ MANDATORY RULES — violation produces unusable metadata:
 2. APPLY the SCHEMA DEFAULTS above unconditionally.
 
 3. Do NOT invent authors, emails, spatial extents, or temporal dates not present in the sources.
+   The payload includes a `current_date` field (today's date). Any date you emit — including
+   processing or publication dates mentioned in `notes` — must not be later than `current_date`.
+   If file metadata implies a future date, omit that date rather than guess.
 
 4. "name" must be lowercase, URL-safe, hyphen-separated (no spaces, no special chars).
 
