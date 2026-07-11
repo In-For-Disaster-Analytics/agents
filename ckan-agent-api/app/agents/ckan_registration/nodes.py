@@ -9,7 +9,9 @@ import re
 import shutil
 import uuid
 import zipfile
-from datetime import UTC, datetime
+from datetime import datetime, timezone
+
+UTC = timezone.utc
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
