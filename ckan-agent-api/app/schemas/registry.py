@@ -52,6 +52,7 @@ class SchemaProfile:
     defaults: dict[str, Any] = field(default_factory=dict)
     controlled_vocab: dict[str, Any] = field(default_factory=dict)
     fields: list[dict[str, Any]] = field(default_factory=list)
+    internal_fields: list[str] = field(default_factory=list)
     path: Path | None = None
 
     def render_tokens(self) -> dict[str, str]:
@@ -133,6 +134,7 @@ class SchemaRegistry:
             defaults=dict(data.get("defaults") or {}),
             controlled_vocab=dict(data.get("controlled_vocab") or {}),
             fields=list(data.get("fields") or []),
+            internal_fields=list(data.get("internal_fields") or []),
             path=resolved,
         )
 

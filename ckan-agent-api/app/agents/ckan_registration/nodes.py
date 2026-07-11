@@ -227,8 +227,9 @@ _ROUTER_TOOLS = [
                     "field": {
                         "type": "string",
                         "description": (
-                            "The CKAN metadata field to update. Common values: title, notes, author, "
-                            "author_email, tags, license_id, temporal_coverage_start, temporal_coverage_end. "
+                            "The CKAN metadata field to update. Use the exact CKAN key (e.g. owner_org, "
+                            "not 'organization'). Available fields and their aliases are listed in the "
+                            "schema field reference appended to this tool's description. "
                             "Infer from context when the user does not name the field explicitly."
                         ),
                     },
@@ -281,8 +282,8 @@ _ROUTER_TOOLS = [
                     "field": {
                         "type": "string",
                         "description": (
-                            "Optional. The specific metadata field the user is asking about "
-                            "(e.g. title, notes, author, tags). Omit to return all fields."
+                            "Optional. The specific metadata field the user is asking about. "
+                            "Omit to return all fields."
                         ),
                     },
                     "question": {
@@ -449,7 +450,7 @@ def make_intake_node(settings: Settings) -> Any:
                 # --- Fast path: natural affirmation after dry run → apply ---
                 _msg_lower = str(request.get("message") or "").strip().lower()
                 if re.search(
-                    r"\b(looks?\s+good|go\s+ahead|proceed|create\s+it|approved?|confirm|sounds?\s+good|submit)\b",
+                    r"\b(looks?\s+good|go\s+ahead|proceed|create\s+it|approved?|confirm|sounds?\s+good)\b",
                     _msg_lower,
                 ):
                     action = "apply"
@@ -530,12 +531,16 @@ _CKAN_INTERNAL_FIELDS = frozenset({
 })
 
 
-def _ckan_metadata_payload(desired: dict[str, Any]) -> dict[str, Any]:
+def _ckan_metadata_payload(
+    desired: dict[str, Any],
+    extra_skip: frozenset[str] | None = None,
+) -> dict[str, Any]:
     """Strip internal tracking fields and empty values from desired_dataset_payload."""
+    skip = _CKAN_INTERNAL_FIELDS | (extra_skip or frozenset())
     return {
         k: v
         for k, v in desired.items()
-        if k not in _CKAN_INTERNAL_FIELDS and v not in (None, "", [], {})
+        if k not in skip and v not in (None, "", [], {})
     }
 
 
@@ -560,7 +565,16 @@ def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     desired = saved_state.get("desired_dataset_payload") or {}
     resource_plan = saved_state.get("resource_plan") or []
     dataset_type = _clean_metadata_value(desired.get("type")) or "dataset"
-    metadata = _ckan_metadata_payload(desired)
+    _dry_extra: frozenset[str] = frozenset()
+    try:
+        from app.schemas.registry import SchemaRegistry
+        _dry_sp_name = str(saved_state.get("schema_profile") or "")
+        _dry_reg = SchemaRegistry(settings.schemas_dir)
+        _dry_sp = _dry_reg.get(_dry_sp_name) if _dry_sp_name else _dry_reg.default()
+        _dry_extra = frozenset(_dry_sp.internal_fields)
+    except Exception:
+        pass
+    metadata = _ckan_metadata_payload(desired, _dry_extra)
 
     client = _mcp_get_client(settings)
     if client is None:
@@ -679,7 +693,16 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     desired = saved_state.get("desired_dataset_payload") or {}
     resource_plan = saved_state.get("resource_plan") or []
     dataset_type = _clean_metadata_value(desired.get("type")) or "dataset"
-    metadata = _ckan_metadata_payload(desired)
+    _apply_extra: frozenset[str] = frozenset()
+    try:
+        from app.schemas.registry import SchemaRegistry
+        _apply_sp_name = str(saved_state.get("schema_profile") or "")
+        _apply_reg = SchemaRegistry(settings.schemas_dir)
+        _apply_sp = _apply_reg.get(_apply_sp_name) if _apply_sp_name else _apply_reg.default()
+        _apply_extra = frozenset(_apply_sp.internal_fields)
+    except Exception:
+        pass
+    metadata = _ckan_metadata_payload(desired, _apply_extra)
 
     client = _mcp_get_client(settings)
     if client is None:
@@ -1756,8 +1779,16 @@ def _prompt_guided_metadata(
         "source_urls": url_reports,
         "warnings": warnings,
     }
+    _req_profile = None
+    try:
+        from app.schemas.registry import SchemaRegistry
+        _req_sp_name = str(request.get("schema_profile") or "")
+        _req_reg = SchemaRegistry(settings.schemas_dir)
+        _req_profile = _req_reg.get(_req_sp_name) if _req_sp_name else _req_reg.default()
+    except Exception:
+        pass
     system_prompt = template.render(
-        missing_fields=json.dumps(get_required_metadata_fields()),
+        missing_fields=json.dumps(get_required_metadata_fields(_req_profile)),
         dataset_context=_json_for_prompt(metadata_guess),
         file_metadata=_json_for_prompt(file_reports + inline_reports),
         user_context=str(request.get("message") or ""),
@@ -1796,31 +1827,28 @@ def _prompt_guided_metadata(
     return parsed, prompt_info
 
 
-def _merge_prompt_metadata(metadata_guess: dict[str, Any], prompt_metadata: dict[str, Any] | None) -> dict[str, Any]:
+def _merge_prompt_metadata(
+    metadata_guess: dict[str, Any],
+    prompt_metadata: dict[str, Any] | None,
+    schema_profile: Any = None,
+) -> dict[str, Any]:
     if not prompt_metadata:
         return metadata_guess
 
     merged = dict(metadata_guess)
     package = prompt_metadata.get("ckan_package") or {}
     if isinstance(package, dict):
-        package_fields = (
-            "title",
-            "name",
-            "notes",
-            "url",
-            "author",
-            "author_email",
-            "maintainer",
-            "maintainer_email",
-            "license_id",
-            "version",
-            "private",
-            "tags",
-            "spatial",
-            "spatial_description",
-            "temporal_coverage_start",
-            "temporal_coverage_end",
-        )
+        if schema_profile is not None and hasattr(schema_profile, "fields"):
+            package_fields: tuple[str, ...] = tuple(
+                str(f.get("key") or "") for f in schema_profile.fields if f.get("key")
+            )
+        else:
+            package_fields = (
+                "title", "name", "notes", "url", "author", "author_email",
+                "maintainer", "maintainer_email", "license_id", "version",
+                "private", "tags", "spatial", "spatial_description",
+                "temporal_coverage_start", "temporal_coverage_end",
+            )
         for key in package_fields:
             value = package.get(key)
             if value not in (None, "", [], {}):
@@ -2692,7 +2720,15 @@ def build_file_metadata_report(request: dict[str, Any], settings: Settings) -> d
         metadata_guess,
         warnings,
     )
-    metadata_guess = _merge_prompt_metadata(metadata_guess, prompt_metadata)
+    _merge_sp = None
+    try:
+        from app.schemas.registry import SchemaRegistry
+        _merge_sp_name = str(request.get("schema_profile") or "")
+        _merge_reg = SchemaRegistry(settings.schemas_dir)
+        _merge_sp = _merge_reg.get(_merge_sp_name) if _merge_sp_name else _merge_reg.default()
+    except Exception:
+        pass
+    metadata_guess = _merge_prompt_metadata(metadata_guess, prompt_metadata, _merge_sp)
     state_path, desired_payload, resource_plan = _save_metadata_registration_state(
         request,
         settings,
@@ -3411,7 +3447,19 @@ def make_show_node(settings: Settings) -> Any:
             log_node_exit("show", out, next_node="END")
             return out
 
-        _SKIP = {"owner_org_label", "owner_org_name", "owner_org_title", "isopen"}
+        _show_all_profile = None
+        try:
+            from app.schemas.registry import SchemaRegistry
+            _sa_name = str(state.get("schema_profile") or "")
+            _sa_reg = SchemaRegistry(settings.schemas_dir)
+            _show_all_profile = _sa_reg.get(_sa_name) if _sa_name else _sa_reg.default()
+        except Exception:
+            pass
+        _SKIP = (
+            set(_show_all_profile.internal_fields)
+            if _show_all_profile and _show_all_profile.internal_fields
+            else {"owner_org_label", "owner_org_name", "owner_org_title", "isopen"}
+        )
         lines = ["## Current Metadata"]
         if reviewed_files:
             shown = reviewed_files[:12]
@@ -3504,8 +3552,10 @@ def has_session_id(request: dict[str, Any]) -> bool:
     return bool(request.get("session_id") and str(request["session_id"]).strip())
 
 
-def get_required_metadata_fields() -> list[str]:
-    """Get list of required metadata field names."""
+def get_required_metadata_fields(schema_profile: Any = None) -> list[str]:
+    """Get list of required metadata field names, derived from schema profile when available."""
+    if schema_profile is not None and hasattr(schema_profile, "fields"):
+        return [str(f.get("key") or "") for f in schema_profile.fields if f.get("required") and f.get("key")]
     return [
         "title", "name", "notes", "author", "author_email",
         "maintainer", "maintainer_email", "license_id"
@@ -3582,16 +3632,19 @@ def format_metadata_guidance(missing_fields: list[str]) -> str:
     return "\n".join(lines)
 
 
-def validate_metadata(dataset: dict[str, Any] | None) -> tuple[bool, list[str]]:
+def validate_metadata(
+    dataset: dict[str, Any] | None,
+    schema_profile: Any = None,
+) -> tuple[bool, list[str]]:
     """Validate that dataset metadata has all required fields.
-    
+
     Returns: (is_valid, missing_fields)
     """
     if not dataset or not isinstance(dataset, dict):
-        return False, get_required_metadata_fields()
-    
+        return False, get_required_metadata_fields(schema_profile)
+
     missing = []
-    for field in get_required_metadata_fields():
+    for field in get_required_metadata_fields(schema_profile):
         value = dataset.get(field)
         if not value or (isinstance(value, str) and not value.strip()):
             missing.append(field)

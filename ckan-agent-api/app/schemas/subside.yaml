@@ -18,6 +18,13 @@ defaults:
   categories:
     - Groundwater
 
+# CKAN API response fields that must not be sent back in create/update payloads.
+internal_fields:
+  - owner_org_label
+  - owner_org_name
+  - owner_org_title
+  - isopen
+
 controlled_vocab:
   categories:
     - Boundaries
