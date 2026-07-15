@@ -54,6 +54,7 @@ pod_env = {
     "CKAN_PERSONA_TOOLS": "1",
     "LANGCHAIN_TRACING_V2": langchain_tracing,
     "LANGCHAIN_API_KEY": langchain_api_key,
+    "LANGCHAIN_PROJECT": "ckan-agent-api",
 }
 
 if pod_exists:
