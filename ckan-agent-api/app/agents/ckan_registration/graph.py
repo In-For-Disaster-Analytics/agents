@@ -35,7 +35,7 @@ from app.agents.ckan_registration.state import CkanRegistrationState
 from app.settings import Settings, get_settings
 
 
-def build_graph(settings: Settings):
+def build_graph(settings: Settings, checkpointer=None):
     builder = StateGraph(CkanRegistrationState)
     builder.add_node("intake", make_intake_node(settings))
     builder.add_node("dry-run", make_legacy_command_node(settings, "dry-run"))
@@ -88,7 +88,7 @@ def build_graph(settings: Settings):
     builder.add_edge("geo-apply", END)
     builder.add_edge("show", END)
     builder.add_edge("revise-field", END)
-    return builder.compile(checkpointer=make_checkpointer(settings))
+    return builder.compile(checkpointer=checkpointer)
 
 
 def make_checkpointer(settings: Settings):
@@ -109,7 +109,7 @@ def config_for_thread(thread_id: str) -> dict[str, Any]:
 class CkanRegistrationRunner:
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self.graph = build_graph(settings)
+        self.graph = build_graph(settings, checkpointer=make_checkpointer(settings))
 
     def invoke(self, request: CkanRunRequest) -> AgentRunResponse:
         payload = request.model_dump(mode="json", exclude_none=True)
@@ -192,4 +192,6 @@ def get_runner() -> CkanRegistrationRunner:
     return CkanRegistrationRunner(get_settings())
 
 
+# Module-level export for LangGraph Studio / langgraph dev — no custom checkpointer,
+# Studio manages its own persistence.
 graph = build_graph(get_settings())

@@ -1,5 +1,10 @@
 from __future__ import annotations
 
+# Load .env before any langchain/langsmith imports so LANGSMITH_* env vars are
+# in os.environ before langsmith's lru_cache'd get_env_var is first called.
+from app.settings import _load_env_file as _bootstrap_env, PROJECT_ROOT as _PROJECT_ROOT
+_bootstrap_env(_PROJECT_ROOT / ".env")
+
 import logging
 import shutil
 import threading
