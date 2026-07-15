@@ -21,6 +21,8 @@ openai_key = os.environ.get("OPENAI_API_KEY", "")
 ckan_url   = os.environ.get("CKAN_URL", "")
 ckan_mcp_url = os.environ.get("CKAN_MCP_URL", "https://dsomcp.pods.portals.tapis.io/mcp")
 ckan_mcp_shared_secret = os.environ.get("CKAN_MCP_SHARED_SECRET", "")
+langchain_api_key = os.environ.get("LANGCHAIN_API_KEY", "")
+langchain_tracing = os.environ.get("LANGCHAIN_TRACING_V2", "true")
 
 print(f"Authenticating to {base_url} as {username}")
 t = Tapis(base_url=base_url, username=username, password=password)
@@ -50,6 +52,8 @@ pod_env = {
     "CKAN_MCP_ENABLED": "1",
     "CKAN_PERSONA_CHAT": "1",
     "CKAN_PERSONA_TOOLS": "1",
+    "LANGCHAIN_TRACING_V2": langchain_tracing,
+    "LANGCHAIN_API_KEY": langchain_api_key,
 }
 
 if pod_exists:

@@ -5,6 +5,24 @@ import { chat, login, uploadFiles } from "./api.js";
 const newSessionId = () =>
   (crypto.randomUUID ? crypto.randomUUID() : Math.random().toString(36).slice(2)).replace(/-/g, "");
 
+const SESSIONS_KEY = "ckan.sessions";
+const MAX_SESSIONS = 50;
+
+function loadSessions() {
+  try { return JSON.parse(localStorage.getItem(SESSIONS_KEY) || "[]"); }
+  catch { return []; }
+}
+
+function persistSession({ id, messages, uploadDir }) {
+  if (!messages.length) return;
+  const firstUser = messages.find((m) => m.role === "user");
+  const title = firstUser ? firstUser.content.slice(0, 72) : new Date().toLocaleString();
+  const all = loadSessions().filter((s) => s.id !== id);
+  all.unshift({ id, title, savedAt: new Date().toISOString(), messages, uploadDir });
+  if (all.length > MAX_SESSIONS) all.splice(MAX_SESSIONS);
+  localStorage.setItem(SESSIONS_KEY, JSON.stringify(all));
+}
+
 export default function App() {
   const [baseUrl, setBaseUrl] = useState(localStorage.getItem("ckan.baseUrl") || "");
   const [jwt, setJwt] = useState(localStorage.getItem("ckan.jwt") || "");
@@ -23,22 +41,42 @@ export default function App() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [sessions, setSessions] = useState(loadSessions);
+  const [showHistory, setShowHistory] = useState(false);
 
   const fileRef = useRef(null);
   const endRef = useRef(null);
   const passRef = useRef(null);
-  useEffect(() => endRef.current?.scrollIntoView({ behavior: "smooth" }), [messages, busy]);
+  useEffect(() => {
+    endRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, busy]);
   useEffect(() => localStorage.setItem("ckan.jwt", jwt), [jwt]);
   useEffect(() => localStorage.setItem("ckan.baseUrl", baseUrl), [baseUrl]);
   useEffect(() => localStorage.setItem("ckan.username", username), [username]);
+  useEffect(() => {
+    if (messages.length) {
+      persistSession({ id: sessionId, messages, uploadDir });
+      setSessions(loadSessions());
+    }
+  }, [messages]);
 
   const add = (role, content) => setMessages((m) => [...m, { role, content }]);
 
   function resetConversation() {
+    if (messages.length) persistSession({ id: sessionId, messages, uploadDir });
     setSessionId(newSessionId());
     setUploadDir("");
     setMessages([]);
     setError("");
+  }
+
+  function switchToSession(s) {
+    if (messages.length) persistSession({ id: sessionId, messages, uploadDir });
+    setSessionId(s.id);
+    setMessages(s.messages || []);
+    setUploadDir(s.uploadDir || "");
+    setError("");
+    setShowHistory(false);
   }
 
   function signOut() {
@@ -187,8 +225,11 @@ export default function App() {
           <span className="thread">thread: {sessionId.slice(0, 8)}</span>
           <span className="signed-in">{username}</span>
           <button onClick={signOut}>Sign out</button>
-          <button onClick={resetConversation}>New conversation</button>
-          <button onClick={() => setShowSettings((s) => !s)}>{showSettings ? "Hide" : "Settings"}</button>
+          <button onClick={resetConversation}>New</button>
+          <button onClick={() => { setShowHistory((h) => !h); setShowSettings(false); }}>
+            {showHistory ? "Hide history" : `History${sessions.length ? ` (${sessions.length})` : ""}`}
+          </button>
+          <button onClick={() => { setShowSettings((s) => !s); setShowHistory(false); }}>{showSettings ? "Hide" : "Settings"}</button>
         </div>
       </header>
 
@@ -198,6 +239,29 @@ export default function App() {
             API base URL (blank = dev proxy /v1)
             <input value={baseUrl} onChange={(e) => setBaseUrl(e.target.value)} placeholder="e.g. http://localhost:8787" />
           </label>
+        </div>
+      )}
+
+      {showHistory && (
+        <div className="history-panel">
+          {sessions.length === 0 ? (
+            <div className="history-empty">No saved conversations yet.</div>
+          ) : (
+            <ul className="history-list">
+              {sessions.map((s) => (
+                <li
+                  key={s.id}
+                  className={`history-item${s.id === sessionId ? " active" : ""}`}
+                  onClick={() => switchToSession(s)}
+                >
+                  <span className="history-title">{s.title}</span>
+                  <span className="history-meta">
+                    {s.id.slice(0, 8)} · {new Date(s.savedAt).toLocaleDateString(undefined, { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
 

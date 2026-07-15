@@ -10,6 +10,7 @@ name: build-agent-api
 # Optional pod env-var secrets (add as needed):
 #   OPENAI_API_KEY    — OpenAI API key for LangGraph agents
 #   CKAN_PORTAL_URL   — CKAN portal base URL
+#   LANGCHAIN_API_KEY — LangSmith API key for tracing (LANGCHAIN_TRACING_V2 is set to "true" automatically)
 #
 # NOTE: CKAN auth tokens are Tapis JWTs (6-hour TTL) and cannot be stored
 # as static secrets. The pod exposes /v1/auth/login — clients exchange their
@@ -99,6 +100,7 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CKAN_URL: ${{ secrets.CKAN_PORTAL_URL }}
           CKAN_MCP_SHARED_SECRET: ${{ secrets.CKAN_MCP_SHARED_SECRET }}
+          LANGCHAIN_API_KEY: ${{ secrets.LANGCHAIN_API_KEY }}
         run: |
           pip install --quiet tapipy
           python3 .github/scripts/tapis_deploy.py
