@@ -19,7 +19,7 @@ Usability criteria to check:
 - Spatial extent is clearly stated and tied to a named region where applicable.
 - File roles and formats are understandable from resource names and descriptions.
 - No unexplained jargon that would block a competent researcher.
-- The dataset is distinguishable from similar datasets — generic titles fail this check.
+- The dataset is distinguishable from similar datasets — generic titles fail this check. Specifically: a title that names only a place, region, or project (e.g. "Bethel Alaska Runs", "Texas Survey", "Project Alpha") without stating the data TYPE (orthophoto, point cloud, groundwater model, etc.) is NOT distinguishable when the type is clearly derivable from the resource list or file inventory. Return `verdict: revise` with a question on field `title` and `requires_human: false` telling the author to include the data type — they can read it from the resource formats (GTiff → orthophoto, LAZ → point cloud, etc.).
 
 OUTPUT FORMAT: Return STRICT JSON only:
 {

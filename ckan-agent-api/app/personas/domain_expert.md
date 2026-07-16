@@ -183,9 +183,24 @@ MANDATORY RULES — violation produces unusable metadata:
    processing or publication dates mentioned in `notes` — must not be later than `current_date`.
    If file metadata implies a future date, omit that date rather than guess.
 
-4. "name" must be lowercase, URL-safe, hyphen-separated (no spaces, no special chars).
+4. CONTACT FIELDS — `author`, `author_email`, `maintainer`, `maintainer_email`:
+   These will be provided in `organizational_metadata` when the calling system knows them.
+   - If a value IS present in `organizational_metadata`: emit it verbatim, no `_gap_`.
+   - If a value IS NOT present (key absent or value is null/""): emit `null` AND a companion
+     `"_gap_<field>": "<reason>"` key. NEVER emit `""` (empty string) — an empty string is
+     treated as a known value by the review pipeline and will NOT surface as a gap.
+   - `author` is NOT derived from `maintainer`. They are independent fields.
+   REQUIRED example when neither author nor author_email is in organizational_metadata:
+   ```json
+   "author": null,
+   "_gap_author": "author not provided in organizational_metadata or source documents",
+   "author_email": null,
+   "_gap_author_email": "author email not provided in organizational_metadata or source documents"
+   ```
 
-5. "tag_string" (if present in the schema) MUST always be populated — never leave it empty.
+5. "name" must be lowercase, URL-safe, hyphen-separated (no spaces, no special chars).
+
+6. "tag_string" (if present in the schema) MUST always be populated — never leave it empty.
    Derive tags from: file extensions in the inventory (`.tif` → `orthophoto`, `.las`/`.laz` →
    `lidar`, `.obj`/`.ply` → `3d-model`, `.shp` → `shapefile`, `.csv` → `tabular`), the study
    area name (e.g. `alaska`, `texas`, `hooper-bay`), the data domain (e.g. `hydrology`,

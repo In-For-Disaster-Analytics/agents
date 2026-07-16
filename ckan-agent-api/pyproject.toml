@@ -17,6 +17,7 @@ dependencies = [
   "pypdf>=4.0",
   "pyyaml>=6.0",
   "fastmcp>=3,<4",
+  "langsmith>=0.3",
 ]
 
 [project.optional-dependencies]
@@ -36,3 +37,8 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
+
+[dependency-groups]
+dev = [
+    "langgraph-cli[inmem]>=0.4.31",
+]

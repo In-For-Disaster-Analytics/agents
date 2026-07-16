@@ -1023,6 +1023,23 @@ def make_persona_node(settings: Settings, *, engine: EngineFn = run_persona_meta
         # consolidated_inputs) — the engine includes it as a top-level payload key.
         bbox_geojson = consolidated.pop("bbox_geojson_str", None)
 
+        # When the caller sends a resume message (user revision), surface it to the author
+        # and release the title lock so the user's instruction can override the prior title.
+        resume = request.get("resume") if isinstance(request.get("resume"), dict) else {}
+        resume_msg = str(resume.get("message") or "").strip()
+        is_resume = bool(resume_msg)
+        if is_resume:
+            existing_msg = consolidated.get("user_message", "")
+            consolidated["user_message"] = (
+                f"{existing_msg}\n\nUser revision request: {resume_msg}".strip()
+            )
+
+        # Build authoritative metadata; on a resume drop the locked title so the author
+        # re-derives it from the user's instruction rather than repeating the old value.
+        auth_meta = dict(_authoritative_metadata(state, settings))
+        if is_resume:
+            auth_meta.pop("title", None)
+
         tool_kwargs = _tool_kwargs(settings, author)
 
         result = engine(
@@ -1032,7 +1049,7 @@ def make_persona_node(settings: Settings, *, engine: EngineFn = run_persona_meta
             schema_profile=profile,
             file_inventory=file_inventory or None,
             bbox_geojson=bbox_geojson,
-            organizational_metadata=_authoritative_metadata(state, settings) or None,
+            organizational_metadata=auth_meta or None,
             llm_model=settings.ckan_llm_model,
             llm_api_key=settings.openai_api_key,
             llm_base_url=settings.openai_base_url,
@@ -1058,17 +1075,19 @@ def make_persona_node(settings: Settings, *, engine: EngineFn = run_persona_meta
             "result": None,
         }
 
-        # Lock the title after the first round so subsequent persona re-runs don't drift
-        # to different phrasing. Stored in llm_locked_fields (not dataset_clarifications) so
-        # the field stays labeled llm-derived in the proposal, not user-supplied.
+        # Lock the title after the first successful draft so internal persona re-runs don't
+        # drift to different phrasing. On a resume the old lock was already released above,
+        # so the new candidate title replaces it here regardless of prior lock state.
         proposed = result.proposed_metadata or {}
         candidate_title = str(proposed.get("title") or "").strip()
-        if (
+        title_lockable = (
             candidate_title
             and "untitled" not in candidate_title.lower()
             and not candidate_title.startswith("_gap_")
             and not re.match(r"^Task of \d{4}-\d{2}-\d{2}T", candidate_title)
-            and "title" not in (state.get("llm_locked_fields") or {})
+        )
+        if title_lockable and (
+            is_resume or "title" not in (state.get("llm_locked_fields") or {})
         ):
             output["llm_locked_fields"] = {
                 **(state.get("llm_locked_fields") or {}),
@@ -1573,7 +1592,14 @@ def _to_desired_payload(candidate: dict[str, Any], settings: Settings, profile: 
         return ""
 
     tag_string = val("tag_string")
-    tags = [{"name": _slugify(t, "")} for t in tag_string.split(",") if _slugify(t, "")]
+    if tag_string:
+        tags = [{"name": _slugify(t, "")} for t in tag_string.split(",") if _slugify(t, "")]
+    else:
+        raw_tags = candidate.get("tags") or []
+        if isinstance(raw_tags, list):
+            tags = [{"name": _slugify(str(t), "")} for t in raw_tags if _slugify(str(t), "")]
+        else:
+            tags = []
     title = val("title") or "Untitled Dataset"
     desired: dict[str, Any] = {
         "name": _slugify(val("name") or title),

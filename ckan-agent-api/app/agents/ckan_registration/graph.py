@@ -5,11 +5,13 @@ import uuid
 from functools import lru_cache
 from typing import Any
 
+from langchain_core.tracers.context import collect_runs
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command
 
 from app.agents.ckan_registration.logging_config import log_graph_end, log_graph_start, logger
+from evals.online_evaluators import post_feedback_async
 from app.agents.ckan_registration.nodes import (
     make_approval_node,
     make_file_metadata_node,
@@ -136,8 +138,11 @@ class CkanRegistrationRunner:
             {"has_session": bool(payload.get("session_id")), "has_data": has_data},
         )
         try:
-            result = self.graph.invoke(state, config=config_for_thread(thread_id))
+            with collect_runs() as cb:
+                result = self.graph.invoke(state, config=config_for_thread(thread_id))
             log_graph_end(thread_id, result.get("status", "unknown"), error=result.get("error"))
+            if cb.traced_runs:
+                post_feedback_async(cb.traced_runs[0].id, result)
             return self._response(thread_id, result)
         except Exception as e:
             log_graph_end(thread_id, "error", error=str(e))
@@ -148,8 +153,11 @@ class CkanRegistrationRunner:
         payload["session_id"] = thread_id
         logger.info(f"📋 RESUMING workflow: Thread={thread_id}")
         try:
-            result = self.graph.invoke(Command(resume=payload), config=config_for_thread(thread_id))
+            with collect_runs() as cb:
+                result = self.graph.invoke(Command(resume=payload), config=config_for_thread(thread_id))
             log_graph_end(thread_id, result.get("status", "unknown"), error=result.get("error"))
+            if cb.traced_runs:
+                post_feedback_async(cb.traced_runs[0].id, result)
             return self._response(thread_id, result)
         except Exception as e:
             log_graph_end(thread_id, "error", error=str(e))
