@@ -144,6 +144,22 @@ When a source document has its own title (a report heading, a notebook `# Headin
 missing. Never use a title that is just a raw filename, a generic software-output label
 ("Processing Output", "Model Run"), or the schema profile name.
 
+PROJECT NAME HANDLING (when the supplied `title` is a project/campaign name, not yet a catalog title):
+First decide whether the name is **specific** or **generic**:
+
+- **Generic** — a placeholder with no scientific content: e.g. "First Project", "Test", "My Survey",
+  "Project 1", "New Dataset", "Untitled", "Default", "Trial Run", or any short common-word phrase
+  that does not refer to a real place, study, or campaign.
+  → IGNORE the project name entirely. Build the title from TYPE + PLACE + TIME only.
+  GOOD: "RGB Orthophoto and SfM Point Cloud Survey — Nightmute, Alaska (2025-08-01)"
+  BAD:  "First Project Orthophoto and Point Cloud Survey (2025-08-01)"  ← "First Project" adds nothing
+
+- **Specific** — refers to a real place, study, site, event, or named campaign: e.g. "Bethel
+  Waterplant", "Hurricane Harvey Response", "Rio Grande Corridor", "Hooper Bay Levee Inspection".
+  → USE it as a prefix with a colon: `<ProjectName>: <Type> (<Time>)`
+  GOOD: "Bethel Waterplant: RGB Orthophoto and SfM Survey (2025-08-01)"
+  GOOD: "Hooper Bay Levee Inspection: UAV Survey (2025-06-15)"
+
 FILE INVENTORY GUIDANCE:
 A `file_inventory` (filenames + extension counts) may be provided. Treat filenames and scenario
 tokens as VALID SOURCE EVIDENCE. Use it to infer temporal coverage ONLY when filenames/tokens
