@@ -11,7 +11,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.types import Command
 
 from app.agents.ckan_registration.logging_config import log_graph_end, log_graph_start, logger
-from evals.online_evaluators import post_feedback_async
+from app.evals.online_evaluators import post_feedback_async
 from app.agents.ckan_registration.nodes import (
     make_approval_node,
     make_file_metadata_node,
