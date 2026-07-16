@@ -1067,6 +1067,7 @@ def make_persona_node(settings: Settings, *, engine: EngineFn = run_persona_meta
             candidate_title
             and "untitled" not in candidate_title.lower()
             and not candidate_title.startswith("_gap_")
+            and not re.match(r"^Task of \d{4}-\d{2}-\d{2}T", candidate_title)
             and "title" not in (state.get("llm_locked_fields") or {})
         ):
             output["llm_locked_fields"] = {

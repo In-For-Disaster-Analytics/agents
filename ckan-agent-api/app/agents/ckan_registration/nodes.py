@@ -2674,6 +2674,60 @@ def _cleanup_upload_dirs_from_plan(resource_plan: list[dict[str, Any]], settings
             logger.info("Cleanup A: removed upload dir %s after registration", upload_id)
 
 
+_FETCHABLE_REMOTE_FORMATS = frozenset({"JSON", "GEOJSON"})
+_REMOTE_FETCH_MAX_BYTES = 512 * 1024  # 512 KB — cap so large files are skipped
+_REMOTE_FETCH_TIMEOUT = 5  # seconds
+
+
+def _fetch_remote_json_previews(
+    request: dict[str, Any],
+) -> tuple[list[dict[str, Any]], list[str]]:
+    """Fetch small JSON/GeoJSON entries from remote_resources and return inline reports.
+
+    Opportunistic enrichment — all errors (network, auth, parse, size) are caught and
+    recorded as warnings. Never raises; always returns a (possibly empty) pair.
+    """
+    import requests as _requests
+
+    raw = request.get("remote_resources") or []
+    reports: list[dict[str, Any]] = []
+    warnings: list[str] = []
+
+    for item in raw:
+        if not isinstance(item, dict):
+            continue
+        url = str(item.get("url") or "").strip()
+        fmt = str(item.get("format") or "").strip().upper()
+        name = str(item.get("name") or Path(url.split("?")[0]).name or "remote.json")
+        if not url or fmt not in _FETCHABLE_REMOTE_FORMATS:
+            continue
+        try:
+            resp = _requests.get(url, timeout=_REMOTE_FETCH_TIMEOUT, stream=True)
+            resp.raise_for_status()
+            chunks: list[bytes] = []
+            total = 0
+            for chunk in resp.iter_content(chunk_size=8192):
+                total += len(chunk)
+                if total > _REMOTE_FETCH_MAX_BYTES:
+                    warnings.append(
+                        f"Remote resource `{name}` exceeds {_REMOTE_FETCH_MAX_BYTES // 1024} KB; skipped."
+                    )
+                    chunks = []
+                    break
+                chunks.append(chunk)
+            if not chunks:
+                continue
+            content = b"".join(chunks).decode("utf-8", errors="replace")
+            mime = resp.headers.get("content-type", "application/json").split(";")[0].strip()
+            report = _analyze_inline_file({"name": name, "content": content, "mime_type": mime})
+            report["remote_url"] = url
+            reports.append(report)
+        except Exception as exc:
+            warnings.append(f"Could not fetch remote resource `{name}` for metadata preview: {exc}")
+
+    return reports, warnings
+
+
 def build_file_metadata_report(request: dict[str, Any], settings: Settings) -> dict[str, Any]:
     file_refs, warnings = _request_file_references(request, settings)
     file_reports = [
@@ -2683,6 +2737,9 @@ def build_file_metadata_report(request: dict[str, Any], settings: Settings) -> d
     _enrich_spatial_via_geo_mcp(file_reports, file_refs, settings)
     inline_reports = [_analyze_inline_file(item) for item in _inline_file_items(request)]
     url_reports = _url_reports(request)
+    remote_previews, remote_warnings = _fetch_remote_json_previews(request)
+    inline_reports.extend(remote_previews)
+    warnings.extend(remote_warnings)
     saved_metadata_guess: dict[str, Any] = {}
 
     if not file_reports and not inline_reports and not url_reports:
@@ -3543,6 +3600,7 @@ def has_data_input(request: dict[str, Any]) -> bool:
         or request.get("upload_dirs")
         or request.get("source_url")
         or request.get("source_urls")
+        or request.get("remote_resources")
         or (request.get("dataset") and request["dataset"].get("title"))
     )
 
