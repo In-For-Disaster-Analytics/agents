@@ -877,6 +877,7 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
         "dataset_name": dataset_name,
         "dataset_url": dataset_url,
         "package_id": package_id,
+        "owner_org": metadata.get("owner_org", ""),
         "resource_count": len(resource_plan),
         "resource_created": len(created),
         "resource_updated": 0,

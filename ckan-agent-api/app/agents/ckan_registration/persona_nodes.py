@@ -996,6 +996,13 @@ def make_schema_select_node(settings: Settings) -> Callable:
         # Ground org-level values against the live portal (best-effort) into one org_metadata.
         before = dict(state.get("org_metadata") or {})
         org_meta = dict(before)
+        # Seed owner_org from the caller's dataset override so a known org (e.g. on
+        # re-publish) bypasses the interrupt without asking the user again.
+        if not org_meta.get("owner_org"):
+            _ds_override = request.get("dataset") if isinstance(request.get("dataset"), dict) else {}
+            _pre_org = str(_ds_override.get("owner_org") or "").strip()
+            if _pre_org:
+                org_meta["owner_org"] = _pre_org
         _ground_owner_org_field(settings, state, org_meta)
         _ground_license_field(settings, org_meta)
         # Pre-populate contact fields from the authenticated CKAN/TACC user profile so the

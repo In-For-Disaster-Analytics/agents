@@ -227,7 +227,30 @@ def _author_tool_loop(
     while True:
         offer_tools = tools if calls_made < max_tool_calls else None
         logger.debug("[tool_loop] LLM call #%d | offering tools=%s", calls_made + 1, bool(offer_tools))
-        resp = tool_chat(messages, offer_tools)
+        try:
+            resp = tool_chat(messages, offer_tools)
+        except Exception as _exc:
+            # LiteLLM (or the model proxy) returned 400 — commonly triggered when the
+            # model outputs a template placeholder instead of a real function-call JSON
+            # (a known Llama 3.3 70B failure mode under large context). Recover by
+            # dropping tools and requesting a plain JSON draft so the persona round
+            # still produces a usable candidate instead of hard-failing.
+            _status = (
+                getattr(_exc, "status_code", None)
+                or getattr(getattr(_exc, "response", None), "status_code", None)
+            )
+            if _status == 400 and offer_tools:
+                logger.warning(
+                    "[tool_loop] LLM 400 on tool-enabled call (likely malformed function call) "
+                    "— requesting tool-free final JSON (calls_made=%d): %s",
+                    calls_made, _exc,
+                )
+                messages.append({"role": "user", "content": "Return ONLY the final metadata JSON now."})
+                try:
+                    return tool_chat(messages, None).get("content") or ""
+                except Exception as _fallback_exc:
+                    logger.error("[tool_loop] fallback tool-free call also failed: %s", _fallback_exc)
+            raise _exc
         tool_calls = resp.get("tool_calls") or []
         if not tool_calls:
             content = resp.get("content") or ""
