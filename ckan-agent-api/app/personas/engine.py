@@ -204,12 +204,26 @@ _PLACEHOLDER_PATTERNS = (
     "placeholder",
 )
 
-def _is_placeholder_args(args: dict[str, Any]) -> bool:
-    """True when the model used template/example values instead of real ones."""
+# Tools that require a local file path. Passing an HTTP URL to these is always wrong.
+_LOCAL_PATH_TOOLS = frozenset({
+    "pdf_summarize", "file_extract_pdf_text", "file_read_text", "file_profile_csv",
+    "file_profile_json", "file_profile_geojson", "file_inspect_image", "file_inspect_zip",
+    "file_profile_raster", "file_profile_shapefile_zip", "gdal_info", "ogr_info",
+})
+
+
+def _invalid_args_error(tool_name: str, args: dict[str, Any]) -> str | None:
+    """Return an error string if the args are invalid, else None."""
     for v in args.values():
-        if isinstance(v, str) and any(p in v.lower() for p in _PLACEHOLDER_PATTERNS):
-            return True
-    return False
+        if isinstance(v, str):
+            if any(p in v.lower() for p in _PLACEHOLDER_PATTERNS):
+                return "placeholder argument — use actual values from the dataset, not template strings"
+            if tool_name in _LOCAL_PATH_TOOLS and v.startswith(("http://", "https://")):
+                return (
+                    f"{tool_name} requires a local file path, not a URL. "
+                    "For remote PDFs use fetch_remote_pdf with the URL instead."
+                )
+    return None
 
 _CKAN_SEARCH_TOOLS = frozenset({"ckan_package_search"})
 _RESULT_LIMIT = 8000
@@ -282,15 +296,16 @@ def _author_tool_loop(
             args = call.get("arguments") or {}
             args_preview = {k: (str(v)[:120] if isinstance(v, str) else v) for k, v in args.items()}
             calls_made += 1
-            if _is_placeholder_args(args):
-                # Model used template strings instead of real values; reject without invoking
-                # so budget is spent but no tool round-trip is wasted.
+            _arg_error = _invalid_args_error(tool_name, args)
+            if _arg_error:
+                # Invalid args (placeholder strings or URL passed to local-path tool);
+                # reject without invoking so no round-trip is wasted.
                 logger.info(
-                    "[tool_loop] call #%d → %s(%s) [PLACEHOLDER — rejected]",
-                    calls_made, tool_name, args_preview,
+                    "[tool_loop] call #%d → %s(%s) [INVALID ARGS — rejected: %s]",
+                    calls_made, tool_name, args_preview, _arg_error,
                 )
                 consecutive_cached = 0
-                result_str = json.dumps({"error": "placeholder argument — use actual values from the dataset, not template strings"})
+                result_str = json.dumps({"error": _arg_error})
             else:
                 cache_key = (tool_name, json.dumps(args, sort_keys=True))
                 if cache_key in _call_cache:

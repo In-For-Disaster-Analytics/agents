@@ -19,6 +19,14 @@ def fetch_remote_pdf(args: dict[str, Any]) -> dict[str, Any]:
     url = str(args["url"]).strip()
     if not url.startswith("https://"):
         return {"error": "invalid_url", "message": "Only HTTPS URLs are supported."}
+    if not url.split("?")[0].lower().endswith(".pdf"):
+        return {
+            "error": "not_a_pdf_url",
+            "message": (
+                f"The URL does not point to a PDF file (got: {url.split('/')[-1].split('?')[0]!r}). "
+                "Check the resource list for the report.pdf URL and pass that instead."
+            ),
+        }
 
     page_start = int(args.get("page_start", 0))
     max_pages = int(args.get("max_pages", 20))

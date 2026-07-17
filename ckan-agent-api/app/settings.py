@@ -74,7 +74,7 @@ class Settings:
     # Throttle real LLM round-trips so the persona loop (esp. the author tool loop)
     # stops hammering a rate-limited model group; retry 429s with backoff instead of
     # failing the whole drafting round. Applied centrally in app/llm.py.
-    llm_call_delay_seconds: float = 5.0
+    llm_call_delay_seconds: float = 1.0
     llm_max_retries: int = 4
     # Upload / zip-extraction safety caps.
     max_upload_bytes: int = 200 * 1024 * 1024
@@ -158,7 +158,7 @@ class Settings:
             geo_mcp_tapis_token=os.getenv("GEO_MCP_TAPIS_TOKEN") or "",
             geo_poll_timeout=float(_clean(os.getenv("GEO_POLL_TIMEOUT")) or "90"),
             geo_max_transforms_per_session=int(_clean(os.getenv("GEO_MAX_TRANSFORMS_PER_SESSION")) or "5"),
-            llm_call_delay_seconds=float(_clean(os.getenv("LLM_CALL_DELAY_SECONDS")) or "5"),
+            llm_call_delay_seconds=float(_clean(os.getenv("LLM_CALL_DELAY_SECONDS")) or "1"),
             llm_max_retries=int(_clean(os.getenv("LLM_MAX_RETRIES")) or "4"),
             max_upload_bytes=int(_clean(os.getenv("CKAN_MAX_UPLOAD_BYTES")) or str(200 * 1024 * 1024)),
             max_zip_uncompressed_bytes=int(_clean(os.getenv("CKAN_MAX_ZIP_UNCOMPRESSED_BYTES")) or str(500 * 1024 * 1024)),
