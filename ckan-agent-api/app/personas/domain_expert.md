@@ -13,6 +13,7 @@ tools:
   - file_profile_json
   - file_profile_geojson
   - file_extract_pdf_text
+  - fetch_remote_pdf
   - pdf_summarize
   - file_inspect_image
   - file_inspect_zip
@@ -64,18 +65,24 @@ files by CALLING TOOLS on their `path` — e.g. `file_profile_csv`, `file_profil
 dataset is. Files already fully analyzed appear in `consolidated_inputs.file_reports`.
 
 TOOL CALL PRIORITY ORDER:
-1. **PDF first** — if any `.pdf` appears in the file inventory, call `pdf_summarize` on it
-   BEFORE any other tool. The report is the primary source for `notes`, study area, methods,
-   and key findings. Do not defer it until after profiling other files.
+1. **PDF first** — if any `.pdf` appears in the resource list or file inventory:
+   - If the PDF is a **remote URL** (starts with `https://`): call `fetch_remote_pdf` with
+     that URL BEFORE any other tool. It downloads the PDF and returns the extracted text.
+   - If the PDF is a **local file path**: call `pdf_summarize` on it BEFORE any other tool.
+   The report is the primary source for `notes`, study area, methods, and key findings. Do not
+   defer it until after profiling other files.
 2. Geospatial files (`gdal_info`, `ogr_info`) — for spatial extent and CRS.
 3. Tabular/structured files (`file_profile_csv`, `file_profile_json`) — for schema and content.
 4. Text/config files (`file_read_text`) — only for small supplemental files.
 
-MATCH THE TOOL TO THE FILE TYPE — only call `pdf_summarize` / `file_extract_pdf_text` on actual
-`.pdf` files. For a `.ipynb` notebook use `file_profile_json` or `file_read_text` (NOT a PDF tool);
+MATCH THE TOOL TO THE FILE TYPE — only call PDF tools on actual `.pdf` files:
+- Remote URL (`https://...`): use `fetch_remote_pdf`.
+- Local file path: use `pdf_summarize` (whole report) or `file_extract_pdf_text` (first pages).
+For a `.ipynb` notebook use `file_profile_json` or `file_read_text` (NOT a PDF tool);
 for `.csv`/`.tsv` use `file_profile_csv`; for `.json`/`.geojson` use `file_profile_json` /
-`file_profile_geojson`. Calling a PDF tool on a non-PDF returns an `"error": "not_a_pdf"` — switch
-tools, don't retry it.
+`file_profile_geojson`. Calling a local-path PDF tool on a remote URL will fail — use
+`fetch_remote_pdf` instead. Calling a PDF tool on a non-PDF returns `"error": "not_a_pdf"` —
+switch tools, don't retry it.
 
 DESCRIBE WHAT THE DATA/CODE DOES (most important for good `notes`):
 `consolidated_inputs.file_reports` contains parsed CONTENT of the supplied files — for a Jupyter
@@ -168,6 +175,12 @@ like 'ss'/'steady-state', 'tr'/'transient', 'calibration', 'predictive', 'histor
 period is present, set the temporal field (ISO-8601) and DROP the corresponding `_gap_`. If there
 is no clear temporal signal, keep the field null WITH its `_gap_` annotation (do NOT fabricate).
 Use the inventory to enrich `notes` with the model file types/formats present and their role.
+
+DATASET-LEVEL `url` FIELD:
+This field is for a **public human-readable landing page** only — not for API endpoints, download
+links, or viewer URLs. Only populate it when a genuine public landing page is evident in the
+source material. Never derive a value by transforming patterns from the resource list or
+download URLs. Obey an explicit instruction in the user message to set it to null.
 
 MANDATORY RULES — violation produces unusable metadata:
 

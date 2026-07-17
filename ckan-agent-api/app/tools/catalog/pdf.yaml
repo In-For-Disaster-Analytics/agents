@@ -1,4 +1,24 @@
 tools:
+  - name: fetch_remote_pdf
+    summary: Download an authenticated remote PDF by URL and extract its text.
+    description: >
+      Fetches a PDF from an HTTPS URL using the request's Tapis JWT for authentication,
+      then extracts and returns the raw page text (up to max_pages / max_chars). Use this
+      when a PDF is listed as a remote resource URL rather than a local file path. The Tapis
+      JWT is injected server-side — never pass a token as a tool argument.
+    category: file
+    read_only: true
+    handler: app.tools.handlers.remote:fetch_remote_pdf
+    args:
+      url: {type: string, required: true, description: "HTTPS URL of the remote PDF."}
+      page_start: {type: integer, required: false, description: "First page index (0-based, default 0)."}
+      max_pages: {type: integer, required: false, description: "Maximum pages to read (default 20)."}
+      max_chars: {type: integer, required: false, description: "Character cap on returned text (default 8000)."}
+    returns: {type: object, description: "{text, page_count, pages_read, characters_returned, truncated, source_url}."}
+    use_when:
+      - A PDF is available only as an authenticated remote URL (not a local file path).
+    safety: ["HTTPS-only; max 10 MB download; bounded pages/chars; Tapis JWT injected server-side."]
+
   - name: pdf_summarize
     summary: Summarize a whole PDF report via map-reduce (section summaries combined into one).
     description: >
