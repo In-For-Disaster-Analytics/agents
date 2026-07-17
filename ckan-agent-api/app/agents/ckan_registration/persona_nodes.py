@@ -1428,8 +1428,29 @@ def make_propose_node(settings: Settings) -> Callable:
         degraded = stop_reason in {STOP_LLM_ERROR, STOP_MAX_ROUNDS}
 
         # Build resource plan from uploaded files so the apply step has paths to upload.
+        # Also append any pre-specified remote URL resources (e.g. WebODM outputs).
         evidence, _ = _gather_evidence(request, settings)
         resource_plan = _resource_plan_from_heads(evidence.get("file_heads") or [])
+        for _item in (request.get("remote_resources") or []):
+            _url = str((_item.get("url") if isinstance(_item, dict) else _item) or "").strip()
+            if not _url:
+                continue
+            _name = str(_item.get("name") or "") if isinstance(_item, dict) else ""
+            _fmt = str(_item.get("format") or "") if isinstance(_item, dict) else ""
+            _desc = str(_item.get("description") or "") if isinstance(_item, dict) else ""
+            _bare = _url.split("?")[0]
+            if not _name:
+                _name = Path(_bare).name or _url
+            if not _fmt:
+                _fmt = Path(_bare).suffix.lstrip(".").upper() or "URL"
+            resource_plan.append({
+                "resource_name": re.sub(r"[^a-z0-9]+", "-", Path(_name).stem.lower()).strip("-") or "resource",
+                "resource_title": Path(_name).stem.replace("-", " ").replace("_", " ").title() or "Resource",
+                "resource_description": _desc or f"Remote asset: {_name}",
+                "resource_url": _url,
+                "format": _fmt,
+                "mimetype": mimetypes.guess_type(_bare)[0] or "application/octet-stream",
+            })
 
         session_id = _sanitize_session(str(request.get("session_id") or state.get("thread_id") or ""))
         state_path = _write_analyzed_state(
