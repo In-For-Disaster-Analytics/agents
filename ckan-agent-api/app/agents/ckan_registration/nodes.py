@@ -733,8 +733,10 @@ def _mcp_apply(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:
     }
 
     def _is_name_conflict(text: str) -> bool:
+        # Match only real name-collision messages, not generic 409 validation errors
+        # (e.g. spatial JSON decode failures also return 409 but are not name conflicts).
         t = str(text).lower()
-        return "409" in t or "already in use" in t or "that url" in t
+        return "already in use" in t or "that url" in t
 
     def _try_upsert() -> dict[str, Any] | None:
         """Retry package_create failure as schema_update_package; return result or None on error."""
