@@ -2953,7 +2953,7 @@ def make_safe_apply_node(settings: Settings) -> Any:
             output = {
                 "result": result,
                 "status": result.get("status") or result.get("command") or "apply",
-                "error": "",
+                "error": result.get("error", "") if isinstance(result, dict) else "",
                 "requires_action": None,
             }
             log_node_exit("apply", output, next_node="END")
