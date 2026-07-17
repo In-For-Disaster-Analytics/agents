@@ -266,8 +266,16 @@ class MCPClient:
             return False
 
     def list_tools(self) -> list[Any]:
-        self.connect()
-        return self._submit(self._client.list_tools())
+        for attempt in (1, 2):
+            self.connect()
+            try:
+                return self._submit(self._client.list_tools())
+            except Exception as exc:
+                if attempt == 1 and "not connected" in str(exc).lower():
+                    logger.info("MCP client stale connection — reconnecting (%s)", exc)
+                    self._client = None
+                else:
+                    raise
 
     def tool_names(self) -> list[str]:
         return [t.name for t in self.list_tools()]
@@ -297,10 +305,20 @@ class MCPClient:
         """Invoke an MCP tool and return a plain JSON-able result.
 
         Auth headers carry the token; per-call args carry only tool inputs.
+        Reconnects once automatically if the cached connection has gone stale
+        (e.g. server restart between calls).
         """
-        self.connect()
-        result = self._submit(self._client.call_tool(name, args or {}))
-        return self._unwrap(result)
+        for attempt in (1, 2):
+            self.connect()
+            try:
+                result = self._submit(self._client.call_tool(name, args or {}))
+                return self._unwrap(result)
+            except Exception as exc:
+                if attempt == 1 and "not connected" in str(exc).lower():
+                    logger.info("MCP client stale connection — reconnecting (%s)", exc)
+                    self._client = None  # force _aconnect() to re-enter the context
+                else:
+                    raise
 
     def list_prompts(self) -> list[Any]:
         self.connect()
