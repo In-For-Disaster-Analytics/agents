@@ -24,6 +24,7 @@ import datetime
 import json
 import logging
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Callable
@@ -197,6 +198,24 @@ def _extract_gaps(candidate: dict[str, Any]) -> dict[str, str]:
     return {k[len("_gap_"):]: str(v) for k, v in candidate.items() if k.startswith("_gap_")}
 
 
+_PLACEHOLDER_PATTERNS = (
+    "path_to_pdf", "/path/to/", "path_to_", "your_query", "your_dataset",
+    "your_file", "your_path", "_name_here", "insert_", "<path", "<query",
+    "placeholder",
+)
+
+def _is_placeholder_args(args: dict[str, Any]) -> bool:
+    """True when the model used template/example values instead of real ones."""
+    for v in args.values():
+        if isinstance(v, str) and any(p in v.lower() for p in _PLACEHOLDER_PATTERNS):
+            return True
+    return False
+
+_CKAN_SEARCH_TOOLS = frozenset({"ckan_package_search"})
+_RESULT_LIMIT = 8000
+_CKAN_RESULT_LIMIT = 3000
+
+
 def _author_tool_loop(
     system_prompt: str,
     user_payload: dict[str, Any],
@@ -220,6 +239,7 @@ def _author_tool_loop(
         {"role": "user", "content": json.dumps(user_payload, ensure_ascii=False)},
     ]
     calls_made = 0
+    consecutive_cached = 0  # tracks back-to-back identical cached calls for early-exit
     # Dedup cache: (tool_name, canonical_args) → result_str. Prevents invoking the same
     # tool twice (e.g. pdf_summarize 6× on the same file) but still counts each LLM-requested
     # call against the budget so the loop always terminates.
@@ -260,36 +280,55 @@ def _author_tool_loop(
         for call in tool_calls:
             tool_name = call.get("name", "")
             args = call.get("arguments") or {}
-            cache_key = (tool_name, json.dumps(args, sort_keys=True))
             args_preview = {k: (str(v)[:120] if isinstance(v, str) else v) for k, v in args.items()}
             calls_made += 1
-            if cache_key in _call_cache:
-                # Return cached result; still counts against budget to keep the loop finite.
-                result_str = _call_cache[cache_key]
+            if _is_placeholder_args(args):
+                # Model used template strings instead of real values; reject without invoking
+                # so budget is spent but no tool round-trip is wasted.
                 logger.info(
-                    "[tool_loop] call #%d → %s(%s) [CACHED — skipping re-invoke]",
+                    "[tool_loop] call #%d → %s(%s) [PLACEHOLDER — rejected]",
                     calls_made, tool_name, args_preview,
                 )
+                consecutive_cached = 0
+                result_str = json.dumps({"error": "placeholder argument — use actual values from the dataset, not template strings"})
             else:
-                logger.info("[tool_loop] call #%d → %s(%s)", calls_made, tool_name, args_preview)
-                result = executor.invoke(tool_name, args)
-                result_str = json.dumps(result, default=str)
-                _call_cache[cache_key] = result_str
-                logger.info(
-                    "[tool_loop] result #%d ← %s | ok=%s | len=%d",
-                    calls_made,
-                    tool_name,
-                    result.get("success", "?") if isinstance(result, dict) else "?",
-                    len(result_str),
-                )
-                logger.debug("[tool_loop] result_preview ← %s", result_str[:600])
+                cache_key = (tool_name, json.dumps(args, sort_keys=True))
+                if cache_key in _call_cache:
+                    result_str = _call_cache[cache_key]
+                    consecutive_cached += 1
+                    logger.info(
+                        "[tool_loop] call #%d → %s(%s) [CACHED — skipping re-invoke]",
+                        calls_made, tool_name, args_preview,
+                    )
+                else:
+                    consecutive_cached = 0
+                    logger.info("[tool_loop] call #%d → %s(%s)", calls_made, tool_name, args_preview)
+                    result = executor.invoke(tool_name, args)
+                    result_str = json.dumps(result, default=str)
+                    _call_cache[cache_key] = result_str
+                    logger.info(
+                        "[tool_loop] result #%d ← %s | ok=%s | len=%d",
+                        calls_made,
+                        tool_name,
+                        result.get("success", "?") if isinstance(result, dict) else "?",
+                        len(result_str),
+                    )
+                    logger.debug("[tool_loop] result_preview ← %s", result_str[:600])
+            truncate = _CKAN_RESULT_LIMIT if tool_name in _CKAN_SEARCH_TOOLS else _RESULT_LIMIT
             messages.append(
                 {
                     "role": "tool",
                     "tool_call_id": call.get("id", ""),
-                    "content": result_str[:8000],
+                    "content": result_str[:truncate],
                 }
             )
+            if consecutive_cached >= 2:
+                logger.info(
+                    "[tool_loop] %d consecutive identical cached calls — requesting final JSON early (calls_made=%d)",
+                    consecutive_cached, calls_made,
+                )
+                messages.append({"role": "user", "content": "You have the information you need. Return ONLY the final metadata JSON now."})
+                return tool_chat(messages, None).get("content") or ""
         if calls_made >= max_tool_calls:
             logger.info("[tool_loop] budget exhausted after %d calls — requesting final JSON", calls_made)
             messages.append(
@@ -428,20 +467,23 @@ def run_persona_metadata_loop(
 
         verdicts: list[EvaluatorVerdict] = []
         try:
-            for name, system in evaluator_systems:
+            def _call_evaluator(pair: tuple[str, str]) -> EvaluatorVerdict:
+                name, system = pair
                 content = chat(system, {"candidate_metadata": candidate, "resolved_gaps_do_not_reraise": resolved_gaps})
-                v = _parse_verdict(content, name)
-                verdicts.append(v)
-                logger.info(
-                    "[persona_engine] evaluator %s | verdict=%s | questions=%d | recommendations=%d",
-                    name, v.verdict, len(v.questions), len(v.recommendations),
-                )
-                for q in v.questions:
-                    logger.debug(
-                        "[persona_engine]   question field=%s requires_human=%s: %s",
-                        q.get("field"), q.get("requires_human"), q.get("question", "")[:120],
+                return _parse_verdict(content, name)
+
+            with ThreadPoolExecutor(max_workers=len(evaluator_systems)) as _pool:
+                for v in _pool.map(_call_evaluator, evaluator_systems):
+                    verdicts.append(v)
+                    logger.info(
+                        "[persona_engine] evaluator %s | verdict=%s | questions=%d | recommendations=%d",
+                        v.persona_name, v.verdict, len(v.questions), len(v.recommendations),
                     )
-                _sleep()
+                    for q in v.questions:
+                        logger.debug(
+                            "[persona_engine]   question field=%s requires_human=%s: %s",
+                            q.get("field"), q.get("requires_human"), q.get("question", "")[:120],
+                        )
         except Exception as exc:  # noqa: BLE001
             logger.error("[persona_engine] evaluator LLM failure round=%d: %s", round_num, exc)
             return _finish(

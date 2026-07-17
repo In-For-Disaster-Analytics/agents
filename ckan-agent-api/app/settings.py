@@ -52,7 +52,7 @@ class Settings:
     ask_schema: bool = True
     persona_chat_enabled: bool = False
     persona_tools_enabled: bool = False
-    max_tool_calls: int = 6
+    max_tool_calls: int = 4
     # MCP integration (spec 2026-06-29): when enabled, CKAN tools are served by the standalone
     # dso_ckan_mcp server over HTTP; the in-repo CKAN read tools remain a disabled-by-default
     # fallback used when MCP is off or unreachable (Fork B). The Tapis write token is sent as an
@@ -146,7 +146,7 @@ class Settings:
             ask_schema=_clean(os.getenv("CKAN_ASK_SCHEMA") or "true").lower() in {"1", "true", "yes", "on"},
             persona_chat_enabled=_clean(os.getenv("CKAN_PERSONA_CHAT")).lower() in {"1", "true", "yes", "on"},
             persona_tools_enabled=_clean(os.getenv("CKAN_PERSONA_TOOLS")).lower() in {"1", "true", "yes", "on"},
-            max_tool_calls=int(_clean(os.getenv("CKAN_MAX_TOOL_CALLS")) or "6"),
+            max_tool_calls=int(_clean(os.getenv("CKAN_MAX_TOOL_CALLS")) or "4"),
             mcp_enabled=_clean(os.getenv("CKAN_MCP_ENABLED")).lower() in {"1", "true", "yes", "on"},
             mcp_server_url=_clean(os.getenv("CKAN_MCP_URL")) or "http://localhost:8100/mcp",
             mcp_timeout=float(_clean(os.getenv("CKAN_MCP_TIMEOUT")) or "30"),
