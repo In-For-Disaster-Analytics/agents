@@ -537,11 +537,20 @@ def _ckan_metadata_payload(
 ) -> dict[str, Any]:
     """Strip internal tracking fields and empty values from desired_dataset_payload."""
     skip = _CKAN_INTERNAL_FIELDS | (extra_skip or frozenset())
-    return {
+    out = {
         k: v
         for k, v in desired.items()
         if k not in skip and v not in (None, "", [], {})
     }
+    # CKAN's spatial extension requires the field to be valid JSON (a GeoJSON object string).
+    # Drop it if it's WKT or any other non-JSON value so CKAN doesn't return a 409.
+    if "spatial" in out:
+        try:
+            json.loads(out["spatial"])
+        except (ValueError, TypeError):
+            logger.warning("_ckan_metadata_payload: dropping non-JSON spatial value: %r", out["spatial"])
+            del out["spatial"]
+    return out
 
 
 def _mcp_dry_run(settings: Settings, request: dict[str, Any]) -> dict[str, Any]:

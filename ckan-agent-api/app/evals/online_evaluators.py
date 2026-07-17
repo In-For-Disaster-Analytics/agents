@@ -62,14 +62,18 @@ def eval_title_not_generic(state: dict[str, Any]) -> dict[str, float]:
 
 
 def eval_spatial_valid(state: dict[str, Any]) -> dict[str, float]:
-    """If spatial is present it must be a non-empty WKT string starting with a geometry keyword."""
+    """If spatial is present it must be valid GeoJSON (CKAN spatial extension requirement)."""
+    import json as _json
     meta = state.get("candidate_metadata") or {}
     spatial = str(meta.get("spatial", "")).strip()
     if not spatial:
         # Absence is fine — not all datasets are spatial.
         return {"spatial_valid": 1.0}
-    _wkt_prefixes = ("POLYGON", "MULTIPOLYGON", "POINT", "LINESTRING", "GEOMETRYCOLLECTION")
-    score = 1.0 if spatial.upper().startswith(_wkt_prefixes) else 0.0
+    try:
+        geo = _json.loads(spatial)
+        score = 1.0 if isinstance(geo, dict) and geo.get("type") else 0.0
+    except (ValueError, TypeError):
+        score = 0.0
     return {"spatial_valid": score}
 
 
