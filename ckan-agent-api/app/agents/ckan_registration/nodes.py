@@ -3411,6 +3411,12 @@ def make_revise_field_node(settings: Settings) -> Any:
 
         origins = dict(saved.get("field_origins") or {})
         origins[field] = "user-supplied"
+
+        # When the user revises the title, keep the name slug in sync so the CKAN URL
+        # reflects the specific dataset title (unless the user already revised the name directly).
+        if field == "title" and origins.get("name") != "user-supplied":
+            desired["name"] = _slugify(str(new_value or ""))
+
         saved["desired_dataset_payload"] = desired
         saved["field_origins"] = origins
         if saved.get("status") not in {"dry_run", "analyzed"}:
