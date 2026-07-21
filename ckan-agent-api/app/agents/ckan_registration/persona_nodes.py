@@ -1646,6 +1646,11 @@ def _to_desired_payload(candidate: dict[str, Any], settings: Settings, profile: 
         "temporal_coverage_end": _normalize_date(val("temporal_coverage_end", "to_date")),
         "tags": tags,
     }
+    # Append survey date to name to prevent collisions when multiple surveys of the same
+    # site are registered (e.g. three Bethel runs all generate "bethel-runs-orthophoto-3d-model").
+    _tcs = (desired.get("temporal_coverage_start") or "").split("T")[0][:10]
+    if _tcs and _tcs not in desired["name"]:
+        desired["name"] = _slugify(desired["name"] + "-" + _tcs)
     # Carry every other field the schema defines that the author populated. The CKAN-core set
     # above was the only thing previously kept, so subside-specific fields (categories,
     # collection_method, coordinate_system, program_area, caveats_usage, …) were dropped — and
